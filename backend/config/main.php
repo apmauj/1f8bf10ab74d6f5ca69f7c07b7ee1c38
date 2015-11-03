@@ -14,7 +14,8 @@ return [
     'modules' => [
          'user' => [
                 'class' => 'dektrium\user\Module',
-                'admins' => ['sandinosaso']
+                'admins' => ['elgutu'],
+                'enableUnconfirmedLogin' => true
             ],
     ],
     'components' => [
