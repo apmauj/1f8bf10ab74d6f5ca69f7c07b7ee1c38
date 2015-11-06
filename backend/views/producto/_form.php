@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\helpers\ArrayHelper;
+use backend\models\Categoria;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Producto */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,7 +17,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imagen')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_categoria')->textInput() ?>
+    <?php
+    /*var_dump(Categoria::find()->all());*/
+
+    $categoria=array(Categoria::find()->all());
+	$listData=ArrayHelper::map(Categoria::find()->all(),'id','nombre');
+	echo $form->field($model, 'id_categoria')->dropDownList($listData,
+	                                ['prompt'=>'Seleccionar...']);
+
+    /*$form->field($model, 'id_categoria')->textInput() */?>
 
     <?= $form->field($model, 'esActivo')->textInput() ?>
 
