@@ -45,7 +45,7 @@ class Pedido extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'cantidad' => Yii::t('app', 'Cantidad'),
             'id_producto' => Yii::t('app', 'Id Producto'),
-            'id_ruta_diaria_com' => Yii::t('app', 'Id Ruta Diaria Com'),
+            'id_ruta_diaria_com' => Yii::t('app', 'Id Ruta Diaria Comercio'),
         ];
     }
 

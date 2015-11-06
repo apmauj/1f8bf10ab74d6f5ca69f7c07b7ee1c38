@@ -42,7 +42,10 @@ if (isset(Yii::$app->user->identity)) :
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     '<li class="header">Menu Yii2</li>',
-                    ['label' => '<i class="fa fa-users"></i><span>Proveedores</span>', 'url' => ['/providers']],
+                    ['label' => '<i class="fa fa-users"></i><span>Categorias</span>', 'url' => ['/categoria']],
+                    ['label' => '<i class="fa fa-users"></i><span>Comercios</span>', 'url' => ['/comercio']],
+                    ['label' => '<i class="fa fa-users"></i><span>Productos</span>', 'url' => ['/producto']],
+                    ['label' => '<i class="fa fa-users"></i><span>Rutas</span>', 'url' => ['/ruta']],
                     ['label' => '<i class="fa fa-users"></i><span>Profile</span>', 'url' => ['/user/profile/show','id'=>isset(Yii::$app->user->identity) ? Yii::$app->user->identity->id : -1], 'visible' =>!Yii::$app->user->isGuest],
                     ['label' => '<i class="fa fa-file-code-o"></i><span>Gii</span>', 'url' => ['/gii']],
                     ['label' => '<i class="fa fa-dashboard"></i><span>Debug</span>', 'url' => ['/debug']],

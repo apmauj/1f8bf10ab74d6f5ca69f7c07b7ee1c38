@@ -18,14 +18,11 @@ use backend\models\Categoria;
     <?= $form->field($model, 'imagen')->textInput(['maxlength' => true]) ?>
 
     <?php
-    /*var_dump(Categoria::find()->all());*/
-
     $categoria=array(Categoria::find()->all());
 	$listData=ArrayHelper::map(Categoria::find()->all(),'id','nombre');
 	echo $form->field($model, 'id_categoria')->dropDownList($listData,
 	                                ['prompt'=>'Seleccionar...']);
-
-    /*$form->field($model, 'id_categoria')->textInput() */?>
+    ?>
 
     <?= $form->field($model, 'esActivo')->textInput() ?>
 
