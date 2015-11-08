@@ -2,17 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\Comercio;
-use backend\models\ComercioSearch;
+use backend\models\RutaDiariaComercio;
+use backend\models\RutaDiariaComercioSearch;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * ComercioController implements the CRUD actions for Comercio model.
+ * RutaDiariaComercioController implements the CRUD actions for RutaDiariaComercio model.
  */
-class ComercioController extends Controller
+class RutaDiariaComercioController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class ComercioController extends Controller
     }
 
     /**
-     * Lists all Comercio models.
+     * Lists all RutaDiariaComercio models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ComercioSearch();
+        $searchModel = new RutaDiariaComercioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class ComercioController extends Controller
     }
 
     /**
-     * Displays a single Comercio model.
+     * Displays a single RutaDiariaComercio model.
      * @param integer $id
      * @return mixed
      */
@@ -54,15 +54,15 @@ class ComercioController extends Controller
     }
 
     /**
-     * Finds the Comercio model based on its primary key value.
+     * Finds the RutaDiariaComercio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Comercio the loaded model
+     * @return RutaDiariaComercio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Comercio::findOne($id)) !== null) {
+        if (($model = RutaDiariaComercio::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -70,13 +70,13 @@ class ComercioController extends Controller
     }
 
     /**
-     * Creates a new Comercio model.
+     * Creates a new RutaDiariaComercio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Comercio();
+        $model = new RutaDiariaComercio();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -88,7 +88,7 @@ class ComercioController extends Controller
     }
 
     /**
-     * Updates an existing Comercio model.
+     * Updates an existing RutaDiariaComercio model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -107,7 +107,7 @@ class ComercioController extends Controller
     }
 
     /**
-     * Deletes an existing Comercio model.
+     * Deletes an existing RutaDiariaComercio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
