@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
 /* @var $this yii\web\View */
+/* @var $model backend\models\Producto */
 /* @var $searchModel backend\models\ProductoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -26,10 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'nombre',
-            'imagen',
+            [
+                'attribute' => 'imagen',
+                'format' => 'html',
+                'label' => 'Imagen',
+                'value' => function ($data) {
+                    $webroot='http://localhost:8080/yii/backend/web/';
+                    return Html::img( $webroot . $data['imagen'],
+                        ['width' => '50px']);
+                },
+            ],
             'id_categoria',
-            'esActivo',
-             'precio',
+            'precio',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
