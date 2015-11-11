@@ -11,11 +11,11 @@ use backend\models\Categoria;
 
 <div class="producto-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'imagen')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'file')->fileInput(['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 
     <?php
     $categoria=array(Categoria::find()->all());
@@ -24,7 +24,7 @@ use backend\models\Categoria;
 	                                ['prompt'=>'Seleccionar...']);
     ?>
 
-    <?= $form->field($model, 'esActivo')->textInput() ?>
+    <?php echo $form->field($model, 'esActivo')->dropDownList(['1' => 'SI', '0' => 'NO']); ?>
 
     <?= $form->field($model, 'precio')->textInput() ?>
 

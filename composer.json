@@ -24,7 +24,8 @@
         "yiisoft/yii2-codeception": "^2.0",
         "codeception/codeception": "2.0.*",
         "codeception/specify": "*",
-        "codeception/verify": "*"
+        "codeception/verify": "*",
+        "yii-dream-team/yii2-upload-behavior": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
