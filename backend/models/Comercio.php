@@ -24,6 +24,9 @@ class Comercio extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $direccion;
+
     public static function tableName()
     {
         return 'comercio';
@@ -37,6 +40,7 @@ class Comercio extends \yii\db\ActiveRecord
         return [
             [['nombre', 'latitud', 'longitud', 'dia', 'prioridad', 'esActivo'], 'required'],
             [['latitud', 'longitud'], 'number'],
+            [['direccion'],'string'],
             [['dia', 'prioridad', 'esActivo'], 'integer'],
             [['nombre'], 'string', 'max' => 50]
         ];
@@ -55,7 +59,20 @@ class Comercio extends \yii\db\ActiveRecord
             'dia' => Yii::t('app', 'Dia'),
             'prioridad' => Yii::t('app', 'Prioridad'),
             'esActivo' => Yii::t('app', 'Es Activo'),
+            'direccion' => Yii::t('app', 'Direccion'),
         ];
+    }
+
+    public function getCoordinates($direccion){
+        $direccion = urlencode($direccion);
+        $url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=" . $direccion;
+        $response = file_get_contents($url);
+        $json = json_decode($response,true);
+
+        $lat = $json['results'][0]['geometry']['location']['lat'];
+        $lng = $json['results'][0]['geometry']['location']['lng'];
+
+        return array($lat, $lng);
     }
 
     /**

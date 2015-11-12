@@ -45,8 +45,8 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'nombre' => Yii::t('app', 'Nombre'),
-            'descripcion' => Yii::t('app', 'Descripción'),
-            'esActivo' => Yii::t('app', 'Es Activo'),
+            'descripcion' => Yii::t('app', 'Descripcion'),
+            'esActivo' => Yii::t('app', 'Activo'),
         ];
     }
 

@@ -88,6 +88,15 @@ class Producto extends \yii\db\ActiveRecord
     }
 
     /**
+     * Para obtener el nombre de la categoria (lo usamos en GridView)
+     */
+
+    public function getCategoriaNombre(){
+        $model=$this->idCategoria;
+        return $model?$model->nombre:'';
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getStocks()

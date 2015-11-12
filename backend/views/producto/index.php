@@ -36,7 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         ['width' => '50px']);
                 },
             ],
-            'id_categoria',
+            [
+                'attribute'=>'id_categoria',
+                'label'=>'Categoria',
+                'format'=>'text',
+                'content'=>function($data){
+                    return $data->getCategoriaNombre();
+                }
+            ],
             'precio',
 
             ['class' => 'yii\grid\ActionColumn'],
