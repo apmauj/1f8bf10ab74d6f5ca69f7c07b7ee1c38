@@ -80,11 +80,13 @@ class ComercioController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            //var_dump($model->getCoordinates($model->direccion));
-            /*$model->getCoordinates($);
+            $coordenadas = $model->getCoordinates($model->direccion);
+            var_dump($coordenadas[0]);
 
-            $model->latitud = $lat;
-            $model->longitud = $long;*/
+
+
+            $model->latitud = $coordenadas[0];
+            $model->longitud = $coordenadas[1];
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
