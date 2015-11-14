@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\Producto */
 /* @var $searchModel backend\models\ProductoSearch */
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => 'Imagen',
                 'value' => function ($data) {
-                    $webroot='http://localhost:8080/yii/backend/web/';
+                    $webroot='../../backend/web/';
                     return Html::img( $webroot . $data['imagen'],
                         ['width' => '50px']);
                 },
@@ -45,6 +46,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'precio',
+            [
+                'attribute'=>'esActivo',
+                'label'=>'Producto Activo?',
+                'format'=>'raw',
+                'value'=>function ($data) {
+                    if ($data->esActivo == 1) return '<span class="label label-success">Si</span>';
+                    else return '<span class="label label-danger">No</span>';
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

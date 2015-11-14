@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CategoriaSearch */
@@ -27,7 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'nombre',
             'descripcion',
-            'esActivo',
+            [
+                'attribute'=>'esActivo',
+                'label'=>'Categoria Activa?',
+                'format'=>'raw',
+                'value'=>function ($data) {
+                    if ($data->esActivo == 1) return '<span class="label label-success">Si</span>';
+                    else return '<span class="label label-danger">No</span>';
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

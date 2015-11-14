@@ -28,10 +28,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'nombre',
             'descripcion',
-            'esActivo',
+            [
+                'attribute'=>'esActivo',
+                'label'=>'Categoria Activa?',
+                'format'=>'raw',
+                'value'=>$model->esActivo ?
+                    '<span class="label label-success">Si</span>' :
+                    '<span class="label label-danger">No</span>',
+                'widgetOptions'=>[
+                    'pluginOptions'=>[
+                        'onText'=>'Yes',
+                        'offText'=>'No',
+                    ]
+                ]
+            ],
         ],
     ]) ?>
 

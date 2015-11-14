@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->nombre;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Productos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$webroot='http://localhost:8080/yii/backend/web/';
+$webroot='../../web/';
 ?>
 <div class="producto-view">
 

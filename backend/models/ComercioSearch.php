@@ -5,7 +5,6 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Comercio;
 
 /**
  * ComercioSearch represents the model behind the search form about `backend\models\Comercio`.
@@ -63,7 +62,7 @@ class ComercioSearch extends Comercio
             'dia' => $this->dia,
             'prioridad' => $this->prioridad,
             'esActivo' => $this->esActivo,
-            'direccion' => &$this->direccion,
+            'direccion' => $this->direccion,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
