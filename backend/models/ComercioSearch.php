@@ -19,7 +19,7 @@ class ComercioSearch extends Comercio
     {
         return [
             [['id', 'dia', 'prioridad', 'esActivo'], 'integer'],
-            [['nombre'], 'safe'],
+            [['nombre', 'direccion'], 'safe'],
             [['latitud', 'longitud'], 'number'],
         ];
     }
@@ -63,6 +63,7 @@ class ComercioSearch extends Comercio
             'dia' => $this->dia,
             'prioridad' => $this->prioridad,
             'esActivo' => $this->esActivo,
+            'direccion' => &$this->direccion,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);

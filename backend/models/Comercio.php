@@ -25,7 +25,7 @@ class Comercio extends \yii\db\ActiveRecord
      * @inheritdoc
      */
 
-    public $direccion;
+    //public $direccion;
 
     public static function tableName()
     {
@@ -38,7 +38,7 @@ class Comercio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'latitud', 'longitud', 'dia', 'prioridad', 'esActivo'], 'required'],
+            [['nombre', 'latitud', 'longitud', 'dia', 'prioridad', 'esActivo', 'direccion'], 'required'],
             [['latitud', 'longitud'], 'number'],
             [['direccion'],'string'],
             [['dia', 'prioridad', 'esActivo'], 'integer'],
