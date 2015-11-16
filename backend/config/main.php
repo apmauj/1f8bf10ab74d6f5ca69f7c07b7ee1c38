@@ -15,6 +15,9 @@ return [
          'user' => [
                 'class' => 'dektrium\user\Module',
                 'admins' => ['elgutu'],
+                'modelMap' => [
+                    'User' => 'backend\models\User',
+                ],
                 'enableUnconfirmedLogin' => true
             ],
     ],
