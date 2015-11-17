@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use backend\models\ComercioProductosRelacionados;
 use backend\models\ComercioProductosRelacionadosSearch;
-use backend\controllers\SiteController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -14,17 +13,6 @@ use yii\filters\VerbFilter;
  */
 class ComercioProductosRelacionadosController extends SiteController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all ComercioProductosRelacionados models.
@@ -63,8 +51,22 @@ class ComercioProductosRelacionadosController extends SiteController
     {
         $model = new ComercioProductosRelacionados();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_comercio' => $model->id_comercio, 'id_producto' => $model->id_producto]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $productos = $model->id_producto;
+
+            foreach($productos as $value){
+                $newModel = new ComercioProductosRelacionados();
+                $newModel->id_producto = $value;
+                $newModel->id_comercio = $model->id_comercio;
+
+                if ($newModel->validate()) {
+                    $newModel->save();
+                }
+
+            }
+
+            return $this->redirect(['view', 'id_comercio' => $model->id_comercio, 'id_producto' => $model->id_producto[0]]);
         } else {
             return $this->render('create', [
                 'model' => $model,

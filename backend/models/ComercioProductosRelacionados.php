@@ -70,4 +70,37 @@ class ComercioProductosRelacionados extends \yii\db\ActiveRecord
         $model=$this->idProducto;
         return $model?$model->nombre:'';
     }
+
+    public function beforeValidate()
+    {
+        //var_dump($this->id_producto);
+        //$integerIDs = array_map('intval', explode(',', $this->id_producto));
+        //var_dump($integerIDs);
+
+        /*$long_string = implode(',', $this->id_producto);
+
+        $result_array = array();
+        $strings_array = explode(',', $long_string);
+
+        foreach ($strings_array as $each_number) {
+            $result_array[] = (int) $each_number;
+        }
+
+        $this->id_producto = $result_array;*/
+
+        /*if ($this->id_producto != null) {
+
+            foreach($this->id_producto as $producto){
+                $this->id_comercio = $this->id_comercio;
+                $this->id_producto=(int)$producto;
+                var_dump($this->id_producto);
+                //$this->save();
+            }
+            //$this->productos = array();
+        }*/
+
+        return parent::beforeValidate();
+    }
+
+
 }

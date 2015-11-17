@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\ComercioProductosRelacionados */
 
-$this->title = $model->id_comercio;
+$this->title = $model->getComercioNombre();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comercio Productos Relacionados'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

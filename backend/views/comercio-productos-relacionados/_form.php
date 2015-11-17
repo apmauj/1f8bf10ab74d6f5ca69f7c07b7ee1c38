@@ -24,9 +24,9 @@ use backend\models\Producto;
 
     <?php
     $listData=ArrayHelper::map(Producto::find()->all(),'id','nombre');
-    echo $form->field($model, 'id_producto')->dropDownList($listData,
-        ['prompt'=>'Seleccionar...']);
+    echo $form->field($model, 'id_producto')->checkboxList($listData);
     ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
