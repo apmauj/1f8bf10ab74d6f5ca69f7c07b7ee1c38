@@ -9,7 +9,7 @@ return yii\helpers\ArrayHelper::merge(
     [
         'components' => [
             'db' => [
-                'dsn' => 'mysql:host=localhost;dbname=ikargo_db_test',
+                'dsn' => 'mysql:host=localhost;dbname=relevadores_mulis',
             ],
         ],
     ]

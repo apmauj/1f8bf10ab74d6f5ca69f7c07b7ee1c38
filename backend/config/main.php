@@ -52,12 +52,12 @@ return [
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'providers'],
             ],
-        ],
+        ],*/
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]
-        ],*/
+        ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             // Disable index.php
