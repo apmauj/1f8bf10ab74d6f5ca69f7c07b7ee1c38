@@ -26,13 +26,24 @@ return [
         'view' => [
              'theme' => [
                  'pathMap' => [
-                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
+                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app',
+                     '@dektrium/user/views' => [
+                         '@frontend/themes/views/user'
+                     ]
                  ],
+
              ],
         ],
-        'user' => [
+/*        'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+        ],*/
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            // Disable index.php
+            'showScriptName' => false,
+            // Disable r= routes
+            'enablePrettyUrl' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

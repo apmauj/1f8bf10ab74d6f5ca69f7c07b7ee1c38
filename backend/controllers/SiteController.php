@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use backend\filters\CustomFilter;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -28,16 +29,18 @@ class SiteController extends Controller
      */
     public function __construct($id, $module, Finder $finder, $config = [])
     {
+
         $this->finder = $finder;
         parent::__construct($id, $module, $config);
     }
 
     public function behaviors()
     {
+
         return [
             'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
+                'class' => CustomFilter::className(),
+/*                'rules' => [
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
@@ -45,9 +48,9 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@']
                     ],
-                ],
+                ],*/
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -73,6 +76,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $id = Yii::$app->user->identity->id;
+
         $profile = $this->finder->findProfileById($id);
 
         if ($profile === null) {

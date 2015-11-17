@@ -9,6 +9,7 @@ namespace backend\filters;
 
 
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * HttpBearerAuth is an action filter that supports the authentication method based on HTTP Bearer token.
@@ -34,27 +35,36 @@ class CustomFilter extends \yii\base\ActionFilter
     /**
      * @var string the HTTP authentication realm
      */
-    public $usuarios = [];
+    public $usuarios = ['admin'];
+
+    private $loginUrl = 'user/login';
 
     /**
      * @inheritdoc
      */
     public function beforeAction($action)
     {
-
         if (!\Yii::$app->user->isGuest) {
             $user = \Yii::$app->user->identity;
-
             if (in_array($user->username, $this->usuarios))
                 return true;
 
-            throw new ForbiddenHttpException('You are not allowed to perform this action');
-            
+            return $this->logout();
+
                 
         }else{
-            throw new ForbiddenHttpException('You are not allowed to perform this action');
+            return $this->login();
         }
 
-        return true;
     }
+
+    private function logout(){
+        \Yii::$app->getUser()->logout();
+        return \Yii::$app->getResponse()->redirect($this->loginUrl);
+    }
+
+    private function login(){
+        return \Yii::$app->getResponse()->redirect($this->loginUrl);
+    }
+
 }

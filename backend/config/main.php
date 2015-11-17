@@ -14,17 +14,18 @@ return [
     'modules' => [
          'user' => [
                 'class' => 'dektrium\user\Module',
-                'admins' => ['elgutu'],
-                'modelMap' => [
-                    'User' => 'backend\models\User',
-                ],
-                'enableUnconfirmedLogin' => true
+                'admins' => ['admin'],
+                'enableUnconfirmedLogin' => true,
+                'as backend' => 'dektrium\user\filters\BackendFilter',
             ],
     ],
     'components' => [
         /*'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+        ],*/
+/*        'authManager' => [
+            'class' => 'yii\rbac\PhpManager',
         ],*/
         'view' => [
             'theme' => [
@@ -33,7 +34,7 @@ return [
                         '@backend/themes/views',
                     ],
                     '@dektrium/user/views' => [
-                        '@backend/themes/views/user'
+                        '@frontend/themes/views/user'
                     ]
                 ]
             ]

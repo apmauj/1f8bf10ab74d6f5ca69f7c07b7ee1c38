@@ -12,19 +12,8 @@ use yii\web\NotFoundHttpException;
 /**
  * ComercioController implements the CRUD actions for Comercio model.
  */
-class ComercioController extends Controller
+class ComercioController extends SiteController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Comercio models.
