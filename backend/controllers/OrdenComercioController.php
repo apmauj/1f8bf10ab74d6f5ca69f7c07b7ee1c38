@@ -5,28 +5,15 @@ namespace backend\controllers;
 use backend\models\OrdenComercio;
 use backend\models\OrdenComercioSearch;
 use Yii;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * OrdenComercioController implements the CRUD actions for OrdenComercio model.
  */
-class OrdenComercioController extends Controller
+class OrdenComercioController extends SiteController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
-    /**
+     /**
      * Lists all OrdenComercio models.
      * @return mixed
      */

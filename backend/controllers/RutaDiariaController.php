@@ -5,26 +5,13 @@ namespace backend\controllers;
 use backend\models\RutaDiaria;
 use backend\models\RutaDiariaSearch;
 use Yii;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * RutaDiariaController implements the CRUD actions for RutaDiaria model.
  */
-class RutaDiariaController extends Controller
+class RutaDiariaController extends SiteController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all RutaDiaria models.

@@ -5,26 +5,13 @@ namespace backend\controllers;
 use backend\models\ComercioProducto;
 use backend\models\ComercioProductoSearch;
 use Yii;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * ComercioProductoController implements the CRUD actions for ComercioProducto model.
  */
-class ComercioProductoController extends Controller
+class ComercioProductoController extends SiteController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all ComercioProducto models.
