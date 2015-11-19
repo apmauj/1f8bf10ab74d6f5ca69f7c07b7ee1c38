@@ -1,5 +1,6 @@
 <?php
 
+use backend\helpers\sysconfigs;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -62,19 +63,19 @@ $this->params['breadcrumbs'][] = $this->title;
     $diaVisita = $model->dia;
     $prioridadVisita = $model->prioridad;
 
-    if ($diaVisita == 1) $diaVisita = "Lunes";
-    if ($diaVisita == 2) $diaVisita = "Martes";
-    if ($diaVisita == 3) $diaVisita = "Miercoles";
-    if ($diaVisita == 4) $diaVisita = "Jueves";
-    if ($diaVisita == 5) $diaVisita = "Viernes";
-    if ($diaVisita == 6) $diaVisita = "Sabado";
-    if ($diaVisita == 7) $diaVisita = "Domingo";
+    if ($diaVisita == 1) $diaVisita = Yii::t("app", "Monday");
+    if ($diaVisita == 2) $diaVisita = Yii::t("app", "Tuesday");
+    if ($diaVisita == 3) $diaVisita = Yii::t("app", "Wednesday");
+    if ($diaVisita == 4) $diaVisita = Yii::t("app", "Thursday");
+    if ($diaVisita == 5) $diaVisita = Yii::t("app", "Friday");
+    if ($diaVisita == 6) $diaVisita = Yii::t("app", "Saturday");
+    if ($diaVisita == 7) $diaVisita = Yii::t("app", "Sunday");
 
-    if ($prioridadVisita == 1) $prioridadVisita = "Muy Alta";
-    if ($prioridadVisita == 2) $prioridadVisita = "Alta";
-    if ($prioridadVisita == 3) $prioridadVisita = "Normal";
-    if ($prioridadVisita == 4) $prioridadVisita = "Baja";
-    if ($prioridadVisita == 5) $prioridadVisita = "Muy Baja";
+    if ($prioridadVisita == 1) $prioridadVisita = Yii::t("app", "Very High");
+    if ($prioridadVisita == 2) $prioridadVisita = Yii::t("app", "High");
+    if ($prioridadVisita == 3) $prioridadVisita = Yii::t("app", "Normal");
+    if ($prioridadVisita == 4) $prioridadVisita = Yii::t("app", "Low");
+    if ($prioridadVisita == 5) $prioridadVisita = Yii::t("app", "Very Low");
 
     ?>
 
@@ -85,23 +86,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'direccion',
             [
                 'attribute'=>'dia',
-                'label'=>'Dia abierto?',
+                'label'=>Yii::t('app','Open on'),
                 'format'=>'raw',
-                'value'=> $diaVisita,
+                'value'=> Yii::t('app',sysconfigs::getNombreDia($model->dia)), // $diaVisita,
            ],
             [
                 'attribute'=>'$prioridadVisita',
-                'label'=>'Prioridad',
+                'label'=>Yii::t('app','Priority'),
                 'format'=>'raw',
-                'value'=> $prioridadVisita,
+                'value'=> Yii::t('app',sysconfigs::getNombrePrioridad($model->prioridad)),
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>'Comercio Activo?',
+                'label'=>'Active?',
                 'format'=>'raw',
                 'value'=>$model->esActivo ?
-                    '<span class="label label-success">Si</span>' :
-                    '<span class="label label-danger">No</span>',
+                    '<span class="label label-success">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>' :
+                    '<span class="label label-danger">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>',
                 'widgetOptions'=>[
                     'pluginOptions'=>[
                         'onText'=>'Yes',

@@ -2,10 +2,10 @@
 
 namespace backend\models;
 
+use dektrium\user\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Ruta;
 
 /**
  * RutaSearch represents the model behind the search form about `backend\models\Ruta`.
@@ -18,7 +18,8 @@ class RutaSearch extends Ruta
     public function rules()
     {
         return [
-            [['id', 'dia', 'esActivo'], 'integer'],
+            [['id'], 'integer'],
+            [['id_usuario', 'dia', 'esActivo'], 'string'],
         ];
     }
 
@@ -54,11 +55,17 @@ class RutaSearch extends Ruta
             return $dataProvider;
         }
 
+        $user = User::findOne(['username'=> $this->id_usuario]);
         $query->andFilterWhere([
             'id' => $this->id,
             'dia' => $this->dia,
-            'esActivo' => $this->esActivo,
+            'esActivo' => $this->esActivo
         ]);
+        if($this->id_usuario!=null){
+            $query->andFilterWhere([
+                'id_usuario' => $user!=null?$user->id : 0
+            ]);
+        }
 
         return $dataProvider;
     }

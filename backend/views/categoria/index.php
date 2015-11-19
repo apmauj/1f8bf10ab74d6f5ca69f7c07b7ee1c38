@@ -24,16 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'nombre',
             'descripcion',
             [
                 'attribute'=>'esActivo',
-                'label'=>'Categoria Activa?',
+                'label'=>Yii::t('app', 'Active?'),
                 'format'=>'raw',
                 'value'=>function ($data) {
-                    if ($data->esActivo == 1) return '<span class="label label-success">Si</span>';
-                    else return '<span class="label label-danger">No</span>';
+                    if ($data->esActivo == 1) return '<span class="label label-success">'.Yii::t("app", "Yes").'</span>';
+                    else return '<span class="label label-danger">' . Yii::t("app", "No") . ' </span>';
                 },
             ],
 

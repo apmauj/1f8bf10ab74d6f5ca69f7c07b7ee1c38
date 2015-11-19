@@ -29,8 +29,8 @@ class Ruta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dia', 'esActivo'], 'required'],
-            [['dia', 'esActivo'], 'integer']
+            [['dia', 'esActivo', 'id_usuario'], 'required'],
+            [['dia', 'esActivo', 'id_usuario'], 'integer']
         ];
     }
 
@@ -43,6 +43,7 @@ class Ruta extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'dia' => Yii::t('app', 'Dia'),
             'esActivo' => Yii::t('app', 'Es Activo'),
+            'id_usuario' => Yii::t('app', 'Usuario'),
         ];
     }
 
@@ -53,4 +54,31 @@ class Ruta extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrdenComercio::className(), ['id_ruta' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUsuario()
+    {
+        return $this->hasOne(User::className(), ['id' => 'id_usuario']);
+    }
+
+
+    public function findBusqueda(){
+        $data = $this->find();
+
+        $resultado = [];
+        foreach($data as $ruta){
+            $resultado[$ruta->id] = ['id'=>$ruta->id,
+                'dia' => $ruta->dia,
+                'esActivo' => $ruta->esActivo,
+                'user' => User::findOne($ruta->id_usuario)->username
+            ];
+        }
+        return $resultado;
+    }
+
+
+
+
 }
