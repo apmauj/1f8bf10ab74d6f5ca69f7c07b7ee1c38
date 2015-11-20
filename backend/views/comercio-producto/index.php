@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\ComercioProductoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Comercio Productos');
+$this->title = Yii::t('app', 'Store Products');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comercio-producto-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Comercio Producto'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Store Product'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,8 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'fecha',
-            'vendidos',
+            [
+                'attribute'=>'fecha',
+                'label'=>Yii::t('app', 'Date'),
+            ],
+            [
+                'attribute'=>'vendidos',
+                'label'=>Yii::t('app', 'Sold'),
+            ],
             'id_comercio',
             'id_producto',
 

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Producto */
 
 $this->title = $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Productos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $webroot='../../web/';
 ?>
@@ -29,17 +29,25 @@ $webroot='../../web/';
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'nombre',
+            [
+                'attribute'=>'nombre',
+                'label'=>Yii::t('app','Name'),
+            ],
             [
                 'attribute'=>'imagen',
+                'label'=>Yii::t('app','Image'),
                 'value'=>$webroot.$model->imagen,
                 'format' => ['image',['width'=>'100','height'=>'100']],
             ],
             [
                 'attribute'=>'id_categoria',
+                'label'=>Yii::t('app','Category'),
                 'value'=>($model->idCategoria->getAttribute('nombre'))
             ],
-            'precio',
+            [
+                'attribute'=>'precio',
+                'label'=>Yii::t('app','Price'),
+            ],
         ],
     ]) ?>
 

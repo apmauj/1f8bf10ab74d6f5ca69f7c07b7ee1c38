@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Comercio */
 
 $this->title = $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comercios'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Stores'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -16,14 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script>
     /*
-     * Este codigo no anda ni pa los costados
+     * Este codigo no anda ni pa los costados xD
      */
     var map;
     var geocoder;
     var originIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=O|FFFF00|000000';
 
     var ubicacion = new google.maps.LatLng("<?php echo $model->latitud; ?>", "<?php echo $model->longitud; ?>");
-    var titulo = "Nombre: <?php echo $model->nombre;?> \nDireccion: <?php echo $model->direccion; ?>";
+    var titulo = "<?php echo Yii::t('app', 'Name: ').$model->nombre;?> \n<?php echo Yii::t('app', 'Adress: ').$model->direccion; ?>";
 
     function initMap() {
 
@@ -59,37 +59,23 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?php
-    $diaVisita = $model->dia;
-    $prioridadVisita = $model->prioridad;
-
-    if ($diaVisita == 1) $diaVisita = Yii::t("app", "Monday");
-    if ($diaVisita == 2) $diaVisita = Yii::t("app", "Tuesday");
-    if ($diaVisita == 3) $diaVisita = Yii::t("app", "Wednesday");
-    if ($diaVisita == 4) $diaVisita = Yii::t("app", "Thursday");
-    if ($diaVisita == 5) $diaVisita = Yii::t("app", "Friday");
-    if ($diaVisita == 6) $diaVisita = Yii::t("app", "Saturday");
-    if ($diaVisita == 7) $diaVisita = Yii::t("app", "Sunday");
-
-    if ($prioridadVisita == 1) $prioridadVisita = Yii::t("app", "Very High");
-    if ($prioridadVisita == 2) $prioridadVisita = Yii::t("app", "High");
-    if ($prioridadVisita == 3) $prioridadVisita = Yii::t("app", "Normal");
-    if ($prioridadVisita == 4) $prioridadVisita = Yii::t("app", "Low");
-    if ($prioridadVisita == 5) $prioridadVisita = Yii::t("app", "Very Low");
-
-    ?>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'nombre',
-            'direccion',
+            [
+                'attribute'=>'nombre',
+                'label'=>Yii::t('app','Name'),
+            ],
+            [
+                'attribute'=>'direccion',
+                'label'=>Yii::t('app','Adress'),
+            ],
             [
                 'attribute'=>'dia',
                 'label'=>Yii::t('app','Open on'),
                 'format'=>'raw',
                 'value'=> Yii::t('app',sysconfigs::getNombreDia($model->dia)), // $diaVisita,
-           ],
+            ],
             [
                 'attribute'=>'$prioridadVisita',
                 'label'=>Yii::t('app','Priority'),
@@ -98,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>'Active?',
+                'label'=>Yii::t('app','Active?'),
                 'format'=>'raw',
                 'value'=>$model->esActivo ?
                     '<span class="label label-success">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>' :

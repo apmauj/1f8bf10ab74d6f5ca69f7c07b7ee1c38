@@ -164,9 +164,4 @@ return [
     'Your password has been changed successfully.' => '',
     'Your profile has been updated' => '',
     '{0, date, MMMM dd, YYYY HH:mm}' => '',
-    'A message has been sent to your email address. It contains a password that we generated for you.' => '@@@@',
-    'A message has been sent to your email address. It contains your password and a confirmation link that you must click to complete registration.' => '@@@@',
-    'In order to finish your registration, we need you to enter your email address' => '@@@@',
-    'Welcome! Registration is complete.' => '@@@@',
-    'You can now log in with the following credentials:' => '@@@@',
 ];

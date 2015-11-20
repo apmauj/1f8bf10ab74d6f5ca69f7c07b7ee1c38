@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\OrdenComercio */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orden Comercios'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Store Order'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="orden-comercio-view">
@@ -29,9 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'orden',
-            'id_ruta',
-            'id_comercio',
+            [
+                'attribute'=>'orden',
+                'label'=>Yii::t('app', 'Name'),
+            ],
+            [
+                'attribute'=>'id_ruta',
+                'label'=>Yii::t('app', 'Route Id'),
+            ],
+            [
+                'attribute'=>'id_comercio',
+                'label'=>Yii::t('app', 'Store Id'),
+            ],
         ],
     ]) ?>
 

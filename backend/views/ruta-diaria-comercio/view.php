@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\RutaDiariaComercio */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ruta Diaria Comercios'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Daily Store Route'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-diaria-comercio-view">
@@ -29,9 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'orden',
-            'id_ruta_diaria',
-            'id_comercio',
+            [
+                'attribute'=>'orden',
+                'label'=>Yii::t('app', 'Order'),
+            ],
+            [
+                'attribute'=>'id_ruta_diaria',
+                'label'=>Yii::t('app', 'Daily Route Id'),
+            ],
+            [
+                'attribute'=>'id_comercio',
+                'label'=>Yii::t('app', 'Store Id'),
+            ],
         ],
     ]) ?>
 

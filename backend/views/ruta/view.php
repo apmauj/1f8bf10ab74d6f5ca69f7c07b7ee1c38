@@ -1,5 +1,6 @@
 <?php
 
+use backend\helpers\sysconfigs;
 use dektrium\user\models\User;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -8,7 +9,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Ruta */
 
 $this->title = Yii::t('app', 'Route number ') . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Rutas'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-view">
@@ -27,35 +28,25 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php
-    $diaVisita = $model->dia;
-    $usuario = User::findOne($model->id_usuario)->username;
-
-    if ($diaVisita == 1) $diaVisita = Yii::t("app", "Monday");
-    if ($diaVisita == 2) $diaVisita = Yii::t("app", "Tuesday");
-    if ($diaVisita == 3) $diaVisita = Yii::t("app", "Wednesday");
-    if ($diaVisita == 4) $diaVisita = Yii::t("app", "Thursday");
-    if ($diaVisita == 5) $diaVisita = Yii::t("app", "Friday");
-    if ($diaVisita == 6) $diaVisita = Yii::t("app", "Saturday");
-    if ($diaVisita == 7) $diaVisita = Yii::t("app", "Sunday");
-
-    ?>
+        $usuario = User::findOne($model->id_usuario)->username;
+    4?>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             [
                 'attribute'=>'dia',
-                'label'=>Yii::t('app', 'Open?'),
+                'label'=>Yii::t('app','Open on'),
                 'format'=>'raw',
-                'value'=> $diaVisita,
+                'value'=> Yii::t('app',sysconfigs::getNombreDia($model->dia)), // $diaVisita,
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>Yii::t('app', 'Active?'),
+                'label'=>Yii::t('app','Active?'),
                 'format'=>'raw',
                 'value'=>$model->esActivo ?
-                    '<span class="label label-success">'.Yii::t("app", "Yes").'</span>' :
-                    '<span class="label label-danger">'.Yii::t("app", "No").'</span>',
+                    '<span class="label label-success">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>' :
+                    '<span class="label label-danger">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>',
                 'widgetOptions'=>[
                     'pluginOptions'=>[
                         'onText'=>'Yes',

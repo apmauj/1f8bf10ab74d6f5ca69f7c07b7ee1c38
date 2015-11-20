@@ -1,5 +1,6 @@
 <?php
 
+use backend\helpers\sysconfigs;
 use dektrium\user\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -8,7 +9,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\RutaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Rutas');
+$this->title = Yii::t('app', 'Routes');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-index">
@@ -17,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Ruta'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Route'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -29,25 +30,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute'=>'dia',
-                'label'=>Yii::t("app", "Open?"),
+                'label'=>Yii::t("app", "Open on"),
                 'format'=>'raw',
                 'value' => function ($data) {
-                    if ($data->dia == 1) return Yii::t("app", "Monday");
-                    if ($data->dia == 2) return Yii::t("app", "Tuesday");
-                    if ($data->dia == 3) return Yii::t("app", "Wednesday");
-                    if ($data->dia == 4) return Yii::t("app", "Thursday");
-                    if ($data->dia == 5) return Yii::t("app", "Friday");
-                    if ($data->dia == 6) return Yii::t("app", "Saturday");
-                    if ($data->dia == 7) return Yii::t("app", "Sunday");
-                    return 0;}
+                    return Yii::t('app', sysconfigs::getNombreDia($data->dia));
+                }
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>Yii::t('app', 'Active?'),
+                'label'=>Yii::t('app', 'Active'),
                 'format'=>'raw',
                 'value'=>function ($data) {
-                    if ($data->esActivo == 1) return '<span class="label label-success">'.Yii::t("app", "Yes").'</span>';
-                    else return '<span class="label label-danger">' . Yii::t("app", "No") . ' </span>';
+                    if ($data->esActivo == 0)
+                        return '<span class="label label-danger">'.Yii::t('app', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
+                    else
+                        return '<span class="label label-success">'.Yii::t('app', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
                 },
             ],
             [

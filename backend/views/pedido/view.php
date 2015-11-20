@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Pedido */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pedido-view">
@@ -29,9 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'cantidad',
-            'id_producto',
-            'id_ruta_diaria_com',
+            [
+                'attribute'=>'cantidad',
+                'label'=>Yii::t('app', 'Quantity'),
+            ],
+            [
+                'attribute'=>'id_producto',
+                'label'=>Yii::t('app', 'Product Id'),
+            ],
+            [
+                'attribute'=>'id_ruta_diaria_com',
+                'label'=>Yii::t('app', 'Daily Store Route Id'),
+            ],
         ],
     ]) ?>
 

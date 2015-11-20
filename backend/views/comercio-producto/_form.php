@@ -1,10 +1,10 @@
 <?php
 
+use backend\models\Comercio;
+use backend\models\Producto;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use \backend\models\Comercio;
-use \backend\models\Producto;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\ComercioProducto */
@@ -15,22 +15,30 @@ use \backend\models\Producto;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'fecha')->textInput() ?>
+    <?= $form->field($model, 'fecha')->textInput(
+        [
+            'label'=>Yii::t('app', 'Date')
+        ]
+    )?>
 
-    <?= $form->field($model, 'vendidos')->textInput() ?>
+    <?= $form->field($model, 'vendidos')->textInput(
+        [
+            'label'=>Yii::t('app', 'Sold')
+        ])
+    ?>
 
     <?php
     $comercio=array(Comercio::find()->all());
     $listData=ArrayHelper::map(Comercio::find()->all(),'id','nombre');
     echo $form->field($model, 'id_comercio')->dropDownList($listData,
-        ['prompt'=>'Seleccionar...']);
+        ['prompt'=>Yii::t('app', 'Select...')]);
     ?>
 
     <?php
     //$comercio=array(Comercio::find()->all());
     $listData=ArrayHelper::map(Producto::find()->all(),'id','nombre');
     echo $form->field($model, 'id_producto')->dropDownList($listData,
-        ['prompt'=>'Seleccionar...']);
+        ['prompt'=>Yii::t('app', 'Select...')]);
     ?>
 
     <div class="form-group">

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\CategoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Categorias');
+$this->title = Yii::t('app', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Categoria'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -24,8 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'nombre',
-            'descripcion',
+            [
+                'attribute'=>'nombre',
+                'label'=>Yii::t('app', 'Name'),
+            ],
+            [
+                'attribute'=>'descripcion',
+                'label'=>Yii::t('app', 'Description'),
+            ],
             [
                 'attribute'=>'esActivo',
                 'label'=>Yii::t('app', 'Active?'),

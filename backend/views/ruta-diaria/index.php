@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\RutaDiariaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Ruta Diarias');
+$this->title = Yii::t('app', 'Daily Route');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-diaria-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Ruta Diaria'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Daily Route'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,7 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'fecha',
+            [
+                'attribute'=>'fecha',
+                'label'=>Yii::t('app', 'Date'),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

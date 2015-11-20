@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ComercioProductosRelacionadosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Comercio Productos Relacionados');
+$this->title = Yii::t('app', 'Store Related Products');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comercio-productos-relacionados-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Assign Productos'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Assign Products'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute'=>'id_comercio',
-                'label'=>'Comercio',
+                'label'=>Yii::t('app', 'Store'),
                 'format'=>'text',
                 'content'=>function($data){
                     return $data->getComercioNombre();
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'id_producto',
-                'label'=>'Producto',
+                'label'=>Yii::t('app', 'Product'),
                 'format'=>'text',
                 'content'=>function($data){
                     return $data->getProductoNombre();

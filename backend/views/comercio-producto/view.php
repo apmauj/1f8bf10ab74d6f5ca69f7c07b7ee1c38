@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\ComercioProducto */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Comercio Productos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Store Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comercio-producto-view">
@@ -29,8 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'fecha',
-            'vendidos',
+            [
+                'label'=>Yii::t('app','Date'),
+                'attribute'=>'fecha'
+            ],
+            [
+                'label'=>Yii::t('app','Sold'),
+                'attribute'=>'vendidos'
+            ],
             'id_comercio',
             'id_producto',
         ],

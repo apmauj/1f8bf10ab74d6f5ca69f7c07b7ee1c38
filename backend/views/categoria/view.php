@@ -1,5 +1,6 @@
 <?php
 
+use backend\helpers\sysconfigs;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -7,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Categoria */
 
 $this->title = $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categorias'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-view">
@@ -28,15 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'nombre',
-            'descripcion',
+            [
+                'attribute'=>'nombre',
+                'label'=>Yii::t('app','Name'),
+            ],
+            [
+                'attribute'=>'descripcion',
+                'label'=>Yii::t('app','Description'),
+            ],
             [
                 'attribute'=>'esActivo',
-                'label'=>'Categoria Activa?',
+                'label'=>Yii::t('app','Active?'),
                 'format'=>'raw',
                 'value'=>$model->esActivo ?
-                    '<span class="label label-success">Si</span>' :
-                    '<span class="label label-danger">No</span>',
+                    '<span class="label label-success">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>' :
+                    '<span class="label label-danger">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>',
                 'widgetOptions'=>[
                     'pluginOptions'=>[
                         'onText'=>'Yes',

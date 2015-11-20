@@ -14,15 +14,31 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'dia')->dropDownList(['1' => 'Lunes', '2' => 'Martes', '3' => 'Miercoles', '4' => 'Jueves', '5' => 'Viernes', '6' => 'Sabado', '7' => 'Domingo']); ?>
+    <?= $form->field($model, 'dia')->dropDownList(
+        [
+            '1' => Yii::t('app', 'Monday'),
+            '2' => Yii::t('app', 'Tuesday'),
+            '3' => Yii::t('app', 'Wednesday'),
+            '4' => Yii::t('app', 'Thursday'),
+            '5' => Yii::t('app', 'Friday'),
+            '6' => Yii::t('app', 'Saturday'),
+            '7' => Yii::t('app', 'Sunday'),
+        ]);
+    ?>
 
-    <?= $form->field($model, 'esActivo')->dropDownList(['1' => 'SI', '0' => 'NO']); ?>
+    <?= $form->field($model, 'esActivo')->dropDownList(
+        [
+            'label' => Yii::t('app', 'Active?'),
+            '1' => Yii::t('app', 'Yes'),
+            '0' => Yii::t('app', 'No'),
+        ]);
+    ?>
 
     <?php
-    //$usuarios=array(User::find()->all());
-    $listData=ArrayHelper::map(User::find()->all(),'id','username');
-    echo $form->field($model, 'id_usuario')->dropDownList($listData,
-        ['prompt'=>'Seleccionar...']);
+        //$usuarios=array(User::find()->all());
+        $listData=ArrayHelper::map(User::find()->all(),'id','username');
+        echo $form->field($model, 'id_usuario')->dropDownList($listData,
+            ['prompt'=>Yii::t('app', 'Select...')]);
     ?>
 
     <div class="form-group">

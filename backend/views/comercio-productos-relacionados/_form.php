@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 use backend\models\Comercio;
 use backend\models\Producto;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\ComercioProductosRelacionados */
@@ -16,15 +16,15 @@ use backend\models\Producto;
     <?php $form = ActiveForm::begin(); ?>
 
     <?php
-    //$categoria=array(Comercio::find()->all());
-    $listData=ArrayHelper::map(Comercio::find()->all(),'id','nombre');
-    echo $form->field($model, 'id_comercio')->dropDownList($listData,
-        ['prompt'=>'Seleccionar...']);
+        //$categoria=array(Comercio::find()->all());
+        $listData=ArrayHelper::map(Comercio::find()->all(),'id','nombre');
+        echo $form->field($model, 'id_comercio')->dropDownList($listData,
+            ['prompt'=>Yii::t('app', 'Select...')]);
     ?>
 
     <?php
-    $listData=ArrayHelper::map(Producto::find()->all(),'id','nombre');
-    echo $form->field($model, 'id_producto')->checkboxList($listData);
+        $listData=ArrayHelper::map(Producto::find()->all(),'id','nombre');
+        echo $form->field($model, 'id_producto')->checkboxList($listData);
     ?>
 
     <div class="form-group">

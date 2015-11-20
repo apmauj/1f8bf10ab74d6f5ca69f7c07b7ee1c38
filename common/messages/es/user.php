@@ -17,15 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'In order to finish your registration, we need you to enter following fields' => '',
-    'We have generated a password for you' => '',
-    'Your account has been blocked.' => '',
-    'Your account has been created and a message with further instructions has been sent to your email' => '',
-    'A message has been sent to your email address. It contains a password that we generated for you.' => '@@Se le ha enviado un correo electrónico. Contiene una contraseña que generamos para usted@@',
-    'A message has been sent to your email address. It contains your password and a confirmation link that you must click to complete registration.' => '@@Se le ha enviado un correo electrónico. Contiene su contraseña y un link de confirmación al que deberá acceder para completar su registro@@',
-    'In order to finish your registration, we need you to enter your email address' => '@@Para completar el registro ingrese su correo electrónico@@',
-    'Welcome! Registration is complete.' => '@@Bienvenido! El registro está completo.@@',
-    'You can now log in with the following credentials:' => '@@Ya puede loguarse con sus credenciales:@@',
+    'In order to finish your registration, we need you to enter following fields' => 'Para completar su registro es necesario que complete los siguientes campos',
+    'We have generated a password for you' => 'Le hemos generado una contraseña',
+    'Your account has been blocked.' => 'Su cuenta fue bloqueada.',
+    'Your account has been created and a message with further instructions has been sent to your email' => 'Su cuenta fue creada. Se le ha enviado un correo electrónico con instrucciones de cómo proseguir',
     '(not set)' => '(no establecido)',
     'A confirmation message has been sent to your new email address' => 'Se le ha enviado un mensaje de confirmación a su nuevo correo electrónico',
     'A message has been sent to your email address. It contains a confirmation link that you must click to complete registration.' => 'Se le ha enviado un correo electrónico. Contiene un link de confirmación al que deberá acceder para completar su registro',

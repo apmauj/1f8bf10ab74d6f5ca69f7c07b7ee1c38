@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\RutaDiariaComercioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Ruta Diaria Comercios');
+$this->title = Yii::t('app', 'Daily Store Route');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-diaria-comercio-index">
@@ -26,9 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'orden',
-            'id_ruta_diaria',
-            'id_comercio',
+            [
+                'attribute'=>'orden',
+                'label'=>Yii::t('app', 'Order'),
+            ],
+            [
+                'attribute'=>'id_ruta_diaria',
+                'label'=>Yii::t('app', 'Daily Route Id'),
+            ],
+            [
+                'attribute'=>'id_comercio',
+                'label'=>Yii::t('app', 'Store Id'),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
