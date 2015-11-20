@@ -15,7 +15,7 @@ class sysconfigs
     const RADIO_RELEVADOR = 5000;
     const HORAS_RELEVADOR = 8;
 
-    //conversion de día a texto
+    //conversion de dï¿½a a texto
     public static function getNombreDia($dia){
         if ($dia == 1) return "Monday";
         if ($dia == 2) return "Tuesday";
@@ -26,7 +26,7 @@ class sysconfigs
         if ($dia == 7) return "Sunday";
     }
 
-    //conversion de día a número
+    //conversion de dï¿½a a nï¿½mero
     public static function getNumeroDia($dia){
         if ($dia == "Monday") return 1;
         if ($dia == "Tuesday") return 2;
@@ -66,5 +66,19 @@ class sysconfigs
         if ($activo == "No") return 0;
         if ($activo == "Yes") return 1;
     }
+
+    public static function getCoordinates($direccion){
+        $direccion = urlencode($direccion);
+        $url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=" . $direccion;
+        $response = file_get_contents($url);
+        $json = json_decode($response,true);
+
+        $lat = $json['results'][0]['geometry']['location']['lat'];
+        $lng = $json['results'][0]['geometry']['location']['lng'];
+
+        return ['latitud'=>$lat,'longitud'=> $lng];
+    }
+
+
 
 }

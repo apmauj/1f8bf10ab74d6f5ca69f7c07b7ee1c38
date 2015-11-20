@@ -17,7 +17,14 @@ return [
                 'admins' => ['admin'],
                 'enableUnconfirmedLogin' => true,
                 'as backend' => 'dektrium\user\filters\BackendFilter',
-            ],
+                'controllerMap' => [
+                    'admin' => [
+                        'class' => 'backend\controllers\user\AdminController'
+
+                    ],
+                ],
+         ],
+
     ],
     'components' => [
         /*'user' => [
@@ -32,6 +39,9 @@ return [
                 'pathMap' => [
                     '@backend/views' => [
                         '@backend/themes/views',
+                    ],
+                    '@dektrium/user/views/admin' => [
+                        '@backend/views/admin'
                     ],
                     '@dektrium/user/views' => [
                         '@frontend/themes/views/user'
