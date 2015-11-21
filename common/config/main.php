@@ -16,6 +16,22 @@ return [
             ],
         ],
 
+//        'authClientCollection' => [
+//            'class'   => \yii\authclient\Collection::className(),
+//            'clients' => [
+//                'google' => [
+//                    'class'        => 'dektrium\user\clients\Google',
+//                    'clientId'     => '259324332868-8qpid5o610psfefsr946uof26v6po813.apps.googleusercontent.com',
+//                    'clientSecret' => 'a25NO-XvNaoTtdZ1vVnjbJyR',
+//                ],
+//                'facebook' => [
+//                    'class'        => 'dektrium\user\clients\Facebook',
+//                    'clientId'     => '1696107530612303',
+//                    'clientSecret' => 'a90d0d7c7f9f2166797871ec854f8bf1',
+//                ],
+//            ],
+//        ],
+
     ],
     'modules' => [
         'user' => [
