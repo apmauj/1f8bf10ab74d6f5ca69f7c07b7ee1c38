@@ -57,6 +57,9 @@ class User extends BaseUser{
         return $labels;
     }
 
+    public function getMailer(){
+        return $this->mailer;
+    }
 
 }
 

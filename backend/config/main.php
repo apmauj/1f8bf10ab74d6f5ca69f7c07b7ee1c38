@@ -16,6 +16,7 @@ return [
                 'class' => 'dektrium\user\Module',
                 'admins' => ['admin'],
                 'enableUnconfirmedLogin' => true,
+                'enableGeneratingPassword' => true,
                 'as backend' => 'dektrium\user\filters\BackendFilter',
                 'controllerMap' => [
                     'admin' => [
@@ -24,11 +25,11 @@ return [
                     ],
                 ],
                 'mailer' => [
-                 'sender'                => Yii::t('app', 'no-reply@mulirelevadores.com'), // or ['no-reply@myhost.com' => 'Sender name']
-                 'welcomeSubject'        => Yii::t('app', 'Welcome'),
-                 'confirmationSubject'   => Yii::t('app', 'Confirmation'),
-                 'reconfirmationSubject' => Yii::t('app', 'Email Change'),
-                 'recoverySubject'       => Yii::t('app', 'Account Recovery'),
+                    'sender'                => Yii::t('app', 'no-reply@mulirelevadores.com'), // or ['no-reply@myhost.com' => 'Sender name']
+                    'welcomeSubject'        => Yii::t('app', 'Welcome'),
+                    'confirmationSubject'   => Yii::t('app', 'Confirmation'),
+                    'reconfirmationSubject' => Yii::t('app', 'Email Change'),
+                    'recoverySubject'       => Yii::t('app', 'Account Recovery'),
                 ],
          ],
 

@@ -74,6 +74,7 @@ class AdminController extends BaseAdminController
             $user->password = $user->password == null ? Password::generate(8) : $user->password;
 
             if($user->save()){
+                $user->mailer->sendWelcomeMessage($user,null);
                 return $this->redirect(['update', 'id' => $user->id]);
             } else{
                 return $this->render('create', [
