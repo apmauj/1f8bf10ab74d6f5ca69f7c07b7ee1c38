@@ -10,7 +10,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'devicedetect'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         'user' => [
@@ -50,6 +50,9 @@ return [
                  ],
 
              ],
+        ],
+        'devicedetect' => [
+            'class' => 'alexandernst\devicedetect\DeviceDetect'
         ],
 /*        'user' => [
             'identityClass' => 'common\models\User',
