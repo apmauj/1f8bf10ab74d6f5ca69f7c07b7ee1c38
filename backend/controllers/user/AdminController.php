@@ -97,9 +97,12 @@ class AdminController extends BaseAdminController
     public function actionUpdate($id)
     {
         $user = $this->findModel($id);
+        $user->scenario = 'update';
 
         if ($user->load(Yii::$app->request->post()) && $user->save()) {
-            return $this->redirect(['view', 'id' => $user->id]);
+            Yii::$app->getSession()->setFlash('success', Yii::t('user', 'Account details have been updated'));
+
+            return $this->refresh();
         } else {
             return $this->render('update', [
                 'user' => $user,

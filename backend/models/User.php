@@ -36,6 +36,9 @@ class User extends BaseUser{
         // add field to scenarios
         $scenarios['create'][] = 'direccion';
         $scenarios['create'][] = 'esActivo';
+        $scenarios['update'][] = 'direccion';
+        $scenarios['update'][] = 'esActivo';
+
         return $scenarios;
 
     }
