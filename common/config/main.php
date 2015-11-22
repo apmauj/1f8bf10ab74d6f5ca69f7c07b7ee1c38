@@ -29,6 +29,11 @@ return [
                     'clientId'     => '1696107530612303',
                     'clientSecret' => 'a90d0d7c7f9f2166797871ec854f8bf1',
                 ],
+                'twitter' => [
+                    'class'          => 'dektrium\user\clients\Twitter',
+                    'consumerKey'    => 'i4SBVlp9sHcmFxtCfbD43egjP',
+                    'consumerSecret' => 'iIj5F6wUtjlmj1dDx0xYTBjtZbNiNJF2ArfzKFDF3xsuhKcYaK',
+                ],
             ],
         ],
 
