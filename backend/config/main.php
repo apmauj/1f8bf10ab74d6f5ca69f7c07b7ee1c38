@@ -25,7 +25,7 @@ return [
                     ],
                 ],
                 'mailer' => [
-                    'sender'                => Yii::t('app', 'no-reply@mulirelevadores.com'), // or ['no-reply@myhost.com' => 'Sender name']
+                    'sender'                => Yii::t('app', 'taller.2015.tecnologo@gmail.com'), // or ['no-reply@myhost.com' => 'Sender name']
                     'welcomeSubject'        => Yii::t('app', 'Welcome'),
                     'confirmationSubject'   => Yii::t('app', 'Confirmation'),
                     'reconfirmationSubject' => Yii::t('app', 'Email Change'),
