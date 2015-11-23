@@ -39,14 +39,18 @@ return [
     'components' => [
         'view' => [
              'theme' => [
+//                 'basePath' => '@app/themes/sloan/files',
+                 'baseUrl' => '/frontend/themes/sloan',
                  'pathMap' => [
-                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app',
-                     '@dektrium/user/views/security' => [
-                         '@frontend/views/seguridad'
-                     ],
-                     '@dektrium/user/views' => [
-                         '@frontend/themes/views/user'
-                     ]
+//                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app',
+//                     '@dektrium/user/views/security' => [
+//                         '@frontend/views/seguridad'
+//                     ],
+//                     '@dektrium/user/views' => [
+//                         '@frontend/themes/views/user'
+//                     ]
+                     '@app/views' => '/frontend/themes/sloan',
+                     /* 'baseUrl'   => '@frontend/themes/in-the-mountains/files'*/
                  ],
 
              ],
