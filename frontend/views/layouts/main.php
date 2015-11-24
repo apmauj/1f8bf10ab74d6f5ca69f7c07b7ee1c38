@@ -1,6 +1,5 @@
 <?php
 use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\debug\Toolbar;
 use yii\helpers\Html;
 
@@ -41,37 +40,25 @@ use yii\helpers\Html;
 //                'url' => array('/user/logout'),
 //                'linkOptions' => ['data-method' => 'post']),
 //        ),
-//      )); ?><!--      -->
-        <?php
-        NavBar::begin([
-            'brandLabel' => Yii::t('app', 'My Company'),
-            'brandUrl' => Yii::$app->homeUrl,
-            'options' => [
-                'class' => 'navbar-inverse navbar-fixed-top',
+//      )); ?>
+
+    <?=
+    Nav::widget(
+        [
+            'encodeLabels' => false,
+            'options' => ['class' => 'sidebar-menu'],
+            'items' => [
+                '<li class="header" style="font-size: large;color: white;text-align: center">Menu</li>',
+                ['label' => '<i class="fa fa-users"></i><span>'. Yii::t('app','Routes').'</span>', 'url' => ['/ruta']],
+                ['label' => '<i class="fa fa-users"></i><span>'. Yii::t('app','Profile').'</span>', 'url' => ['/user/profile/show','id'=>isset(Yii::$app->user->identity) ? Yii::$app->user->identity->id : -1], 'visible' =>!Yii::$app->user->isGuest],
+                ['label' => 'Logout (' ./* Yii::$app->user->identity->username .*/')' ,
+                    'url' => ['/user/logout'],
+                   // 'linkOptions' => ['data-method' => 'post'],
+                ],
             ],
-        ]);
-        $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
-        ];
-        if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-        } else {
-            $menuItems[] = [
-                'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                'url' => [
-                    '/site/logout',
-                    'linkOptions' => [
-                        'data-method' => 'post'
-                    ]
-                ]
-            ];
-        }
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => $menuItems,
-        ]);
-        NavBar::end();
-        ?>
+        ]
+    );
+    ?>
     </div>
     <div id="rightcolumn">
       <table id="header">
