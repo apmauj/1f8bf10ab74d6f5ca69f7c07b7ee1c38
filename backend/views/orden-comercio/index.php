@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\OrdenComercioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Store Order');
+$this->title = Yii::t('app', 'Route Order');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="orden-comercio-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Store Order'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Generate Itinerary'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -32,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
             [
-                'attribute'=>'id_ruta',
+                'attribute'=>'ruta',
                 'label'=>Yii::t('app', 'Route Id'),
                         ],
             [
-                'attribute'=>'id_comercio',
+                'attribute'=>'comercio',
                 'label'=>Yii::t('app', 'Store Id'),
             ],
 

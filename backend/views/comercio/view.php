@@ -101,5 +101,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
-<div id="map-canvas" style="height: 500px; width: 100%;border: 1px solid black"></div>
+<div id="map-canvas" style="height: 300px; width: 200px;border: 1px solid black"></div>
 

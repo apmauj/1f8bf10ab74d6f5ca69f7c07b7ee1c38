@@ -41,6 +41,17 @@ use yii\widgets\ActiveForm;
             ['prompt'=>Yii::t('app', 'Select...')]);
     ?>
 
+    <?php if(!$model->isNewRecord){ ?>
+        <div class="form-group">
+
+            <p>
+                <?= Html::a(Yii::t('app', 'Manage Route'), ['orden-comercio/index', 'idRelevador' => $model->id_usuario], ['class' => 'btn btn-success']) ?>
+            </p>
+
+        </div>
+
+    <?php   }   ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

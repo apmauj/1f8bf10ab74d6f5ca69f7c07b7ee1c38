@@ -114,4 +114,17 @@ class ComercioController extends SiteController
 
         return $this->redirect(['index']);
     }
+
+    /**
+     * Permite abri un popUp via ajax
+     *
+     */
+    public function actionSomeAction($id) {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => (string) $model->_id]);
+        }elseif (Yii::$app->request->isAjax){
+            return $this->renderAjax('_form', ['model' => $model]);
+        }
+    }
 }

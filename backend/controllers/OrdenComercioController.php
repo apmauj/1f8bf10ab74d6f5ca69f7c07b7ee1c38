@@ -2,9 +2,13 @@
 
 namespace backend\controllers;
 
+use backend\models\Comercio;
+use backend\models\User;
+use backend\models\Ruta;
 use backend\models\OrdenComercio;
 use backend\models\OrdenComercioSearch;
 use Yii;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -64,14 +68,42 @@ class OrdenComercioController extends SiteController
     public function actionCreate()
     {
         $model = new OrdenComercio();
+        $comercios = $this->comerciosSinRutasActivas();
+        $inicio = new User();
+        $inicio->latitud = -34.895247;
+        $inicio->longitud = -56.172498;
+        $inicio->username = "Don Dog";
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->render('create', ['model' => $model, 'comercios' => $comercios, 'inicio' => $inicio]);
         }
+    }
+
+    public function comerciosSinRutasActivas(){
+
+        //ruta: las rutas creadas
+        //orden_comercio
+        //comercio
+
+        //Devuelve todas las rutas activas
+        $query = new Query();
+        $query->select('id')->from('ruta')->where('esActivo',true);
+
+        //Devuelve los comercios en rutas activas
+        $query2 = new Query();
+        $query2->select('id_comercio')->from('orden_comercio')->where(['in','id_ruta',$query]);
+
+        //Devuelve los comercios sin rutas activas
+        //$comercios = [];
+        $comercios = Comercio::find()->where(['not in','id',$query2]);
+
+        return $comercios;
+    }
+
+    public function relevador(){
+
     }
 
     /**

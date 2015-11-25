@@ -55,7 +55,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $usuario = User::findOne($data->id_usuario)->username;
                 },
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'header' => 'Options',
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{info} {view} {update} {delete}',
+            ],
         ],
     ]); ?>
 
