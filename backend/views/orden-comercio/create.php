@@ -21,14 +21,46 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script>
 
-    initialize();
+    var map;
+    var geocoder;
+    var originIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=O|FFFF00|000000';
+    var ubicacion = new google.maps.LatLng("<?php echo $inicio->latitud; ?>", "<?php echo $inicio->longitud; ?>");
+    var titulo = "<?php echo Yii::t('app', 'Name: ').$inicio->username;?> ?>";
+
+    var origins = [ubicacion];
+    var destinations = [];
 
     <?php foreach($comercios as $comercio){?>
-
-        var dire1 = new google.maps.LatLng($comercio->latitud, $comercio->longitud);
-        addMarker(dire1, false);
-
+        alert(<?= $comercio->latitud ?> + "  -  " + <?= $comercio->longitud ?>);
+        var dire1 = new google.maps.LatLng("<?= $comercio->latitud ?>", "<?= $comercio->longitud ?>");
+        alert("" + dire1.latitude);
+        destinations.push(dire1);
     <?php } ?>
+
+
+    calculateDistances(origins, destinations);
+
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+            zoom: 16,
+            center: ubicacion
+        });
+
+        var marker = new google.maps.Marker({
+            position: ubicacion,
+            map: map,
+            title: titulo
+        });
+
+        console.log(marker);
+    }
+    google.maps.event.addDomListener(window, 'load', initMap);
+
+
+
+
+
 
 </script>
 
