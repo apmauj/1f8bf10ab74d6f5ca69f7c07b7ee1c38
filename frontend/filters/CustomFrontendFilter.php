@@ -12,7 +12,7 @@ namespace frontend\filters;
 class CustomFrontendFilter  extends \yii\base\ActionFilter
 {
 
-    private $loginUrl = 'user/login';
+    private $loginUrl = '/frontend/w/user/login';
 
     /**
      * @inheritdoc
