@@ -51,6 +51,9 @@ return [
                     '@dektrium/user/views/admin' => [
                         '@backend/views/admin'
                     ],
+                    '@dektrium/user/views/security' => [
+                        '@backend/views/seguridad'
+                    ],
                     '@dektrium/user/views' => [
                         '@frontend/themes/views/user'
                     ]

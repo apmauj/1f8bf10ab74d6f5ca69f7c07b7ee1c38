@@ -43,8 +43,8 @@ $fieldOptions2 = [
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-
-        <?php $form = ActiveForm::begin([
+        
+         <?php $form = ActiveForm::begin([
             'id'                     => 'login-form',
             'enableAjaxValidation'   => true,
             'enableClientValidation' => false,
@@ -57,41 +57,21 @@ $fieldOptions2 = [
 
         <?= $form->field($model, 'password', $fieldOptions2)->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
-        <?= Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) ?>
-
         <?= Connect::widget([
             'baseAuthUrl' => ['/user/security/auth']
         ]) ?>
-
+    
 
         <div class="row">
-            <div class="col-xs-7">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-            </div>
             <!-- /.col -->
-            <div class="col-xs-5">
+            <div class="col-xs-12 text-center">
                 <?= Html::submitButton(Yii::t('user', 'Sign in'), ['class' => 'btn btn-primary btn-block btn-flat', 'tabindex' => '3']) ?>
             </div>
             <!-- /.col -->
         </div>
 
         <?php ActiveForm::end(); ?>
-
-
-        <div class="row">
-            <div class="col-xs-12">
-                <?php if ($module->enableConfirmation): ?>
-                    <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
-                <?php endif ?>
-            </div>
-
-            <div class="col-xs-12">
-                <?php if ($module->enableRegistration): ?>
-                    <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
-                <?php endif ?>
-            </div>
-
-        </div>
+        
 
     </div>
     <!-- /.login-box-body -->

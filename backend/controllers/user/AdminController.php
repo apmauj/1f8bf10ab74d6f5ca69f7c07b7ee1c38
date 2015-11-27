@@ -67,9 +67,9 @@ class AdminController extends BaseAdminController
         ]);
 
         if ($user->load(Yii::$app->request->post()) ) {
-            $coordenadas = sysconfigs::getCoordinates($user->direccion);
+/*            $coordenadas = sysconfigs::getCoordinates($user->direccion);
             $user->latitud = $coordenadas['latitud'];
-            $user->longitud = $coordenadas['longitud'];
+            $user->longitud = $coordenadas['longitud'];*/
             //generamos password
             $user->password = $user->password == null ? Password::generate(8) : $user->password;
 

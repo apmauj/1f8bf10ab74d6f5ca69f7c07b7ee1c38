@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use backend\helpers\sysconfigs;
 use Yii;
 
 /**
@@ -32,6 +33,13 @@ class Comercio extends \yii\db\ActiveRecord
         return 'comercio';
     }
 
+
+/*    public function scenarios()
+    {
+        return [
+            'create' => ['nombre', 'dia', 'direccion','esActivo','prioridad','latitud','longitud'],
+        ];
+    }*/
     /**
      * @inheritdoc
      */
@@ -40,9 +48,18 @@ class Comercio extends \yii\db\ActiveRecord
         return [
             [['nombre', 'latitud', 'longitud', 'dia', 'prioridad', 'esActivo', 'direccion'], 'required'],
             [['latitud', 'longitud'], 'number'],
-            [['direccion'],'string'],
+            [['direccion'],'string','max'=>255],
             [['dia', 'prioridad', 'esActivo'], 'integer'],
-            [['nombre'], 'string', 'max' => 50]
+            [['nombre'], 'string', 'max' => 50],
+            [['direccion'],function ($attribute,$params) {
+                if ($this->direccion !== null) {
+                     if (!sysconfigs::getCoordinates($this->direccion)) {
+                            $this->addError($attribute, \Yii::t('app', 'Address doesnt exist'));
+                        }
+                    }
+                }
+            ],
+
         ];
     }
 

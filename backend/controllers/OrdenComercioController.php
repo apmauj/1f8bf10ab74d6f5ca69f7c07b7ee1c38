@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\helpers\sysconfigs;
 use backend\models\Comercio;
 use backend\models\User;
 use backend\models\Ruta;
@@ -110,27 +111,6 @@ class OrdenComercioController extends SiteController
         }
     }
 
-    public function comerciosSinRutasActivas(){
-
-        //ruta: las rutas creadas
-        //orden_comercio
-        //comercio
-
-        //Devuelve todas las rutas activas
-        $query = new Query();
-        $query->select('id')->from('ruta')->where('esActivo',true);
-
-        //Devuelve los comercios en rutas activas
-        $query2 = new Query();
-        $query2->select('id_comercio')->from('orden_comercio')->where(['in','id_ruta',$query]);
-
-        //Devuelve los comercios sin rutas activas
-        //$comercios = [];
-        $comercios = Comercio::find()->where(['not in','id',$query2]);
-
-        return $comercios;
-    }
-
     public function relevador(){
 
     }
@@ -166,4 +146,166 @@ class OrdenComercioController extends SiteController
 
         return $this->redirect(['index']);
     }
+
+    public function comerciosPorDiaSinRutasActivas($dia){
+
+        //ruta: las rutas creadas
+        //orden_comercio
+        //comercio
+
+        //Devuelve todas las rutas activas
+        $query = new Query();
+        $query->select('id')->from('ruta')->where('esActivo',true);
+
+        //Devuelve los comercios en rutas activas
+        $query2 = new Query();
+        $query2->select('id_comercio')->from('orden_comercio')->where(['in','id_ruta',$query]);
+
+        //Devuelve los comercios sin rutas activas
+        //$comercios = [];
+        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>1]);
+
+        return $comercios;
+    }
+
+
+    /**
+     * Retorna los comercios que cumplan los siguientes requisitos:
+     * -El comercio es activo
+     * -El comercio no pertenece a una ruta activa
+     * -El dia del comercio es el pasado por parametro
+     * -El comercio esta en el radio del usuario con el id pasado por parametro
+     * @param $dia : numero del dia elegido, donde 1 es Lunes y 7 es Domingo
+     * @param $idUsuario
+     */
+    public function obtenerComerciosDisponiblesUsuario($dia, $usuario){
+
+        $comercios = $this->comerciosPorDiaSinRutasActivas($dia);
+        $comerciosValidos = [];
+        $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
+        foreach($comercios as $comercio){
+            $coordenadasComercio = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
+            $distanciaUsuarioComercio = sysconfigs::getDistanciaEntreCoordenadas($coordenadasUsuario,$coordenadasComercio);
+            if($distanciaUsuarioComercio>=sysconfigs::RADIO_RELEVADOR){
+                $comerciosValidos[$comercio->id] = $comercio;
+            }
+        }
+        return $comerciosValidos;
+    }
+
+    private function obtenerRuta($dia,$idUsuario){
+        $usuario = User::findOne($idUsuario);
+        $comerciosValidos = $this->obtenerComerciosDisponiblesUsuario($dia,$usuario);
+        return $this->calcularRuta($usuario,$comerciosValidos);
+
+    }
+
+    private function calcularRuta($usuario,$comerciosValidos){
+        //obtenemos las coordenadas del usuario (punto de partida en la ruta) y los comercios.
+        $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
+        $coordenadasComercios = $this->obtenerCoordenadasComercios($comerciosValidos);
+
+        //si tenemos mas de un comercio armamos la ruta con waypoints...
+        if(count($comerciosValidos)>1){
+            //armamos la primera url que nos ordena los comercios, de ahi sacamos el ultimo. En esta instancia el user es origen y destino.
+            $comerciosIndexados = [];
+            $url1 = "https://maps.googleapis.com/maps/api/directions/json?origin=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&destination=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking&wayponts=optimize:true";
+            $i=0;
+            //guardamos los comercios por el indice en el cual se agrego en los waypoints.
+            foreach($coordenadasComercios as $idComercio => $coordenadasComercio){
+                $comercio = Comercio::findOne($idComercio);
+                $url1 = $url1.'|'.$coordenadasComercio['latitud'].','.$coordenadasComercio;
+                $comerciosIndexados[$i] = $comercio;
+                $i++;
+            }
+            $response = file_get_contents($url1);
+            $json1 = json_decode($response,true);
+            if($json1['status']=='OK'){
+                //obtenemos los waypoints ordenados y armamos la ruta desde el user hasta el ultimo waypoint recibido
+                $ordenComercios = $json1['routes']['waypoint_order'];
+                $comercioDestino = $comerciosIndexados[end($ordenComercios)];
+                $url2 = "https://maps.googleapis.com/maps/api/directions/json?origin=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&destination=".$comercioDestino->latitud.",".$comercioDestino->longitud."&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking&wayponts=optimize:true";;
+                foreach($coordenadasComercios as $idComercio => $coordenadasComercio){
+                    if($idComercio != $comercioDestino->id){
+                        $url2 = $url2.'|'.$coordenadasComercio['latitud'].','.$coordenadasComercio;
+                    }
+                }
+                $response = file_get_contents($url2);
+                $json2 = json_decode($response,true);
+                if($json2['status']=='OK') {
+                    $distancia = 0;
+                    //calculamos la distancia total de la ruta.
+                    $legs = $json2['routes']['legs'];
+                    foreach($legs as $leg){
+                        $distancia = $distancia + $leg['distance']['value'];
+                    }
+                    if($distancia <= sysconfigs::DISTANCIA_RELEVADOR){
+                        return $json2;
+                    }else{
+                        //desechamos uno de los comercios con menor prioridad que este lo mas cerca del final del recorrido.
+                        $keyComercio = null;
+                        $comercioDesechable = null;
+                        foreach($comerciosIndexados as $key => $comercio){
+                            if($keyComercio == null){
+                                $keyComercio= $key;
+                                $comercioDesechable = $comercio;
+                            }
+                            else if($comercio->prioridad >= $comercio->prioridad){
+                                $keyComercio = $key;
+                                $comercioDesechable = $comercio;
+                            }
+                        }
+                        unset($comerciosIndexados[$keyComercio]);
+                        return $this->calcularRuta($usuario,$comerciosIndexados);
+                    }
+
+                }else{
+                    //algo fallo!
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            //tenemos solo un comercio, por tanto la ruta generada es solo entre el usuario y el comercio.
+            foreach($coordenadasComercios as $coordenadasComercio) {
+                $url3 = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $coordenadasUsuario['latitud'] . "," . $coordenadasUsuario['longitud'] . "&destination=" . $coordenadasComercio['latitud'] . "," . $coordenadasComercio['longitud'] . "&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking";
+                $response = file_get_contents($url3);
+                $json3 = json_decode($response, true);
+                if ($json3['status'] == 'OK') {
+                    //vemos si la ruta generada no se pasa de la distancia
+                    $distancia = 0;
+                    //calculamos la distancia total de la ruta.
+                    $legs = $json3['routes']['legs'];
+                    foreach ($legs as $leg) {
+                        $distancia = $distancia + $leg['distance']['value'];
+                    }
+                    if ($distancia <= sysconfigs::DISTANCIA_RELEVADOR) {
+                        return $json3;
+                    } else {
+                        //no se puede generar una ruta cumpliendo las reglas, por tanto se retorna false
+                        return false;
+                    }
+
+                } else {
+                    return false;
+                }
+            }
+        }
+
+    }
+
+
+    /** Obtenemos un array que lleva como clave el id del comercio y como elemento un array con las coordenadas del mismo.
+     * @param $comercios
+     * @return array
+     */
+    private function obtenerCoordenadasComercios($comercios){
+        $coordenadasComercios = [];
+        foreach($comercios as $comercio){
+            $coordenadasComercios[$comercio->id] = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
+        }
+        return $coordenadasComercios;
+    }
+
 }

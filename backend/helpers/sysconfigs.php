@@ -12,8 +12,8 @@ class sysconfigs
 {
 
     const TIEMPO_RELEVANDO = 30;
-    const RADIO_RELEVADOR = 5000;
-    const HORAS_RELEVADOR = 8;
+    const RADIO_RELEVADOR = 2000;
+    const DISTANCIA_RELEVADOR = 2000;
 
     //conversion de d�a a texto
     public static function getNombreDia($dia){
@@ -72,13 +72,28 @@ class sysconfigs
         $url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=" . $direccion;
         $response = file_get_contents($url);
         $json = json_decode($response,true);
+        if($json['status']=='OK'){
+            $lat = $json['results'][0]['geometry']['location']['lat'];
+            $lng = $json['results'][0]['geometry']['location']['lng'];
+            return ['latitud'=>$lat,'longitud'=> $lng];
+        }else{
+            return false;
+        }
 
-        $lat = $json['results'][0]['geometry']['location']['lat'];
-        $lng = $json['results'][0]['geometry']['location']['lng'];
-
-        return ['latitud'=>$lat,'longitud'=> $lng];
     }
 
+    public static function getDistanciaEntreCoordenadas($coordenadasOrigen,$coordenadasDestino){
+        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$coordenadasOrigen['latitud'].",".$coordenadasOrigen['longitud']."&destinations=".$coordenadasDestino['latitud'].",".$coordenadasDestino['longitud']."&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking";
+        $response = file_get_contents($url);
+        $json = json_decode($response,true);
+        if($json['status']=='OK'){
+            $distanciaMetros = $json['rows']['elements']['distance']['value'];
+
+            return $distanciaMetros;
+        }else{
+            return false;
+        }
+    }
 
 
 }

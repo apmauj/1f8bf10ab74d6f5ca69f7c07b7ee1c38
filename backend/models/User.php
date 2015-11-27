@@ -11,7 +11,16 @@ use Yii;
 
 use dektrium\user\models\User as BaseUser;
 
+
 class User extends BaseUser{
+
+    public function init()
+    {
+        parent::init();
+        $this->mailer = Yii::$container->get(CustomMailer::className());
+
+    }
+
 
 
     /**
@@ -36,9 +45,15 @@ class User extends BaseUser{
         // add field to scenarios
         $scenarios['create'][] = 'direccion';
         $scenarios['create'][] = 'esActivo';
+        $scenarios['create'][] = 'latitud';
+        $scenarios['create'][] = 'longitud';
         $scenarios['update'][] = 'direccion';
         $scenarios['update'][] = 'esActivo';
-
+        $scenarios['update'][] = 'latitud';
+        $scenarios['update'][] = 'longitud';
+        $scenarios['register'][] = 'direccion';
+        $scenarios['register'][] = 'latitud';
+        $scenarios['register'][] = 'longitud';
         return $scenarios;
 
     }

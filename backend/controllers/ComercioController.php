@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\helpers\sysconfigs;
 use backend\models\Comercio;
 use backend\models\ComercioSearch;
 use Yii;
@@ -67,12 +68,8 @@ class ComercioController extends SiteController
     {
         $model = new Comercio();
 
-        if ($model->load(Yii::$app->request->post())) {
 
-            $coordenadas = $model->getCoordinates($model->direccion);
-
-            $model->latitud = $coordenadas[0];
-            $model->longitud = $coordenadas[1];
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);

@@ -17,4 +17,6 @@ use Yii;
 class SeguridadController extends SecurityController
 {
 
+
+
 }
