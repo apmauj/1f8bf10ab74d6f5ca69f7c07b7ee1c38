@@ -68,11 +68,40 @@ class OrdenComercioController extends SiteController
     public function actionCreate()
     {
         $model = new OrdenComercio();
-        $comercios = $this->comerciosSinRutasActivas();
+        //$comercios = $this->comerciosSinRutasActivas();
         $inicio = new User();
         $inicio->latitud = -34.895247;
         $inicio->longitud = -56.172498;
-        $inicio->username = "Don Dog";
+        $inicio->username = "DonDog";
+
+        $come1 = new User();
+        $come1->latitud = -34.524391;
+        $come1->longitud = -56.269235;
+        $come1->username = "Canelones";
+
+        $come2 = new User();
+        $come2->latitud = -34.333339;
+        $come2->longitud = -56.733043;
+        $come2->username = "san_jose";
+
+        $come3 = new User();
+        $come3->latitud = -34.716018;
+        $come3->longitud = -56.219623;
+        $come3->username = "las_piedras";
+
+        $come4 = new User();
+        $come4->latitud = -34.839392;
+        $come4->longitud = -56.031976;
+        $come4->username = "aeropuerto";
+
+        $come5 = new User();
+        $come5->latitud = -34.097349;
+        $come5->longitud = -56.217163;
+        $come5->username = "florida";
+
+
+        $comercios = [$come1, $come2, $come3, $come4, $come5];
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

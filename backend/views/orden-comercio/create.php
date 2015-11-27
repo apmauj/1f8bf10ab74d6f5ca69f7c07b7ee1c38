@@ -32,11 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php foreach($comercios as $comercio){?>
         alert(<?= $comercio->latitud ?> + "  -  " + <?= $comercio->longitud ?>);
-        var dire1 = new google.maps.LatLng("<?= $comercio->latitud ?>", "<?= $comercio->longitud ?>");
-        alert("" + dire1.latitude);
+        var dire1 = new google.maps.LatLng("<?php echo $comercio->latitud; ?>", "<?php echo $inicio->longitud; ?>");
+
         destinations.push(dire1);
+
     <?php } ?>
 
+    alert("lenght = " + destinations.length);
 
     calculateDistances(origins, destinations);
 
