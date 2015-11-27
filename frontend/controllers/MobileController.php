@@ -66,7 +66,7 @@ class MobileController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('mobile/index');
+        return $this->render('index');
     }
 
     public function actionLogin()
