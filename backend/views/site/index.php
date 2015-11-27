@@ -4,7 +4,7 @@ $this->title = Yii::t('app', 'Muli Relevators');
 ?>
 <div class="site-index">
 
-    <img align="right" src="<?=$baseUrl?>/images/mulirelevadores/banner.jpg">
+    <img align="right" src="/vendor/bower/corlate/images/mulirelevadores/banner.jpg">
 
     <div class="jumbotron">
         <h1><?= Yii::t('app', 'Welcome Back!');?></h1>
