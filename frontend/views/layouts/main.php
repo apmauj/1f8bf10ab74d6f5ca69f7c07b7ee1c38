@@ -2,7 +2,7 @@
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
 
-if (Yii::$app->controller->action->id === 'login' && Yii::$app->controller->id === 'mobile') {
+if ((Yii::$app->controller->action->id === 'login' || Yii::$app->controller->action->id === 'index') && Yii::$app->controller->id === 'mobile') {
     echo $this->render(
         'main-login',
         ['content' => $content]
