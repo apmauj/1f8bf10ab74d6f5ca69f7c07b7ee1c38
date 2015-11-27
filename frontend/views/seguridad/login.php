@@ -36,63 +36,59 @@ $fieldOptions2 = [
 ?>
 
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
-
-<div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b><?= Yii::t('app','Mulis') ?></b><?= Yii::t('app','Relevadores') ?></a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="login-box-body">
-
-        <?php $form = ActiveForm::begin([
-            'id'                     => 'login-form',
-            'enableAjaxValidation'   => true,
-            'enableClientValidation' => false,
-            'validateOnBlur'         => false,
-            'validateOnType'         => false,
-            'validateOnChange'       => false,
-        ]) ?>
-
-        <?= $form->field($model, 'login', $fieldOptions1)->label(false)->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
-
-        <?= $form->field($model, 'password', $fieldOptions2)->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-
-        <?= Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) ?>
-
-        <?= Connect::widget([
-            'baseAuthUrl' => ['/user/security/auth']
-        ]) ?>
-
-
-        <div class="row">
-            <div class="col-xs-7">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-            </div>
-            <!-- /.col -->
-            <div class="col-xs-5">
-                <?= Html::submitButton(Yii::t('user', 'Sign in'), ['class' => 'btn btn-primary btn-block btn-flat', 'tabindex' => '3']) ?>
-            </div>
-            <!-- /.col -->
+<div class="row">
+<div class="col-md-4 col-md-offset-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
         </div>
+    <!-- /.login-logo -->
+        <div class="panel-body">
+
+            <?php $form = ActiveForm::begin([
+                'id'                     => 'login-form',
+                'enableAjaxValidation'   => true,
+                'enableClientValidation' => false,
+                'validateOnBlur'         => false,
+                'validateOnType'         => false,
+                'validateOnChange'       => false,
+            ]) ?>
+
+            <?= $form->field($model, 'login', $fieldOptions1)->label(false)->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
+
+            <?= $form->field($model, 'password', $fieldOptions2)->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+
+            <?= Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) ?>
+
+            <?= Connect::widget([
+                'baseAuthUrl' => ['/user/security/auth']
+            ]) ?>
+
+
+            <?= $form->field($model, 'rememberMe')->checkbox() ?>
+            <?= Html::submitButton(Yii::t('user', 'Sign in'), ['class' => 'btn btn-primary btn-block btn-flat', 'tabindex' => '3']) ?>
+            <!-- /.col -->
 
         <?php ActiveForm::end(); ?>
 
 
-        <div class="row">
+<!--        <div class="row">
             <div class="col-xs-12">
-                <?php if ($module->enableConfirmation): ?>
+-->             <?php if ($module->enableConfirmation): ?>
                     <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
                 <?php endif ?>
-            </div>
+<!--            </div>-->
 
-            <div class="col-xs-12">
+<!--            <div class="col-xs-12">-->
                 <?php if ($module->enableRegistration): ?>
                     <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
                 <?php endif ?>
-            </div>
+<!--            </div>-->
+
+<!--        </div>-->
 
         </div>
-
     </div>
     <!-- /.login-box-body -->
 </div><!-- /.login-box -->
+</div>
