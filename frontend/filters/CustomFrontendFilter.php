@@ -7,12 +7,13 @@
  */
 
 namespace frontend\filters;
-
+use Yii;
 
 class CustomFrontendFilter  extends \yii\base\ActionFilter
 {
 
     private $loginUrl = '/frontend/web/user/login';
+    private $loginMobile = '/frontend/web/mobile/login';
 
     /**
      * @inheritdoc
@@ -27,7 +28,16 @@ class CustomFrontendFilter  extends \yii\base\ActionFilter
     }
 
     private function login(){
-        return \Yii::$app->getResponse()->redirect($this->loginUrl);
+        $modo = Yii::$app->params['devicedetect'];
+
+        if ($modo["isMobile"]){
+            if (Yii::$app->controller->action->id === 'login') {
+                return true;
+            }
+            return \Yii::$app->getResponse()->redirect($this->loginMobile);
+        }else{
+            return \Yii::$app->getResponse()->redirect($this->loginUrl);
+        }
     }
 
 

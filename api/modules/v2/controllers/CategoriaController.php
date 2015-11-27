@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules\v2\controllers;
+namespace api\modules\v1\controllers;
 
 use yii\rest\ActiveController;
 
@@ -17,24 +17,11 @@ class CategoriaController extends ActiveController
 	public function behaviors()
 	{
 	    $behaviors = parent::behaviors();
-	    /*$behaviors['authenticator'] = [
-	        'class' => HttpBasicAuth::className(),
-	        'class' => HttpBearerAuth::className()
-	    ];*/
-
+	    
 	    return $behaviors;
 	}
 
-	/*public function actionLogin(){
-		 $model = new LoginForm();
- 
-	     if ($model->load(Yii::$app->getRequest()->getBodyParams(), '') && $model->login()) {
-	        return ['access_token' => Yii::$app->user->identity->getAuthKey()];
-	     } else {
-	        $model->validate();
-	        return $model;
-	     }
-	}*/
+	
 }
 
 

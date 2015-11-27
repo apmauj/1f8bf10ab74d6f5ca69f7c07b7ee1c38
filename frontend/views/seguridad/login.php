@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use dektrium\user\widgets\Connect;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View                   $this
@@ -75,7 +75,7 @@ $fieldOptions2 = [
 <!--        <div class="row">
             <div class="col-xs-12">
 -->             <?php if ($module->enableConfirmation): ?>
-                    <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
+                    <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?<br>'), ['/user/registration/resend']) ?>
                 <?php endif ?>
 <!--            </div>-->
 

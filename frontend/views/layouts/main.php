@@ -2,9 +2,18 @@
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
 
-$asset = frontend\assets\AppAsset::register($this);
-$baseUrl = $asset->baseUrl;
-$this->title = Yii::t('app', 'Muli Relevators');
+if (Yii::$app->controller->action->id === 'login' && Yii::$app->controller->id === 'mobile') {
+    echo $this->render(
+        'main-login',
+        ['content' => $content]
+    );
+} else {
+    $asset = frontend\assets\AppAsset::register($this);
+    $baseUrl = $asset->baseUrl;
+    $this->title = Yii::t('app', 'Muli Relevators');
+    $modo = Yii::$app->params['devicedetect'];
+
+
 ?>
 
 <?php $this->beginPage(); ?>
@@ -27,12 +36,18 @@ $this->title = Yii::t('app', 'Muli Relevators');
         <nav class="navbar navbar-inverse" role="banner">
             <div class="container">
                 <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                     <a class="navbar-brand" href="#"><img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 180%; width: 130%;" alt="logo"></a>
                 </div>
                 <h2 style="color: white;margin-left: 150px;"><?php echo $this->title; ?></h2>
 
                 <div class="collapse navbar-collapse navbar-right">
-                    <?php if (Yii::$app->user->isGuest == false) { ?>
+                    <?php if (Yii::$app->user->isGuest == false || $modo["isMobile"]) { ?>
 
                         <?=
                         Nav::widget([
@@ -85,14 +100,12 @@ $this->title = Yii::t('app', 'Muli Relevators');
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    &copy; 2015 <a target="_blank" href="http://mulirelevadores.com/" title="Home">Muli Relevadores</a>. All Rights Reserved.
+                    &copy; 2015 <a target="_blank" href="http://mulirelevadores.com/" title="Home"><?= Yii::t('app', 'Muli Relevators')?></a>. <?= Yii::t('app', 'All Rights Reserved.')?>
                 </div>
-
-
 
                 <div class="col-sm-6">
 
-                    <?php if (Yii::$app->user->isGuest == false) { ?>
+                    <?php if (Yii::$app->user->isGuest == false || $modo["isMobile"]) { ?>
 
                     <?=
                         Nav::widget([
@@ -122,4 +135,6 @@ $this->title = Yii::t('app', 'Muli Relevators');
 
 </body>
 </html>
-<?php $this->endPage(); ?>
+<?php $this->endPage();
+
+} ?>
