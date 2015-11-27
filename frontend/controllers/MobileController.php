@@ -9,13 +9,14 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class MobileController extends Controller
 {
     /**
      * @inheritdoc
@@ -38,7 +39,12 @@ class SiteController extends Controller
                                     ],
                                 ],*/
             ],
-
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
         ];
     }
 
@@ -60,15 +66,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $modo = Yii::$app->params['devicedetect'];
-
-        if ($modo["isDesktop"]){
-            return $this->render('index');
-        }else if ($modo["isMobile"]){
-            return $this->redirect('mobile/index');
-        }else{
-            return $this->render('index');
-        }
+        return $this->render('mobile/index');
     }
 
     public function actionLogin()
