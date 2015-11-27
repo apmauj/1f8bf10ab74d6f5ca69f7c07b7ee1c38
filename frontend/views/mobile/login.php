@@ -20,9 +20,13 @@ $this->title = 'My Yii Application';
 <div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main" data-role="page" id="rutas">
 
     <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
-    </div>    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+        <label for="name">Text Input:</label>
+        <input type="text" name="name" id="name" value=""  />
+    </div>
+
+    <div data-role="fieldcontain">
+        <label for="password">Password Input:</label>
+        <input type="password" name="password" id="password" value="" />
     </div>
 
 

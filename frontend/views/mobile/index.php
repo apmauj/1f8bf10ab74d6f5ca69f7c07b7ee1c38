@@ -1,6 +1,9 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = 'My Yii Application';
+$asset = frontend\assets\AppAsset::register($this);
+$this->title = 'Muli Relevators';
+$footer = 'Muli Relevators. All Right Reserved.';
+$baseUrl = $asset->baseUrl;
 ?>
 <html>
 <head>
@@ -12,145 +15,172 @@ $this->title = 'My Yii Application';
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/common.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/util.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/stats.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/map.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/marker.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/onion.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps-api-v3/api/js/23/1/controls.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <style>
+        #rutas, #map-canvas { width: 100%; height: 100%; padding: 0; }
+    </style>
+
 </head>
 <body>
 
-
-<!--<div data-role="page" data-theme="a">-->
-<!--    <div data-role="header" data-position="inline">-->
-<!--        <h1>It Worked!</h1>-->
-<!--    </div>-->
-<!--    <div data-role="content" data-theme="a">-->
-<!--        <p>Your theme was successfully downloaded. You can use this page as a reference for how to link it up!</p>-->
-<!--			<pre>-->
-<!--<strong>&lt;link rel=&quot;stylesheet&quot; href=&quot;themes/mulisrelevadores.min.css&quot; /&gt;</strong>-->
-<!--<strong>&lt;link rel=&quot;stylesheet&quot; href=&quot;themes/jquery.mobile.icons.min.css&quot; /&gt;</strong>-->
-<!--&lt;link rel=&quot;stylesheet&quot; href=&quot;http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css&quot; /&gt;-->
-<!--&lt;script src=&quot;http://code.jquery.com/jquery-1.11.1.min.js&quot;&gt;&lt;/script&gt;-->
-<!--&lt;script src=&quot;http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;-->
-<!--			</pre>-->
-<!--        <p>This is content color swatch "A" and a preview of a <a href="#" class="ui-link">link</a>.</p>-->
-<!--        <label for="slider1">Input slider:</label>-->
-<!--        <input type="range" name="slider1" id="slider1" value="50" min="0" max="100" data-theme="a" />-->
-<!--        <fieldset data-role="controlgroup"  data-type="horizontal" data-role="fieldcontain">-->
-<!--            <legend>Cache settings:</legend>-->
-<!--            <input type="radio" name="radio-choice-a1" id="radio-choice-a1" value="on" checked="checked" />-->
-<!--            <label for="radio-choice-a1">On</label>-->
-<!--            <input type="radio" name="radio-choice-a1" id="radio-choice-b1" value="off"  />-->
-<!--            <label for="radio-choice-b1">Off</label>-->
-<!--        </fieldset>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-
-
-
-<div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main" data-role="page" id="home">
-
-    <div data-theme="a" data-form="ui-body-a" class="ui-body ui-body-a ui-corner-all">
-        <p>Body</p>
-        <p>
-            Sample text and <a data-form="ui-link-a" href="#" data-theme="a">links</a>.
-        </p>
+<div data-role="page" id="home">
+    <div data-role="header">
+        <h1><?php echo $this->title ?></h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
+                <li><a href="#rutas" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
+                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
+                <li><a href="#stock" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+            </ul>
+        </div>
     </div>
 
-    <ul data-role="listview" data-inset="true">
-        <li data-role="list-divider" data-theme="a" data-swatch="a" data-form="ui-bar-a">List Header</li>
-        <li data-form="ui-body-a" data-swatch="a" data-theme="a">Read-only list item</li>
-        <li><a class="ui-btn-a ui-btn ui-btn-icon-right ui-icon-carat-r" data-form="ui-btn-up-a" data-swatch="a" data-theme="a" href="#rutas">Linked list item</a></li>
-    </ul>
-
-    <div data-role="fieldcontain">
-        <fieldset data-role="controlgroup">
-            <input data-theme="a" type="radio" name="radio-choice-a" id="radio-choice-1-a" value="choice-1" checked="checked" />
-            <label for="radio-choice-1-a" data-form="ui-btn-up-a">Radio</label>
-
-            <input data-theme="a" type="checkbox" name="checkbox-a" id="checkbox-a" checked="checked" />
-            <label for="checkbox-a" data-form="ui-btn-up-a">Checkbox</label>
-
-        </fieldset>
+    <div data-role="main" class="ui-content">
+        <img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 100%; width: 100%;" alt="logo">
+        <p><?= Yii::t('app', 'Welcome xxxx');?> </p>
+        <p><?= Yii::t('app', 'To use our app, select an option from the nav menu.');?></p>
+        <br>
     </div>
 
-    <div data-role="fieldcontain">
-        <fieldset data-role="controlgroup" data-type="horizontal">
-            <input data-theme="a" type="radio" name="radio-view-a" id="radio-view-a-a" value="list" checked="checked"/>
-            <label for="radio-view-a-a" data-form="ui-btn-up-a">On</label>
-            <input data-theme="a" type="radio" name="radio-view-a" id="radio-view-b-a" value="grid" />
-            <label for="radio-view-b-a" data-form="ui-btn-up-a">Off</label>
-        </fieldset>
+    <div data-role="footer">
+        <h1><?php echo $footer ?></h1>
     </div>
-
-    <div data-role="fieldcontain">
-        <select name="select-choice" id="select-choice-a" data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
-            <option value="standard">Option 1</option>
-            <option value="rush">Option 2</option>
-            <option value="express">Option 3</option>
-            <option value="overnight">Option 4</option>
-        </select>
-    </div>
-
-    <a class="ui-btn-a ui-btn ui-btn-icon-right ui-icon-carat-r" data-form="ui-btn-up-a" data-swatch="a" data-theme="a" href="rutas.php">Linked list item</a>
-
-
-    <input type="text" data-theme="a" value="Text Input" class="input" data-form="ui-body-a" />
-
-    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
-    </div>
-
-    <button data-icon="star" data-theme="a" data-form="ui-btn-up-a">Button</button>
 </div>
 
-
-
-<div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main" data-role="page" id="rutas">
-
-    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
-    </div>    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+<div data-url="rutas" data-role="page" id="rutas">
+    <div data-role="header">
+        <h1><?php echo $this->title ?></h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
+                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
+                <li><a href="#stock" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+            </ul>
+        </div>
     </div>
 
+    <div data-role="main" class="ui-content" id="map-canvas">
 
+    </div>
+
+    <div data-role="footer">
+        <h1><?php echo $footer ?></h1>
+    </div>
 </div>
 
 
 
 
-<div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main" data-role="page" id="pedidos">
-
-
-    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+<div data-role="page" id="pedidos">
+    <div data-role="header">
+        <h1><?php echo $this->title ?></h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
+                <li><a href="#rutas" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
+                <li><a href="#stock" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+            </ul>
+        </div>
     </div>
 
-    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+    <div data-role="main" class="ui-content" style="height: 100%">
+        <p><?= Yii::t('app', 'Orders');?></p>
+
+        <div data-role="fieldcontain">
+            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+        </div>    <div data-role="fieldcontain">
+            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+        </div>
+
     </div>
 
-
+    <div data-role="footer">
+        <h1><?php echo $footer ?></h1>
+    </div>
 </div>
 
 
 
-
-<div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main" data-role="page" id="stock">
-
-    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+<div data-role="page" id="stock">
+    <div data-role="header">
+        <h1><?php echo $this->title ?></h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
+                <li><a href="#rutas" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
+                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+            </ul>
+        </div>
     </div>
 
-    <div data-role="fieldcontain">
-        <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+    <div data-role="main" class="ui-content">
+        <p><?= Yii::t('app', 'Stock');?></p>
+
+
+        <div data-role="fieldcontain">
+            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+        </div>    <div data-role="fieldcontain">
+            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+        </div>
     </div>
 
+    <div data-role="footer">
+        <h1><?php echo $footer ?></h1>
+    </div>
 </div>
-
 
 
 </body>
 </html>
+
+
+<script>
+
+    $( document ).on( "pagecreate", "#rutas", function() {
+        var defaultLatLng = new google.maps.LatLng(34.0983425, -118.3267434);  // Default to Hollywood, CA when no geolocation support
+
+        if ( navigator.geolocation ) {
+            function success(pos) {
+                // Location found, show map with these coordinates
+                drawMap(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            }
+            function fail(error) {
+                drawMap(defaultLatLng);  // Failed to find location, show default map
+            }
+            // Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
+            navigator.geolocation.getCurrentPosition(success, fail, {maximumAge: 500000, enableHighAccuracy:true, timeout: 6000});
+        }
+        else {
+            drawMap(defaultLatLng);  // No geolocation support, show default map
+        }
+
+        function drawMap(latlng) {
+            var myOptions = {
+                zoom: 10,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+            // Add an overlay to the map of current lat/lng
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: "Greetings!"
+            });
+        }
+    });
+</script>
 
 
 <!--<div class="site-index">-->
