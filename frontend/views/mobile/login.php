@@ -1,4 +1,6 @@
 <?php
+$asset = frontend\assets\AppAsset::register($this);
+$baseUrl = $asset->baseUrl;
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
 ?>
@@ -21,31 +23,87 @@ $this->title = 'My Yii Application';
 
     <div data-role="fieldcontain">
         <label for="name"><?= Yii::t('mobile', 'Username');?></label>
-        <input type="text" name="name" id="name" value=""  style="width: 5px"/>
+        <input type="text" name="name" id="name" value="" />
     </div>
 
     <div data-role="fieldcontain">
         <label for="password"><?= Yii::t('mobile', 'Password');?></label>
-        <input type="password" name="password" id="password" value="" style="width: 100%"/>
+        <input type="password" name="password" id="password" value=""/>
     </div>
 
     <div data-role="controlgroup" data-type="vertical">
-        <input type='button' value='<?= Yii::t('mobile', 'Log In');?>'>
+        <input type='button' id="login" value='<?= Yii::t('mobile', 'Log In');?>'>
     </div>
 
+    <div id="mensaje">
+
+    </div>
+
+
+    <div id="producto">
+
+    </div>
+
+
+
+
+
+
     <script>
-        $(function () {
-            $('a').on('click', function () {
-                var Status = $(this).val();
+        $('#mensaje').hide();
+        $( document ).ready(function() {
+            $('#login').on('click', function () {
                 $.ajax({
-                    url: 'Ajax/StatusUpdate.php',
+                    url: '/api/web/v2/login',
+                    method : 'POST',
                     data: {
-                        text: $("textarea[name=Status]").val(),
-                        Status: Status
+                        'login-form[login]': $("#name").val(),
+                        'login-form[password]': $("#password").val()
                     },
-                    dataType : 'json'
+                    dataType : 'json',
+                    success : function(){
+                       <?php  \Yii::$app->getResponse()->redirect('/mobile/index');  ?>
+
+                        console.log()
+                    },
+                    error : function(){
+                        alert('error')
+                    }
                 });
             });
+
+           /* $.ajax({
+                url: '/api/web/v2/producto',
+                method : 'GET',
+                dataType : 'json',
+                success : function(productos){
+                    console.log('productos', productos)
+                    var divPRod = $('#producto');
+                    var html = '';
+
+                    $('#mensaje').html('ta todo bien')
+
+                    setTimeout(function(){
+                        $('#mensaje').show();
+                    }, 3000);
+
+                    $.each( productos, function(key, producto ){
+                        console.log(producto.nombre);
+
+                        html += '<h1>' + producto.nombre + '</h1>';
+                        html += '<p>' + producto.precio + '</p>';
+                        html += '<button>comprar</button>';
+
+                        //divPRod.prepend('<h1>' + producto.nombre + '</h1> ');
+
+                    });
+
+                    divPRod.html(html);
+                },
+                error : function(){
+                    alert('error')
+                }
+            });*/
         });
     </script>
 
