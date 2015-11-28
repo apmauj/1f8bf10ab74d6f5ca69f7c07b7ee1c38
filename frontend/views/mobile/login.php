@@ -20,14 +20,34 @@ $this->title = 'My Yii Application';
 <div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main" data-role="page" id="rutas">
 
     <div data-role="fieldcontain">
-        <label for="name">Text Input:</label>
-        <input type="text" name="name" id="name" value=""  />
+        <label for="name"><?= Yii::t('mobile', 'Username');?></label>
+        <input type="text" name="name" id="name" value=""  style="width: 5px"/>
     </div>
 
     <div data-role="fieldcontain">
-        <label for="password">Password Input:</label>
-        <input type="password" name="password" id="password" value="" />
+        <label for="password"><?= Yii::t('mobile', 'Password');?></label>
+        <input type="password" name="password" id="password" value="" style="width: 100%"/>
     </div>
+
+    <div data-role="controlgroup" data-type="vertical">
+        <input type='button' value='<?= Yii::t('mobile', 'Log In');?>'>
+    </div>
+
+    <script>
+        $(function () {
+            $('a').on('click', function () {
+                var Status = $(this).val();
+                $.ajax({
+                    url: 'Ajax/StatusUpdate.php',
+                    data: {
+                        text: $("textarea[name=Status]").val(),
+                        Status: Status
+                    },
+                    dataType : 'json'
+                });
+            });
+        });
+    </script>
 
 
 </div>
