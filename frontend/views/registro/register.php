@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div id="map-canvas" style="height: 600px; width: 80%;border: 1px solid black"></div>
 
-
+                <br/>
                 <?= Html::submitButton(Yii::t('user', 'Sign up'), ['class' => 'btn btn-success btn-block']) ?>
 
                 <?php ActiveForm::end(); ?>

@@ -28,6 +28,9 @@ return [
                     'class' => 'frontend\controllers\user\SeguridadController'
 
                 ],
+                'registration' =>[
+                    'class' => 'frontend\controllers\user\RegistroController'
+                ]
             ],'mailer' => [
                 'sender'                => Yii::t('app', 'taller.2015.tecnologo@gmail.com'), // or ['no-reply@myhost.com' => 'Sender name']
                 'welcomeSubject'        => Yii::t('app', 'Welcome'),
