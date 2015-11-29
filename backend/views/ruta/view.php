@@ -12,6 +12,9 @@ $this->title = Yii::t('app', 'Route number ') . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= $this->render('/Alertas', [
+]) ?>
+
 <div class="ruta-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -26,10 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
     <?php
         $usuario = User::findOne($model->id_usuario)->username;
-    4?>
+    ?>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -61,5 +63,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=> $usuario,
             ],        ],
     ]) ?>
+    <?php
+    if(isset($tieneRecorrido)){
+        echo Html::hiddenInput('jsonRequest', $requestRuta,['id'=>'jsonRequest']);
+     ?>
+
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&signed_in=true&libraries=geometry"></script>
+        <script type="text/javascript" src="<?php echo Yii::$app->request->baseUrl; ?>/js/mapaRutas.js"></script>
+        <div id="map-canvas" style="height: 500px; width: 100%;border: 1px solid black"></div>
+    <?php } ?>
+
+
 
 </div>

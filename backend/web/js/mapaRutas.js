@@ -14,12 +14,11 @@ function initMap() {
     geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         zoom: 16,
-        center: ubicacion
+        center: ubicacion,
+        draggable: true,
     });
-    if($('#jsonRuta').val()!= null){
-        var jsonRuta = JSON.parse($('#jsonRuta').val());
+    if($('#jsonRequest').val()!= null){
         var jsonRequest = JSON.parse($('#jsonRequest').val());
-        jsonRuta.routes = typecastRoutes(jsonRuta.routes);
         renderDirections(map,normalizeRequest(jsonRequest));
     }
 
@@ -51,6 +50,15 @@ function normalizeRequest(request){
     request.origin = asLatLng(request.origin);
     request.destination = asLatLng(request.destination);
     request.travelMode = google.maps.DirectionsTravelMode.WALKING;
+    var waypts = [];
+
+    if (typeof request.waypoints != 'undefined') {
+        request.waypoints.forEach(function(waypoint){
+            waypts.push(asDirectionsWaypoint(asLatLng(waypoint)));
+        });
+        request.waypoints = waypts;
+    }
+
     return request;
 }
 
@@ -61,6 +69,13 @@ function asBounds(boundsObject){
 
 function asLatLng(latLngObject){
     return new google.maps.LatLng(latLngObject.lat, latLngObject.lng);
+}
+
+function asDirectionsWaypoint(latLong){
+    var waypoint ={location:latLong,stopover:false};
+    //waypoint.setStopover(true);
+    //waypoint.setLocation(latLong);
+    return waypoint;
 }
 
 function asPath(encodedPolyObject){

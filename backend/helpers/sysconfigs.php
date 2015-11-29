@@ -95,5 +95,27 @@ class sysconfigs
         }
     }
 
+    /**
+        Debemos cargar un request con origin, destination, travelMode y, si tenemos mas de un comercio, optimizeWaypoints y waypoints.
+     */
+    public static function getRutaRequestParaMostrar($usuario,$comercios){
+        $request = [];
+        $request['travelMode'] = 'walking';
+        $request['origin']= ['lat'=>$usuario->latitud,'lng'=>$usuario->longitud];
+        if(count($comercios)>1){
+            $request['optimizeWaypoints'] = true;
+            $i= 0;
+            foreach($comercios as $comercio){
+                if($comercio->id != end($comercios)->id){
+                    $request['waypoints'][$i] = ['lat'=>$comercio->latitud,'lng'=>$comercio->longitud];
+                }
+                $i++;
+            }
+        }
+        $comercioDestino = end($comercios);
+        $request['destination'] = ['lat'=>$comercioDestino->latitud,'lng'=>$comercioDestino->longitud];
+
+        return $request;
+    }
 
 }

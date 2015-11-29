@@ -17,9 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="orden-comercio">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="orden-comercio-form">
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin([ 'action' => ['orden-comercio/salvar-ruta'],'method' => 'post']); ?>
             <?= $form->field($model, 'dia')->textInput([
                 'readonly'=>true,
             ])
@@ -40,6 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id'=>'jsonRequest',
             ])->label(false);
             ?>
+            <?= $form->field($model, 'ordenComercios')->hiddenInput([
+
+            ])->label(false);
+            ?>
+
+            <?= Html::submitButton(Yii::t('app', 'Confirm'), ['class' => 'btn btn-success' ]) ?>
+
         <?php ActiveForm::end(); ?>
 
 

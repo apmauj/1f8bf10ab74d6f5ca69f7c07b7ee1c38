@@ -15,9 +15,14 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 <div class="ruta-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?php if(isset($tieneRecorrido)){  ?>
+    <?= $this->render('_form', [
+        'model' => $model,'tieneRecorrido'=>$tieneRecorrido,'requestRuta'=>$requestRuta
+    ]) ?>
+    <?php }else{  ?>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+    <?php }  ?>
 
 </div>

@@ -2,8 +2,11 @@
 
 namespace backend\controllers;
 
+use backend\helpers\sysconfigs;
 use backend\models\Ruta;
 use backend\models\RutaSearch;
+use backend\models\Comercio;
+use backend\models\User;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -35,9 +38,28 @@ class RutaController extends SiteController
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        if($model->getOrdenComercios()->count()!=0){
+            $ordenComercios = $model->getOrdenComercios()->all();
+            $usuario = User::findOne($model->id_usuario);
+            $comercios = [];
+            $i=0;
+            foreach($ordenComercios as $ordenComercio){
+                $comercios[$i] = Comercio::find()->where(['id'=>$ordenComercio->id_comercio])->one();
+                $i++;
+            }
+            $requestRuta = json_encode(sysconfigs::getRutaRequestParaMostrar($usuario,$comercios));
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+                'tieneRecorrido'=>true,
+                'requestRuta'=> $requestRuta,
+            ]);
+        }else{
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+
     }
 
     /**
@@ -84,12 +106,33 @@ class RutaController extends SiteController
     {
         $model = $this->findModel($id);
 
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if($model->getOrdenComercios()->count()!=0){
+
+                $ordenComercios = $model->getOrdenComercios()->all();
+                $usuario = User::findOne($model->id_usuario);
+                $comercios = [];
+                $i=0;
+                foreach($ordenComercios as $ordenComercio){
+                    $comercios[$i] = Comercio::find()->where(['id'=>$ordenComercio->id_comercio])->one();
+                    $i++;
+                }
+                $requestRuta = json_encode(sysconfigs::getRutaRequestParaMostrar($usuario,$comercios));
+
+                return $this->render('update', [
+                    'model' => $this->findModel($id),
+                    'tieneRecorrido'=>true,
+                    'requestRuta'=> $requestRuta,
+                ]);
+            }else{
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 

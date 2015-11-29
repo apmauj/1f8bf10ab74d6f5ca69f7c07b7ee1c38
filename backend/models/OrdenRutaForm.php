@@ -11,7 +11,7 @@ namespace backend\models;
 
 use yii\base\Model;
 use Yii;
-class OrdenRutaForm extends Model
+class OrdenRutaForm extends \yii\db\ActiveRecord
 {
     public $idUsuario;
 
@@ -25,10 +25,20 @@ class OrdenRutaForm extends Model
 
     public $jsonRequestRuta;
 
+    public $ordenComercios;
+
     public function __construct( $config = [])
     {
         parent::__construct($config);
     }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['create'] = ['idUsuario','ordenComercios','idRuta'];
+        return $scenarios;
+    }
+
 
     /** @inheritdoc */
     public function attributeLabels()

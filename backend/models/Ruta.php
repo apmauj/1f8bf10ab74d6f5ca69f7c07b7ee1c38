@@ -15,6 +15,7 @@ use Yii;
  */
 class Ruta extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

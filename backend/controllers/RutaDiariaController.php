@@ -2,7 +2,10 @@
 
 namespace backend\controllers;
 
+use backend\models\OrdenComercio;
+use backend\models\Ruta;
 use backend\models\RutaDiaria;
+use backend\models\RutaDiariaComercio;
 use backend\models\RutaDiariaSearch;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -61,17 +64,38 @@ class RutaDiariaController extends SiteController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idRuta)
     {
         $model = new RutaDiaria();
+        $ruta = Ruta::find()->where(['id'=>$idRuta])->one();
+        $ordenComercios = OrdenComercio::find()->where(['id_ruta'=>$idRuta])->all();
+        $model->id_usuario = $ruta->id_usuario;
+        $model->fecha = date("Y-m-d");
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $idRutaDiaria =$model->save();
+        if($idRutaDiaria!== false){
+            $orden= 1;
+            foreach($ordenComercios as $ordenComercio){
+                $rutaDiariaComercio = new RutaDiariaComercio();
+                $rutaDiariaComercio->id_comercio = $ordenComercio->id_comercio;
+                $rutaDiariaComercio->link("idRutaDiaria",$model);
+                $rutaDiariaComercio->orden = $orden;
+                $rutaDiariaComercio->save();
+
+                $orden++;
+            }
+        }
+        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Daily Route has been created'));
+
+        return $this->redirect(['ruta/view', 'id' => $idRuta]);
+
+/*        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }
+        }*/
     }
 
     /**

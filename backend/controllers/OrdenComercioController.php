@@ -130,8 +130,36 @@ class OrdenComercioController extends SiteController
         $model->idRuta = $idRuta;
         $model->jsonRuta = json_encode($resultado['jsonRuta']);
         $model->jsonRequestRuta = json_encode($resultado['jsonRequest']);
+        $comerciosOrdenados = "";
+        if(isset($resultado['comerciosOrdenados'])){
+            foreach($resultado['comerciosOrdenados'] as $key=>$comerciosOrdenado){
+                if($key!=0) $comerciosOrdenados = $comerciosOrdenados.',';
+                $comerciosOrdenados = $comerciosOrdenados.$comerciosOrdenado->id;
+            }
+        }
+        $model->ordenComercios = $comerciosOrdenados;
         //die("jsonRequest:".$model->jsonRequestRuta);
         return $this->render('rutaAuto', ['model' => $model]);
+
+    }
+
+    public function actionSalvarRuta(){
+
+        $model = new OrdenRutaForm();
+        $model->setScenario('create');
+        //die(var_dump(Yii::$app->request->post()['orden-ruta-form']));
+        $model->load(Yii::$app->request->post());
+        $comerciosOrdenados = explode(',',$model->ordenComercios);
+        $orden = 1;
+        foreach($comerciosOrdenados as $idComercio){
+            $ordenComercio = new OrdenComercio();
+            $ordenComercio->id_comercio = $idComercio;
+            $ordenComercio->id_ruta = $model->idRuta;
+            $ordenComercio->orden = $orden;
+            $ordenComercio->save();
+            $orden++;
+        }
+        return $this->redirect(['ruta/view', 'id' => $model->idRuta]);
 
     }
 
@@ -275,11 +303,21 @@ class OrdenComercioController extends SiteController
                         $request['destination'] = ['lat'=>$comercioDestino->latitud,'lng'=>$comercioDestino->longitud];
                         $request['optimizeWaypoints'] = true;
                         $ordenComercios = $json1['routes'][0]['waypoint_order'];
-                        die("ordenComercios:".var_dump($ordenComercios));
+                        //die("ordenComercios:".var_dump($ordenComercios));
+                        $i=0;
                         $request['waypoints'] =[];
+                        foreach($ordenComercios as $orden){
+                            if($comerciosIndexados[$orden]->id != $comercioDestino->id){
+                                $comerciosOrdenados[$i] = $comerciosIndexados[$orden];
+                                $request['waypoints'][$i]= ['lat'=>$comerciosIndexados[$orden]->latitud,'lng'=>$comerciosIndexados[$orden]->longitud];
+                                $i++;
+                            }
+                        }
+                        $comerciosOrdenados[$i] = $comercioDestino;
 
 
-                        return $json2;
+
+                        return ['jsonRuta'=>$json2,'jsonRequest'=>$request,'comerciosOrdenados'=>$comerciosOrdenados];
                     }else{
                         //desechamos uno de los comercios con menor prioridad que este lo mas cerca del final del recorrido.
                         $keyComercio = null;
