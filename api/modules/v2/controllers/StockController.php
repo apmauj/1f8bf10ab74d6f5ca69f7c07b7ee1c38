@@ -11,7 +11,7 @@ namespace api\modules\v2\controllers;
 use backend\models\ComercioProductosRelacionados;
 use backend\models\Comercio;
 use backend\models\Producto;
-use yii\helpers\BaseArrayHelper;
+use yii\helpers\ArrayHelper;
 use backend\models\Stock;
 use backend\models\StockSearch;
 use Yii;
@@ -28,8 +28,8 @@ class StockController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['view']);
-        unset($actions['create']);
-        return $actions;
+        $actions1 = ArrayHelper::merge(['actionStock'], $actions);
+        return $actions1;
     }
 
     /**
@@ -52,16 +52,13 @@ class StockController extends ActiveController
         return $listaProductos;
     }
 
-    public function actionCreate(){
+    public function actionStock(){
 
         $params = Yii::$app->request->post();
+        print_r("ACA TAMO");
 
         return $params;
-        $comercio = Comercio::findOne($id);
-        return $comercio;
-        $params = BaseArrayHelper::merge(Yii::$app->getRequest()->getBodyParams(), $params);
-        print_r("ACA TAMO");
-        return $params;
+
 
     }
 

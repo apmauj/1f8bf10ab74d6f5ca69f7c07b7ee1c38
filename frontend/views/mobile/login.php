@@ -62,7 +62,7 @@ $this->title = 'My Yii Application';
                     },
                     dataType : 'json',
                     success : function(){
-                        window.location('/frontend/web/mobile/index');
+                        window.location = '/frontend/web/mobile/index';
                         //console.log()
                     },
                     error : function(){

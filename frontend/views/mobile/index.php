@@ -207,32 +207,24 @@ $baseUrl = $asset->baseUrl;
             });
         });
 
-//        $('#stockBoton').on('click', function () {
-//            $.ajax({
-//                url: '/api/web/v2/stock/',
-//                method : 'POST',
-//                $.each( producto, function(key, producto ) {
-//
-//                    data: {
-//                        'login-form[login]'
-//                    :
-//                        $("#name").val(),
-//                            'login-form[password]'
-//                    :
-//                        $("#password").val()
-//                    }
-//                    ,
-//                    dataType : 'json',
-//                }
-//                success : function(){
-//                    window.location('/frontend/web/mobile/index');
-//                    //console.log()
-//                },
-//                error : function(){
-//                    alert('error')
-//                }
-//            });
-//        });
+        $('#stockBoton').on('click', function () {
+            $.ajax({
+                url: '/api/web/v2/stock',
+                method : 'POST',
+                data: {
+                    'login-form[login]': $("#name").val(),
+                    'login-form[password]': $("#password").val()
+                },
+                dataType : 'json',
+                success : function(){
+                    alert('Datos guardados');
+                    //console.log()
+                },
+                error : function(){
+                    alert('error')
+                }
+            });
+        });
     });
 </script>
 

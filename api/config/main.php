@@ -28,6 +28,8 @@ return [
             //'loginUrl' => null,
         ],
         'request' => [
+            'enableCookieValidation' => false,
+            'enableCsrfValidation' => false,
             // Enable JSON Input:
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
@@ -52,10 +54,15 @@ return [
                 'HEAD <apiv:v\d+>/<controller:\w+>/<id:(.)+>'    => '<apiv>/<controller>/view',
                 'GET <apiv:v\d+>/<controller:\w+>/<id:(.)+>'     => '<apiv>/<controller>/view',
                 'POST <apiv:v\d+>/<controller:\w+>/<id:(.)+>'    => '<apiv>/<controller>/create',
-                'POST <apiv:v\d+>/<controller:\w+>'              => '<apiv>/<controller>/create',
+                //'POST <apiv:v\d+>/<controller:\w+>'              => '<apiv>/<controller>/create',
                 'PUT <apiv:v\d+>/<controller:\w+>/<id:(.)+>'     => '<apiv>/<controller>/update',
                 'PATCH <apiv:v\d+>/<controller:\w+>/<id:(.)+>'   => '<apiv>/<controller>/update',
                 'DELETE <apiv:v\d+>/<controller:\w+>/<id:(.)+>'  => '<apiv>/<controller>/delete',
+
+                'POST <apiv:v\d+>/login' => '<apiv>/login/login',
+
+                'POST <apiv:v\d+>/stock' => '<apiv>/stock/stock',
+                //'POST <apiv:v\d+>/stock/relevar-stock-comercio' => '<apiv>/stock/relevar-stock-comercio',
             ]
         ]
     ],
