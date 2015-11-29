@@ -12,9 +12,10 @@ class sysconfigs
 {
 
     const TIEMPO_RELEVANDO = 30;
-    const RADIO_RELEVADOR = 2000;
-    const DISTANCIA_RELEVADOR = 2000;
-
+    const RADIO_RELEVADOR = 200000;
+    const DISTANCIA_RELEVADOR = 200000;
+    const API_KEY_GMAPS_DISTANCIAS = 'AIzaSyCQae2rps1rkMi4_fwi3ILPbdCNaC6-0nU';
+    const API_KEY_GMAPS_RUTAS = 'AIzaSyDul3TeXp1Z2lWy19gAJaFAjcMBv2Gs83I';
     //conversion de d�a a texto
     public static function getNombreDia($dia){
         if ($dia == 1) return "Monday";
@@ -83,12 +84,11 @@ class sysconfigs
     }
 
     public static function getDistanciaEntreCoordenadas($coordenadasOrigen,$coordenadasDestino){
-        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$coordenadasOrigen['latitud'].",".$coordenadasOrigen['longitud']."&destinations=".$coordenadasDestino['latitud'].",".$coordenadasDestino['longitud']."&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking";
+        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$coordenadasOrigen['latitud'].",".$coordenadasOrigen['longitud']."&destinations=".$coordenadasDestino['latitud'].",".$coordenadasDestino['longitud']."&key=".sysconfigs::API_KEY_GMAPS_DISTANCIAS."&mode=walking";
         $response = file_get_contents($url);
         $json = json_decode($response,true);
         if($json['status']=='OK'){
-            $distanciaMetros = $json['rows']['elements']['distance']['value'];
-
+            $distanciaMetros = $json['rows'][0]['elements'][0]['distance']['value'];
             return $distanciaMetros;
         }else{
             return false;

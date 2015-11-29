@@ -43,19 +43,10 @@ use yii\widgets\ActiveForm;
 
     <?php if(!$model->isNewRecord){ ?>
 
-        <div class="form-group"  >
-
-            <div class="row">
-                <div class="span12">
-                    <div class="row-fluid">
-                       <div class="span6">
-                           <?= Html::a(Yii::t('app', 'Automatic generation'), ['orden-comercio/index', 'idRelevador' => $model->id_usuario], ['class' => 'btn btn-success']) ?>
-                           <?= Html::a(Yii::t('app', 'Manual generation'), ['orden-comercio/index', 'idRelevador' => $model->id_usuario], ['class' => 'btn btn-success']) ?>
-                       </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <p>
+        <?= Html::a(Yii::t('app', 'Automatic generation'), ['orden-comercio/generar-ruta-auto', 'idRuta'=>$model->id,'idRelevador' => $model->id_usuario,'dia'=>$model->dia], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Manual generation'), ['orden-comercio/index', 'idRelevador' => $model->id_usuario], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?php   }   ?>
 

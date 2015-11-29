@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\helpers\sysconfigs;
 use backend\models\Comercio;
+use backend\models\OrdenRutaForm;
 use backend\models\User;
 use backend\models\Ruta;
 use backend\models\OrdenComercio;
@@ -11,14 +12,21 @@ use backend\models\OrdenComercioSearch;
 use Yii;
 use yii\db\Query;
 use yii\web\NotFoundHttpException;
-
+use yii\helpers\ArrayHelper;
 /**
  * OrdenComercioController implements the CRUD actions for OrdenComercio model.
  */
 class OrdenComercioController extends SiteController
 {
 
-     /**
+    public function actions()
+    {
+        return ArrayHelper::merge(['generarRutaAuto'], parent::actions());
+    }
+
+
+
+    /**
      * Lists all OrdenComercio models.
      * @return mixed
      */
@@ -111,6 +119,22 @@ class OrdenComercioController extends SiteController
         }
     }
 
+    public function actionGenerarRutaAuto($idRuta,$idRelevador,$dia){
+
+        $resultado = $this->obtenerRuta($dia,$idRelevador);
+        $usuario = User::findOne($idRelevador);
+        $model = new OrdenRutaForm();
+        $model->dia = $dia;
+        $model->idUsuario = $usuario->id;
+        $model->username = $usuario->username;
+        $model->idRuta = $idRuta;
+        $model->jsonRuta = json_encode($resultado['jsonRuta']);
+        $model->jsonRequestRuta = json_encode($resultado['jsonRequest']);
+        //die("jsonRequest:".$model->jsonRequestRuta);
+        return $this->render('rutaAuto', ['model' => $model]);
+
+    }
+
     public function relevador(){
 
     }
@@ -154,16 +178,16 @@ class OrdenComercioController extends SiteController
         //comercio
 
         //Devuelve todas las rutas activas
-        $query = new Query();
-        $query->select('id')->from('ruta')->where('esActivo',true);
+        //$query = new Query();
+        $query =Ruta::find()->select('id')->where(['esActivo'=>"1"]);
 
         //Devuelve los comercios en rutas activas
-        $query2 = new Query();
-        $query2->select('id_comercio')->from('orden_comercio')->where(['in','id_ruta',$query]);
+        //$query2 = new Query();
+        $query2= OrdenComercio::find()->select('id_comercio')->where(['in','id_ruta',$query]);
 
         //Devuelve los comercios sin rutas activas
         //$comercios = [];
-        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>1]);
+        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>'1'])->all();
 
         return $comercios;
     }
@@ -183,10 +207,12 @@ class OrdenComercioController extends SiteController
         $comercios = $this->comerciosPorDiaSinRutasActivas($dia);
         $comerciosValidos = [];
         $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
+        $i=0;
         foreach($comercios as $comercio){
+            $i++;
             $coordenadasComercio = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
             $distanciaUsuarioComercio = sysconfigs::getDistanciaEntreCoordenadas($coordenadasUsuario,$coordenadasComercio);
-            if($distanciaUsuarioComercio>=sysconfigs::RADIO_RELEVADOR){
+            if($distanciaUsuarioComercio<=sysconfigs::RADIO_RELEVADOR){
                 $comerciosValidos[$comercio->id] = $comercio;
             }
         }
@@ -203,18 +229,23 @@ class OrdenComercioController extends SiteController
     private function calcularRuta($usuario,$comerciosValidos){
         //obtenemos las coordenadas del usuario (punto de partida en la ruta) y los comercios.
         $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
+        $latitudModificada= $usuario->latitud + 0.000100;
+        $longitudModificada= $usuario->longitud + 0.000100;
+        //$coordenadasUsuarioMod = ['latitud'=>$latitudModificada,'longitud'=>$longitudModificada];
         $coordenadasComercios = $this->obtenerCoordenadasComercios($comerciosValidos);
-
+        $request = ['origin'=>['lat'=>$coordenadasUsuario['latitud'],'lng'=>$coordenadasUsuario['longitud']],'travelMode'=>'walking'];
+        $comerciosOrdenados=[];
         //si tenemos mas de un comercio armamos la ruta con waypoints...
         if(count($comerciosValidos)>1){
+
             //armamos la primera url que nos ordena los comercios, de ahi sacamos el ultimo. En esta instancia el user es origen y destino.
             $comerciosIndexados = [];
-            $url1 = "https://maps.googleapis.com/maps/api/directions/json?origin=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&destination=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking&wayponts=optimize:true";
+            $url1 = "https://maps.googleapis.com/maps/api/directions/json?origin=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&destination=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&key=".sysconfigs::API_KEY_GMAPS_RUTAS."&mode=walking&waypoints=optimize:true";
             $i=0;
             //guardamos los comercios por el indice en el cual se agrego en los waypoints.
             foreach($coordenadasComercios as $idComercio => $coordenadasComercio){
                 $comercio = Comercio::findOne($idComercio);
-                $url1 = $url1.'|'.$coordenadasComercio['latitud'].','.$coordenadasComercio;
+                $url1 = $url1.'|'.$coordenadasComercio['latitud'].','.$coordenadasComercio['longitud'];
                 $comerciosIndexados[$i] = $comercio;
                 $i++;
             }
@@ -222,12 +253,12 @@ class OrdenComercioController extends SiteController
             $json1 = json_decode($response,true);
             if($json1['status']=='OK'){
                 //obtenemos los waypoints ordenados y armamos la ruta desde el user hasta el ultimo waypoint recibido
-                $ordenComercios = $json1['routes']['waypoint_order'];
+                $ordenComercios = $json1['routes'][0]['waypoint_order'];
                 $comercioDestino = $comerciosIndexados[end($ordenComercios)];
-                $url2 = "https://maps.googleapis.com/maps/api/directions/json?origin=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&destination=".$comercioDestino->latitud.",".$comercioDestino->longitud."&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking&wayponts=optimize:true";;
+                $url2 = "https://maps.googleapis.com/maps/api/directions/json?origin=".$coordenadasUsuario['latitud'].",".$coordenadasUsuario['longitud']."&destination=".$comercioDestino->latitud.",".$comercioDestino->longitud."&key=".sysconfigs::API_KEY_GMAPS_RUTAS."&mode=walking&waypoints=optimize:true";;
                 foreach($coordenadasComercios as $idComercio => $coordenadasComercio){
                     if($idComercio != $comercioDestino->id){
-                        $url2 = $url2.'|'.$coordenadasComercio['latitud'].','.$coordenadasComercio;
+                        $url2 = $url2.'|'.$coordenadasComercio['latitud'].','.$coordenadasComercio['longitud'];
                     }
                 }
                 $response = file_get_contents($url2);
@@ -235,11 +266,19 @@ class OrdenComercioController extends SiteController
                 if($json2['status']=='OK') {
                     $distancia = 0;
                     //calculamos la distancia total de la ruta.
-                    $legs = $json2['routes']['legs'];
+                    $legs = $json2['routes'][0]['legs'];
                     foreach($legs as $leg){
                         $distancia = $distancia + $leg['distance']['value'];
                     }
                     if($distancia <= sysconfigs::DISTANCIA_RELEVADOR){
+
+                        $request['destination'] = ['lat'=>$comercioDestino->latitud,'lng'=>$comercioDestino->longitud];
+                        $request['optimizeWaypoints'] = true;
+                        $ordenComercios = $json1['routes'][0]['waypoint_order'];
+                        die("ordenComercios:".var_dump($ordenComercios));
+                        $request['waypoints'] =[];
+
+
                         return $json2;
                     }else{
                         //desechamos uno de los comercios con menor prioridad que este lo mas cerca del final del recorrido.
@@ -269,19 +308,20 @@ class OrdenComercioController extends SiteController
         }else{
             //tenemos solo un comercio, por tanto la ruta generada es solo entre el usuario y el comercio.
             foreach($coordenadasComercios as $coordenadasComercio) {
-                $url3 = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $coordenadasUsuario['latitud'] . "," . $coordenadasUsuario['longitud'] . "&destination=" . $coordenadasComercio['latitud'] . "," . $coordenadasComercio['longitud'] . "&key=a25NO-XvNaoTtdZ1vVnjbJyR&mode=walking";
+                $url3 = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $coordenadasUsuario['latitud'] . "," . $coordenadasUsuario['longitud'] . "&destination=" . $coordenadasComercio['latitud'] . "," . $coordenadasComercio['longitud'] . "&key=".sysconfigs::API_KEY_GMAPS_RUTAS."&mode=walking";
                 $response = file_get_contents($url3);
                 $json3 = json_decode($response, true);
                 if ($json3['status'] == 'OK') {
                     //vemos si la ruta generada no se pasa de la distancia
                     $distancia = 0;
                     //calculamos la distancia total de la ruta.
-                    $legs = $json3['routes']['legs'];
+                    $legs = $json3['routes'][0]['legs'];
                     foreach ($legs as $leg) {
                         $distancia = $distancia + $leg['distance']['value'];
                     }
                     if ($distancia <= sysconfigs::DISTANCIA_RELEVADOR) {
-                        return $json3;
+                        $request['destination'] = ['lat'=>$coordenadasComercio['latitud'],'lng'=>$coordenadasComercio['longitud']];
+                        return ['jsonRuta'=>$json3,'jsonRequest'=>$request];
                     } else {
                         //no se puede generar una ruta cumpliendo las reglas, por tanto se retorna false
                         return false;
