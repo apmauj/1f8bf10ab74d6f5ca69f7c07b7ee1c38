@@ -9,7 +9,9 @@
 namespace api\modules\v2\controllers;
 
 use backend\models\ComercioProductosRelacionados;
+use backend\models\Comercio;
 use backend\models\Producto;
+use yii\helpers\BaseArrayHelper;
 use backend\models\Stock;
 use backend\models\StockSearch;
 use Yii;
@@ -26,6 +28,7 @@ class StockController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['view']);
+        unset($actions['create']);
         return $actions;
     }
 
@@ -49,68 +52,17 @@ class StockController extends ActiveController
         return $listaProductos;
     }
 
-    /**
-     * Lists all Stock models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new StockSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    public function actionCreate(){
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+        $params = Yii::$app->request->post();
 
-    /**
-     * Creates a new Stock model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Stock();
+        return $params;
+        $comercio = Comercio::findOne($id);
+        return $comercio;
+        $params = BaseArrayHelper::merge(Yii::$app->getRequest()->getBodyParams(), $params);
+        print_r("ACA TAMO");
+        return $params;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing Stock model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing Stock model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
     }
 
 }

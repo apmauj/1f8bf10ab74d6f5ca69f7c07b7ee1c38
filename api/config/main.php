@@ -51,7 +51,7 @@ return [
                 'GET <apiv:v\d+>/<controller:\w+>'               => '<apiv>/<controller>/index',
                 'HEAD <apiv:v\d+>/<controller:\w+>/<id:(.)+>'    => '<apiv>/<controller>/view',
                 'GET <apiv:v\d+>/<controller:\w+>/<id:(.)+>'     => '<apiv>/<controller>/view',
-                //'POST <apiv:v\d+>/<controller:\w+>/<id:(.)+>'    => '<apiv>/<controller>/create',
+                'POST <apiv:v\d+>/<controller:\w+>/<id:(.)+>'    => '<apiv>/<controller>/create',
                 'POST <apiv:v\d+>/<controller:\w+>'              => '<apiv>/<controller>/create',
                 'PUT <apiv:v\d+>/<controller:\w+>/<id:(.)+>'     => '<apiv>/<controller>/update',
                 'PATCH <apiv:v\d+>/<controller:\w+>/<id:(.)+>'   => '<apiv>/<controller>/update',

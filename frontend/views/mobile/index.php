@@ -98,7 +98,8 @@ $baseUrl = $asset->baseUrl;
 
         <div data-role="fieldcontain">
             <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
-        </div>    <div data-role="fieldcontain">
+        </div>
+        <div data-role="fieldcontain">
             <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
         </div>
 
@@ -130,14 +131,17 @@ $baseUrl = $asset->baseUrl;
                     <option><?= Yii::t('mobile', 'Select store...');?></option>
                 </select>
             </div>
-
-        <div id="comercioBot">
-            <input type="button" data-inline="true"  value="Submit">
-        </div>
-
-
-
     </div>
+
+    <div class="ui-field-contain" id="sliderStock">
+       <label for="slider-1">Slider:</label>
+       <input name="slider-1" id="slider-1" value="50" min="0" max="100" data-highlight="true" type="range">
+    </div>
+
+    <div id="stockBoton">
+        <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Submit');?>'>
+    </div>
+
 
     <div data-role="footer">
         <h1><?php echo $footer ?></h1>
@@ -148,98 +152,91 @@ $baseUrl = $asset->baseUrl;
 </body>
 </html>
 
-
-
-
 <script>
-    $('#comercioBot').hide();
-    var nomcomercio = '';
-        $( document ).ready(function() {
-           // $('#stock').on('click', function () {
-                $.ajax({
+    $('#stockBoton').hide();
+    $( document ).ready(function() {
+        $.ajax({
             url: '/api/web/v2/comercio',
             method : 'GET',
             dataType : 'json',
-            success : function(comercio){
-                console.log('comercio', comercio)
-                var selCom = $('#selComercio');
-                var html = '';
-
-               // $('#mensaje').html('ta todo bien')
-
-    //            setTimeout(function(){
-    //                $('#mensaje').show();
-    //            }, 3000);
-
-                $.each( comercio, function(key, comercio ){
-                    console.log(comercio.nombre);
-                    nomcomercio = comercio.nombre;
-                    html += '<option value=' + comercio.id +'>' + comercio.nombre + '</option>';
-                    //html += '<p>' + comercio.dia + '</p>';
-
-                    //divPRod.prepend('<h1>' + producto.nombre + '</h1> ');
-
-                });
-
-                selCom.html(html);
-
-            },
-            error : function(){
-                alert('error')
-            }
+                success : function(comercio){
+                    console.log('comercio', comercio);
+                    var selCom = $('#selComercio');
+                    var html = '';
+                    $.each( comercio, function(key, comercio ){
+                        console.log(comercio.nombre);
+                        html += '<option value=' + comercio.id +'>' + comercio.nombre + '</option>';
+                    });
+                    selCom.html(html);
+                },
+                error : function(){
+                    alert('error')
+                }
         });
 
-            $('#selComercio').on('change', function () {
-                alert('Seleccione alto comercio ' + $('#selComercio').val());
-
-                $.ajax({
-                    url: '/api/web/v2/stock/' + $('#selComercio').val(),
-                    method : 'GET',
-                    dataType : 'json',
-                    success : function(comercio){
-                        console.log('comercio', comercio)
-                        var selCom = $('#selComercio');
-                        var html = '';
-
-                        // $('#mensaje').html('ta todo bien')
-
-                        //            setTimeout(function(){
-                        //                $('#mensaje').show();
-                        //            }, 3000);
-
-                        $.each( comercio, function(key, comercio ){
-                            console.log(comercio.nombre);
-                            nomcomercio = comercio.nombre;
-                            html += '<option value=' + comercio.id +'>' + comercio.nombre + '</option>';
-                            //html += '<p>' + comercio.dia + '</p>';
-
-                            //divPRod.prepend('<h1>' + producto.nombre + '</h1> ');
-
-                        });
-
-                        selCom.html(html);
-
-                    },
-                    error : function(){
-                        alert('error')
-                    }
-                });
-
-
+        $('#selComercio').on('change', function () {
+            $.ajax({
+                url: '/api/web/v2/stock/' + $('#selComercio').val(),
+                method : 'GET',
+                dataType : 'json',
+                success : function(producto){
+                    console.log('producto', producto);
+                    var sliSto = $('#sliderStock');
+                    var html = '';
+                    $.each( producto, function(key, producto ){
+//                      html += '<div class="ui-field-contain">';
+//                      html += '<label for="slider-'+ producto.id + '">Slider:</label>';
+//                      html += '<input name="slider-'+ producto.id + '" id="slider-'+ producto.id + '" value="50" min="0" max="100" data-highlight="true" type="range">';
+//                      html += '</div>';
+//                      html += '<label for="slider-'+ producto.id + '" id="slider-'+ producto.id + '-label">' + producto.nombre + '</label>';
+                        //html += '<div class="ui-slider">';
+                        html += '<input name="slider-'+ producto.id +'" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
+//                      html += '<div role="application" class="ui-slider-track ui-shadow-inset ui-bar-inherit ui-corner-all">';
+//                      html += '<div class="ui-slider-bg ui-btn-active" style="width: 50%;">';
+                        //html += '</div>';
+//                      html += '<a href="#" class="ui-slider-handle ui-btn ui-shadow" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50" title="50" aria-labelledby="slider-1-label" style="left: 50%;">';
+//                      html += '</a>';
+                        html += '</br>';
+                    });
+                    sliSto.html(html);
+                    $('#stockBoton').show();
+                },
+                error : function(){
+                    alert('error')
+                }
             });
+        });
 
-
+//        $('#stockBoton').on('click', function () {
+//            $.ajax({
+//                url: '/api/web/v2/stock/',
+//                method : 'POST',
+//                $.each( producto, function(key, producto ) {
+//
+//                    data: {
+//                        'login-form[login]'
+//                    :
+//                        $("#name").val(),
+//                            'login-form[password]'
+//                    :
+//                        $("#password").val()
+//                    }
+//                    ,
+//                    dataType : 'json',
+//                }
+//                success : function(){
+//                    window.location('/frontend/web/mobile/index');
+//                    //console.log()
+//                },
+//                error : function(){
+//                    alert('error')
+//                }
+//            });
+//        });
     });
-
-
-
 </script>
 
-
-
-
 <script>
-
     $( document ).on( "pagecreate", "#rutas", function() {
         var defaultLatLng = new google.maps.LatLng(34.0983425, -118.3267434);  // Default to Hollywood, CA when no geolocation support
 
@@ -283,3 +280,13 @@ $baseUrl = $asset->baseUrl;
 <!--    </div>-->
 <!---->
 <!--</div>-->
+
+<!---->
+<!--// $('#mensaje').html('texto xxxxxx')-->
+<!---->
+<!--//            setTimeout(function(){-->
+<!--//                $('#mensaje').show();-->
+<!--//            }, 3000);-->
+
+
+<!--//divPRod.prepend('<h1>' + producto.nombre + '</h1> ');-->
