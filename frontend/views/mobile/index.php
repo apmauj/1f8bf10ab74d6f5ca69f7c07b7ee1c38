@@ -44,7 +44,7 @@ $baseUrl = $asset->baseUrl;
     </div>
 
     <div data-role="main" class="ui-content">
-        <img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 100%; width: 100%;" alt="logo">
+        <img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 50%; width: 100%;" alt="logo">
         <p><?= Yii::t('app', 'Welcome xxxx');?> </p>
         <p><?= Yii::t('app', 'To use our app, select an option from the nav menu.');?></p>
         <br>
@@ -116,23 +116,27 @@ $baseUrl = $asset->baseUrl;
         <h1><?php echo $this->title ?></h1>
         <div data-role="navbar">
             <ul>
-                <li><a href="#home" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
-                <li><a href="#rutas" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
-                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
-                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+                <li><a href="#home" data-icon="home"><?= Yii::t('mobile', 'Home');?></a></li>
+                <li><a href="#rutas" data-icon="location"><?= Yii::t('mobile', 'Routes');?></a></li>
+                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('mobile', 'Orders');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="gear"><?= Yii::t('mobile', 'Stock');?></a></li>
             </ul>
         </div>
     </div>
 
     <div data-role="main" class="ui-content">
-        <p><?= Yii::t('app', 'Stock');?></p>
+            <div class="ui-field-contain">
+                <select name="select-native-1" id="selComercio">
+                    <option><?= Yii::t('mobile', 'Select store...');?></option>
+                </select>
+            </div>
 
-
-        <div data-role="fieldcontain">
-            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
-        </div>    <div data-role="fieldcontain">
-            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+        <div id="comercioBot">
+            <input type="button" data-inline="true"  value="Submit">
         </div>
+
+
+
     </div>
 
     <div data-role="footer">
@@ -143,6 +147,95 @@ $baseUrl = $asset->baseUrl;
 
 </body>
 </html>
+
+
+
+
+<script>
+    $('#comercioBot').hide();
+    var nomcomercio = '';
+        $( document ).ready(function() {
+           // $('#stock').on('click', function () {
+                $.ajax({
+            url: '/api/web/v2/comercio',
+            method : 'GET',
+            dataType : 'json',
+            success : function(comercio){
+                console.log('comercio', comercio)
+                var selCom = $('#selComercio');
+                var html = '';
+
+               // $('#mensaje').html('ta todo bien')
+
+    //            setTimeout(function(){
+    //                $('#mensaje').show();
+    //            }, 3000);
+
+                $.each( comercio, function(key, comercio ){
+                    console.log(comercio.nombre);
+                    nomcomercio = comercio.nombre;
+                    html += '<option value=' + comercio.id +'>' + comercio.nombre + '</option>';
+                    //html += '<p>' + comercio.dia + '</p>';
+
+                    //divPRod.prepend('<h1>' + producto.nombre + '</h1> ');
+
+                });
+
+                selCom.html(html);
+
+            },
+            error : function(){
+                alert('error')
+            }
+        });
+
+            $('#selComercio').on('change', function () {
+                alert('Seleccione alto comercio ' + $('#selComercio').val());
+
+                $.ajax({
+                    url: '/api/web/v2/stock/' + $('#selComercio').val(),
+                    method : 'GET',
+                    dataType : 'json',
+                    success : function(comercio){
+                        console.log('comercio', comercio)
+                        var selCom = $('#selComercio');
+                        var html = '';
+
+                        // $('#mensaje').html('ta todo bien')
+
+                        //            setTimeout(function(){
+                        //                $('#mensaje').show();
+                        //            }, 3000);
+
+                        $.each( comercio, function(key, comercio ){
+                            console.log(comercio.nombre);
+                            nomcomercio = comercio.nombre;
+                            html += '<option value=' + comercio.id +'>' + comercio.nombre + '</option>';
+                            //html += '<p>' + comercio.dia + '</p>';
+
+                            //divPRod.prepend('<h1>' + producto.nombre + '</h1> ');
+
+                        });
+
+                        selCom.html(html);
+
+                    },
+                    error : function(){
+                        alert('error')
+                    }
+                });
+
+
+            });
+
+
+    });
+
+
+
+</script>
+
+
 
 
 <script>

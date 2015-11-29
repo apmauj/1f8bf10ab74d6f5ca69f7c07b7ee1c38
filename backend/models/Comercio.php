@@ -115,4 +115,9 @@ class Comercio extends \yii\db\ActiveRecord
     {
         return $this->hasMany(RutaDiariaComercio::className(), ['id_comercio' => 'id']);
     }
+
+    public function getComercioProductosRelacionados()
+    {
+        return $this->hasMany(ComercioProductosRelacionados::className(), ['id_comercio' => 'id']);
+    }
 }

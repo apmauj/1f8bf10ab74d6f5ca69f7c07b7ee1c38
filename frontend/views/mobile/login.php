@@ -62,9 +62,8 @@ $this->title = 'My Yii Application';
                     },
                     dataType : 'json',
                     success : function(){
-                       <?php  \Yii::$app->getResponse()->redirect('/mobile/index');  ?>
-
-                        console.log()
+                        window.location('/frontend/web/mobile/index');
+                        //console.log()
                     },
                     error : function(){
                         alert('error')

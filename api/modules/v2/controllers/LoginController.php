@@ -27,7 +27,7 @@ class LoginController extends ActiveController
         $model->load($params);
 
         if($model->login()){
-            Yii::$app->session->set('user',$model->getAttributes());
+            //Yii::$app->session->set('user',$model->getAttributes());
             return $model->getAttributes();
         }else{
             throw new BadRequestHttpException('error de login');

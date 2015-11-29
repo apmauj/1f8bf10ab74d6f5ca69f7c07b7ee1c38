@@ -6,9 +6,11 @@
  * Time: 1:21
  */
 
-namespace api\modules\v1\controllers;
+namespace api\modules\v2\controllers;
 
+use backend\models\Comercio;
 use backend\models\StockSearch;
+use backend\models\Stock;
 use Yii;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
@@ -19,6 +21,40 @@ use yii\web\NotFoundHttpException;
 class StockController extends ActiveController
 {
     public $modelClass = 'backend\models\Stock';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['view']);
+        return $actions;
+    }
+
+    /**
+     * Displays a single RutaDiariaComercio model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->findModel($id);
+    }
+
+    private function findModel($id){
+        $listaComercioProductos = Comercio::findOne($id)->getComercioProductosRelacionados();
+        //return $listaComercioProductos;
+        $listaProductos = [];
+        foreach($listaComercioProductos as $comercioProductos){
+            $listaProductos[]=$comercioProductos->getIdProducto();
+        }
+        return $listaProductos;
+    }
+
+
+
+
+
+
+
 
     /**
      * Lists all Stock models.
@@ -40,12 +76,12 @@ class StockController extends ActiveController
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+//    public function actionView($id)
+//    {
+//        return $this->render('view', [
+//            'model' => $this->findModel($id),
+//        ]);
+//    }
 
     /**
      * Finds the Stock model based on its primary key value.
@@ -54,14 +90,14 @@ class StockController extends ActiveController
      * @return Stock the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
-        if (($model = Stock::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
+//    protected function findModel($id)
+//    {
+//        if (($model = Stock::findOne($id)) !== null) {
+//            return $model;
+//        } else {
+//            throw new NotFoundHttpException('The requested page does not exist.');
+//        }
+//    }
 
     /**
      * Creates a new Stock model.
