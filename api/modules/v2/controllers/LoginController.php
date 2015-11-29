@@ -2,9 +2,9 @@
 
 namespace api\modules\v2\controllers;
 
-use yii\rest\ActiveController;
-use Yii;
 use frontend\models\LoginForm;
+use Yii;
+use yii\rest\ActiveController;
 use yii\web\BadRequestHttpException;
 
 class LoginController extends ActiveController
@@ -17,7 +17,6 @@ class LoginController extends ActiveController
         unset($actions['create']);
         return $actions;
     }
-
 
     public function actionCreate(){
         $params = Yii::$app->request->post();

@@ -7,5 +7,6 @@ use yii\rest\ActiveController;
 class ProductoController extends ActiveController
 {
     public $modelClass = 'backend\models\Producto';
-	
+
+
 }

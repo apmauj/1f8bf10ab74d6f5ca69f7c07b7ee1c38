@@ -8,12 +8,12 @@
 
 namespace api\modules\v2\controllers;
 
-use backend\models\Comercio;
-use backend\models\StockSearch;
+use backend\models\ComercioProductosRelacionados;
+use backend\models\Producto;
 use backend\models\Stock;
+use backend\models\StockSearch;
 use Yii;
 use yii\rest\ActiveController;
-use yii\web\NotFoundHttpException;
 
 /**
  * StockController implements the CRUD actions for Stock model.
@@ -40,21 +40,14 @@ class StockController extends ActiveController
     }
 
     private function findModel($id){
-        $listaComercioProductos = Comercio::findOne($id)->getComercioProductosRelacionados();
-        //return $listaComercioProductos;
+        $listaComercioProductos = ComercioProductosRelacionados::find()->where(['id_comercio'=>$id])->all();
         $listaProductos = [];
         foreach($listaComercioProductos as $comercioProductos){
-            $listaProductos[]=$comercioProductos->getIdProducto();
+            $producto = Producto::find()->where(['id'=>$comercioProductos->id_producto])->one();
+                $listaProductos[]=$producto;
         }
         return $listaProductos;
     }
-
-
-
-
-
-
-
 
     /**
      * Lists all Stock models.
@@ -70,34 +63,6 @@ class StockController extends ActiveController
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    /**
-     * Displays a single Stock model.
-     * @param integer $id
-     * @return mixed
-     */
-//    public function actionView($id)
-//    {
-//        return $this->render('view', [
-//            'model' => $this->findModel($id),
-//        ]);
-//    }
-
-    /**
-     * Finds the Stock model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Stock the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-//    protected function findModel($id)
-//    {
-//        if (($model = Stock::findOne($id)) !== null) {
-//            return $model;
-//        } else {
-//            throw new NotFoundHttpException('The requested page does not exist.');
-//        }
-//    }
 
     /**
      * Creates a new Stock model.
@@ -145,7 +110,6 @@ class StockController extends ActiveController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
