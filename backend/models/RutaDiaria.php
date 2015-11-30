@@ -51,4 +51,18 @@ class RutaDiaria extends \yii\db\ActiveRecord
     {
         return $this->hasMany(RutaDiariaComercio::className(), ['id_ruta_diaria' => 'id']);
     }
+
+    public function getComerciosOrdenados(){
+
+        $rutaDiariaComercios = $this->getRutaDiariaComercios()->orderBy('orden')->all();
+        $comerciosOrdenados = [];
+        $i = 0;
+        foreach($rutaDiariaComercios as $rutaDiariaComercio){
+            $comercio = Comercio::find()->where(['id'=>$rutaDiariaComercio->id_comercio])->one();
+            $comerciosOrdenados[$i] = $comercio;
+            $i++;
+        }
+        return $comerciosOrdenados;
+    }
+
 }

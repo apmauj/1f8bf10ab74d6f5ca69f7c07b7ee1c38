@@ -34,6 +34,7 @@ class CustomFrontendFilter  extends \yii\base\ActionFilter
             if (Yii::$app->controller->action->id === 'login') {
                 return true;
             }
+            return true;
             return \Yii::$app->getResponse()->redirect($this->loginMobile);
         }else{
             return \Yii::$app->getResponse()->redirect($this->loginUrl);

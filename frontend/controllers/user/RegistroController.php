@@ -12,7 +12,8 @@ namespace frontend\controllers\user;
 use dektrium\user\controllers\RegistrationController;
 use frontend\models\RegistrationForm;
 use Yii;
-
+use yii\web\NotFoundHttpException;
+use backend\models\User;
 class RegistroController extends RegistrationController
 {
 
@@ -36,5 +37,46 @@ class RegistroController extends RegistrationController
             'module' => $this->module,
         ]);
     }
+
+    /**
+     * Displays page where user can create new account that will be connected to social account.
+     *
+     * @param string $code
+     *
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionConnect($code)
+    {
+        $account = $this->finder->findAccount()->byCode($code)->one();
+        if ($account === null || $account->getIsConnected()) {
+            throw new NotFoundHttpException();
+        }
+
+        /** @var User $user */
+        $user = Yii::createObject([
+            'class'    => User::className(),
+            'scenario' => 'connect',
+            'username' => $account->username,
+            'email'    => $account->email,
+        ]);
+
+        if ($user->load(Yii::$app->request->post()) && $user->create()) {
+            $account->connect($user);
+            return $this->render('/message', [
+                'title' => Yii::t('user', 'Your account has been created'),
+                'module' => $this->module,
+            ]);
+
+//            Yii::$app->user->login($user, $this->module->rememberFor);
+//            return $this->goBack();
+        }
+
+        return $this->render('connect', [
+            'model'   => $user,
+            'account' => $account,
+        ]);
+    }
+
 
 }

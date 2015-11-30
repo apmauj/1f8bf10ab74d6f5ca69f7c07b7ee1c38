@@ -53,6 +53,10 @@ class User extends BaseUser{
         $scenarios['register'][] = 'direccion';
         $scenarios['register'][] = 'latitud';
         $scenarios['register'][] = 'longitud';
+        $scenarios['connect'][] = 'direccion';
+        $scenarios['connect'][] = 'latitud';
+        $scenarios['connect'][] = 'longitud';
+
         return $scenarios;
 
     }
@@ -76,6 +80,15 @@ class User extends BaseUser{
 
     public function getMailer(){
         return $this->mailer;
+    }
+
+    public function tieneRutaDiariaActiva(){
+        $countRutaDiaria = $this->getRutasDiarias()->count();
+        if($countRutaDiaria>0){
+            $rutaDiaria = $this->getRutasDiarias()->where(['fecha'=>date("Y-m-d")])->one();
+            return $rutaDiaria != null;
+        }
+        return false;
     }
 
 }

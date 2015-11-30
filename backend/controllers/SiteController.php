@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use api\modules\v2\controllers\RutaController;
 use backend\filters\CustomFilter;
 use common\models\LoginForm;
 use dektrium\user\Finder;
@@ -75,7 +76,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $id = Yii::$app->user->identity->id;
-
+        $idUser = 21;
+        $resultado = RutaController::actionView($idUser);
         $profile = $this->finder->findProfileById($id);
 
         if ($profile === null) {

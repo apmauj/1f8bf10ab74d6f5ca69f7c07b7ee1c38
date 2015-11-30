@@ -22,7 +22,9 @@ $baseUrl = $asset->baseUrl;
     <script src="http://maps.google.com/maps-api-v3/api/js/23/1/marker.js" charset="UTF-8" type="text/javascript"></script>
     <script src="http://maps.google.com/maps-api-v3/api/js/23/1/onion.js" charset="UTF-8" type="text/javascript"></script>
     <script src="http://maps.google.com/maps-api-v3/api/js/23/1/controls.js" charset="UTF-8" type="text/javascript"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&signed_in=true&libraries=geometry"></script>
+    <script type="text/javascript" src="<?php echo Yii::$app->request->baseUrl; ?>/js/funcionesMapaRuta.js"></script>
+
     <style>
         #rutas, #map-canvas { width: 100%; height: 100%; padding: 0; }
     </style>
@@ -68,6 +70,7 @@ $baseUrl = $asset->baseUrl;
         </div>
     </div>
 
+    <div data-role="message" class="ui-content" id="mensaje-rutas" ><p>something<p></div>
     <div data-role="main" class="ui-content" id="map-canvas">
 
     </div>
@@ -230,6 +233,51 @@ $baseUrl = $asset->baseUrl;
 
 <script>
     $( document ).on( "pagecreate", "#rutas", function() {
+        var ubicacion = new google.maps.LatLng(-34.905647, -56.186787);
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var directionsService = new google.maps.DirectionsService();
+
+        $.ajax({
+            url: '/api/web/v2/ruta/' + 22,
+            method : 'GET',
+            dataType : 'json',
+            success : function(results){
+                console.log('results', results);
+                var html = '';
+                if(results.status === "ok"){
+                    var map = drawMap(ubicacion);
+                    var normalizedRequest = normalizeRequest(results.requestJson);
+                    renderDirections(directionsService,directionsDisplay,map,normalizedRequest);
+                }else if(results.status === "error"){
+                    document.getElementById("mensaje-rutas").innerHTML = "<p>"+results.mensaje+"<p>";
+                    var map = drawMap(ubicacion);
+
+                }
+//                $.each( producto, function(key, producto ){
+//                      html += '<div class="ui-field-contain">';
+//                      html += '<label for="slider-'+ producto.id + '">Slider:</label>';
+//                      html += '<input name="slider-'+ producto.id + '" id="slider-'+ producto.id + '" value="50" min="0" max="100" data-highlight="true" type="range">';
+//                      html += '</div>';
+//                      html += '<label for="slider-'+ producto.id + '" id="slider-'+ producto.id + '-label">' + producto.nombre + '</label>';
+                    //html += '<div class="ui-slider">';
+//                    html += '<input name="slider-'+ producto.id +'" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
+//                      html += '<div role="application" class="ui-slider-track ui-shadow-inset ui-bar-inherit ui-corner-all">';
+//                      html += '<div class="ui-slider-bg ui-btn-active" style="width: 50%;">';
+                    //html += '</div>';
+//                      html += '<a href="#" class="ui-slider-handle ui-btn ui-shadow" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50" title="50" aria-labelledby="slider-1-label" style="left: 50%;">';
+//                      html += '</a>';
+//                    html += '</br>';
+//                });
+//                sliSto.html(html);
+//                $('#stockBoton').show();
+            },
+            error : function(){
+                alert('error')
+            }
+        });
+
+
+/*
         var defaultLatLng = new google.maps.LatLng(34.0983425, -118.3267434);  // Default to Hollywood, CA when no geolocation support
 
         if ( navigator.geolocation ) {
@@ -246,20 +294,22 @@ $baseUrl = $asset->baseUrl;
         else {
             drawMap(defaultLatLng);  // No geolocation support, show default map
         }
+*/
 
         function drawMap(latlng) {
             var myOptions = {
-                zoom: 10,
+                zoom: 13,
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-            // Add an overlay to the map of current lat/lng
-            var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                title: "Greetings!"
-            });
+            return map;
+//            // Add an overlay to the map of current lat/lng
+//            var marker = new google.maps.Marker({
+//                position: latlng,
+//                map: map,
+//                title: "Greetings!"
+//            });
         }
     });
 </script>
