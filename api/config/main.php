@@ -62,6 +62,8 @@ return [
                 'POST <apiv:v\d+>/login' => '<apiv>/login/login',
 
                 'POST <apiv:v\d+>/stock' => '<apiv>/stock/stock',
+                'POST <apiv:v\d+>/pedido' => '<apiv>/pedido/pedido',
+
                 //'POST <apiv:v\d+>/stock/relevar-stock-comercio' => '<apiv>/stock/relevar-stock-comercio',
             ]
         ]

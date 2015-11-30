@@ -10,10 +10,13 @@ namespace api\modules\v2\controllers;
 
 use backend\models\ComercioProductosRelacionados;
 use backend\models\Producto;
+use backend\models\RutaDiaria;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rest\ActiveController;
 use backend\models\Stock;
+use backend\models\RutaDiariaComercio;
+
 
 /**
  * StockController implements the CRUD actions for Stock model.
@@ -52,15 +55,17 @@ class StockController extends ActiveController
 
     public function actionStock(){
 
-        $params = Yii::$app->request->post();
-        $model = new Stock();
-//        $model->id_producto = $params->id_producto;
-//        $model->cantidad = $params->cantidad;
+        $params = Yii::$app->getRequest()->post();
 
-        print_r($model);
+        $prueba = new Stock();
+        $prueba->setAttribute('id_producto',$params['id_producto']);
+        $prueba->setAttribute('cantidad',$params['cantidad']);
+        //$rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$params['id_usuario']])->andWhere(['fecha'=>date('Y-m-d')])->one();
+        //$rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>'id_comercio'])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
+        //$prueba->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
+        //$prueba->save();
 
         return $params;
 
     }
-
 }

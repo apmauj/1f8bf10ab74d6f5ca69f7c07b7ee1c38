@@ -52,6 +52,10 @@ $baseUrl = $asset->baseUrl;
         <br>
     </div>
 
+    <div id="logout">
+        <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Logout');?>'>
+    </div>
+
     <div data-role="footer">
         <h1><?php echo $footer ?></h1>
     </div>
@@ -96,17 +100,35 @@ $baseUrl = $asset->baseUrl;
         </div>
     </div>
 
-    <div data-role="main" class="ui-content" style="height: 100%">
-        <p><?= Yii::t('app', 'Orders');?></p>
 
-        <div data-role="fieldcontain">
-            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
+    <div data-role="main" class="ui-content">
+        <div class="ui-field-contain">
+            <select name="select-native-1" id="selComercioPedido">
+                <option><?= Yii::t('mobile', 'Select store...');?></option>
+            </select>
         </div>
-        <div data-role="fieldcontain">
-            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />
-        </div>
+    </div>
+
+    <div class="ui-field-contain" id="sliderPedido">
 
     </div>
+
+    <div id="pedidoBoton">
+        <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Submit');?>'>
+    </div>
+
+
+<!--    <div data-role="main" class="ui-content" style="height: 100%">-->
+<!--        <p>--><?//= Yii::t('app', 'Orders');?><!--</p>-->
+<!---->
+<!--        <div data-role="fieldcontain">-->
+<!--            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />-->
+<!--        </div>-->
+<!--        <div data-role="fieldcontain">-->
+<!--            <input type="range" name="slider" value="50" min="0" max="100" data-form="ui-body-a" data-theme="a" data-highlight="true" />-->
+<!--        </div>-->
+<!---->
+<!--    </div>-->
 
     <div data-role="footer">
         <h1><?php echo $footer ?></h1>
@@ -137,15 +159,12 @@ $baseUrl = $asset->baseUrl;
     </div>
 
     <div class="ui-field-contain" id="sliderStock">
-       <label for="slider-1"><?= Yii::t('mobile', 'Slider:');?></label>
-       <input name="slider-1" id="slider-1" value="50" min="0" max="100" data-highlight="true" type="range">
+
     </div>
 
     <div id="stockBoton">
         <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Submit');?>'>
     </div>
-
-    <p><b><?= Yii::t('mobile', 'Results:');?></b> <span id="results"></span></p>
 
     <div data-role="footer">
         <h1><?php echo $footer ?></h1>
@@ -157,25 +176,126 @@ $baseUrl = $asset->baseUrl;
 </html>
 
 <script>
-    $('#stockBoton').hide();
-    $( document ).ready(function() {
+    $('#pedidoBoton').hide();
+    $( document ).on( "pagecreate", "#pedidos", function() {
         $.ajax({
             url: '/api/web/v2/comercio',
-            method : 'GET',
-            dataType : 'json',
-                success : function(comercio){
-                    console.log('comercio', comercio);
-                    var selCom = $('#selComercio');
+            method: 'GET',
+            dataType: 'json',
+            success: function (comercio) {
+                console.log('comercio', comercio);
+                var selComP = $('#selComercioPedido');
+                var html = '';
+                $.each(comercio, function (key, comercio) {
+                    console.log(comercio.nombre);
+                    html += '<option value=' + comercio.id + '>' + comercio.nombre + '</option>';
+                });
+                selComP.html(html);
+            },
+            error: function () {
+                alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
+            }
+        });
+
+        var idProductos = [];
+
+        $('#selComercioPedido').on('change', function () {
+            $.ajax({
+                url: '/api/web/v2/pedido/' + $('#selComercioPedido').val(),
+                method: 'GET',
+                dataType: 'json',
+                success: function (producto) {
+                    console.log('producto', producto);
+                    var sliSto = $('#sliderPedido');
                     var html = '';
-                    $.each( comercio, function(key, comercio ){
-                        console.log(comercio.nombre);
-                        html += '<option value=' + comercio.id +'>' + comercio.nombre + '</option>';
+                    $.each(producto, function (key, producto) {
+                        idProductos.push(producto.id);
+                        html += '<input name="sliderProdsPedido" id="slider-' + producto.id + '" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> ' + producto.nombre + ' </h4>';
+                        html += '</br>';
                     });
-                    selCom.html(html);
+                    sliSto.html(html);
+                    $('#pedidoBoton').show();
+                    console.log(idProductos);
+
                 },
-                error : function(){
-                    alert(<?= Yii::t('mobile', 'Error on initialization!!');?>)
+                error: function () {
+                    alert("<?= Yii::t('mobile', 'Error when loading Store products!!');?>")
                 }
+            });
+        });
+
+        function showValues() {
+            var cant = $(":input[name=sliderProdsPedido]").serializeArray();
+            var usu = 2;
+            var exito = false;
+            $.each(idProductos, function (key, producto) {
+                $.ajax({
+                    url: '/api/web/v2/pedido',
+                    method: 'POST',
+                    data: {
+                        'id_producto': producto,
+                        'cantidad': cant[key].value,
+                        'id_comercio': $('#selComercioPedido').val(),
+                        'id_usuario': usu
+                    },
+                    dataType: 'json',
+                    success: function () {
+                        //console.log();
+                        exito = true;
+                        //alert('OK');
+                    },
+                    error: function () {
+                        exito = false;
+                        alert("<?= Yii::t('mobile', 'Error while trying to get quantities!!');?>")
+                    }
+                });
+            });
+
+            $('#pedidoBoton').hide();
+            $('#sliderPedido').empty();
+//            if (exito === true){
+//                alert ("<?//= Yii::t('mobile', 'Stock data has been stored succesfully...');?>//")
+//            }
+//            else {
+//                alert ("<?//= Yii::t('mobile', 'Error while storing stock data...');?>//")
+//            }
+        }
+        $("#pedidoBoton").on('click', showValues);
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    $('#stockBoton').hide();
+//    $( document ).ready(function() {
+    $( document ).on( "pagecreate", "#stock", function() {
+        $.ajax({
+            url: '/api/web/v2/comercio',
+            method: 'GET',
+            dataType: 'json',
+            success: function (comercio) {
+                console.log('comercio', comercio);
+                var selCom = $('#selComercio');
+                var html = '';
+                $.each(comercio, function (key, comercio) {
+                    console.log(comercio.nombre);
+                    html += '<option value=' + comercio.id + '>' + comercio.nombre + '</option>';
+                });
+                selCom.html(html);
+            },
+            error: function () {
+                alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
+            }
         });
 
         var idProductos = [];
@@ -183,50 +303,68 @@ $baseUrl = $asset->baseUrl;
         $('#selComercio').on('change', function () {
             $.ajax({
                 url: '/api/web/v2/stock/' + $('#selComercio').val(),
-                method : 'GET',
-                dataType : 'json',
-                success : function(producto){
+                method: 'GET',
+                dataType: 'json',
+                success: function (producto) {
                     console.log('producto', producto);
                     var sliSto = $('#sliderStock');
                     var html = '';
-                    $.each( producto, function(key, producto ){
+                    $.each(producto, function (key, producto) {
                         idProductos.push(producto.id);
-                        html += '<label for="sliderProds">'+producto.nombre+'</label>';
-                        html += '<input name="sliderProds" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
+                        html += '<input name="sliderProds" id="slider-' + producto.id + '" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> ' + producto.nombre + ' </h4>';
                         html += '</br>';
                     });
                     sliSto.html(html);
                     $('#stockBoton').show();
+                    console.log(idProductos);
+
                 },
-                error : function(){
-                    alert(<?= Yii::t('mobile', 'Error when loading Store products!!');?>)
+                error: function () {
+                    alert("<?= Yii::t('mobile', 'Error when loading Store products!!');?>")
                 }
             });
         });
 
-        function showValues(){
-            var cant = $( ":input[name=sliderProds]" ).serializeArray();
-            $.each( idProductos, function(key, producto ){
+        function showValues() {
+            var cant = $(":input[name=sliderProds]").serializeArray();
+            var usu = 2;
+            var exito = false;
+            $.each(idProductos, function (key, producto) {
                 $.ajax({
                     url: '/api/web/v2/stock',
-                    method : 'POST',
-                    data : {
-                        'id_producto' : producto,
-                        'cantidad' : cant[key].value
+                    method: 'POST',
+                    data: {
+                        'id_producto': producto,
+                        'cantidad': cant[key].value,
+                        'id_comercio': $('#selComercio').val(),
+                        'id_usuario': usu
                     },
-                    dataType : 'json',
-                    success : function(response){
-                        console.log(response);
-                        alert('OK');
+                    dataType: 'json',
+                    success: function () {
+                        if (cant.length == key){
+                            alert('WTFFFFFFFFFFFF');
+                        }
+                        //console.log();
+                        exito = true;
+                        //alert('OK');
                     },
-                error : function(){
-                    alert(<?= Yii::t('mobile', 'Error while trying to get quantities!!');?>)
-                }
+                    error: function () {
+                        exito = false;
+                        alert("<?= Yii::t('mobile', 'Error while trying to get quantities!!');?>")
+                    }
+                });
             });
+
+            $('#stockBoton').hide();
+            $('#sliderStock').empty();
+//            if (exito === true){
+//                alert ("<?//= Yii::t('mobile', 'Stock data has been stored succesfully...');?>//")
+//            }
+//            else {
+//                alert ("<?//= Yii::t('mobile', 'Error while storing stock data...');?>//")
+//            }
         }
-
-        $( "#stockBoton" ).on('click', showValues );
-
+        $("#stockBoton").on('click', showValues);
     });
 </script>
 
@@ -252,23 +390,6 @@ $baseUrl = $asset->baseUrl;
                     var map = drawMap(ubicacion);
 
                 }
-//                $.each( producto, function(key, producto ){
-//                      html += '<div class="ui-field-contain">';
-//                      html += '<label for="slider-'+ producto.id + '">Slider:</label>';
-//                      html += '<input name="slider-'+ producto.id + '" id="slider-'+ producto.id + '" value="50" min="0" max="100" data-highlight="true" type="range">';
-//                      html += '</div>';
-//                      html += '<label for="slider-'+ producto.id + '" id="slider-'+ producto.id + '-label">' + producto.nombre + '</label>';
-                    //html += '<div class="ui-slider">';
-//                    html += '<input name="slider-'+ producto.id +'" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
-//                      html += '<div role="application" class="ui-slider-track ui-shadow-inset ui-bar-inherit ui-corner-all">';
-//                      html += '<div class="ui-slider-bg ui-btn-active" style="width: 50%;">';
-                    //html += '</div>';
-//                      html += '<a href="#" class="ui-slider-handle ui-btn ui-shadow" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50" title="50" aria-labelledby="slider-1-label" style="left: 50%;">';
-//                      html += '</a>';
-//                    html += '</br>';
-//                });
-//                sliSto.html(html);
-//                $('#stockBoton').show();
             },
             error : function(){
                 alert('error')
@@ -312,22 +433,3 @@ $baseUrl = $asset->baseUrl;
         }
     });
 </script>
-
-
-<!--<div class="site-index">-->
-<!---->
-<!--    <div class="jumbotron">-->
-<!--        var_dump(file_get_contents('http://localhost/yii2-grupo8/api/web/v1/productos'));-->
-<!--    </div>-->
-<!---->
-<!--</div>-->
-
-<!---->
-<!--// $('#mensaje').html('texto xxxxxx')-->
-<!---->
-<!--//            setTimeout(function(){-->
-<!--//                $('#mensaje').show();-->
-<!--//            }, 3000);-->
-
-
-<!--//divPRod.prepend('<h1>' + producto.nombre + '</h1> ');-->
