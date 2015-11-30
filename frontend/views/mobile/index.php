@@ -1,15 +1,15 @@
 <?php
 /* @var $this yii\web\View */
 $asset = frontend\assets\AppAsset::register($this);
-$this->title = 'Muli Relevators';
-$footer = 'Muli Relevators. All Right Reserved.';
+$this->title = Yii::t('mobile', 'Muli Relevators');
+$footer = Yii::t('mobile', 'Muli Relevators. All Right Reserved.');
 $baseUrl = $asset->baseUrl;
 ?>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>jQuery Mobile: Theme Download</title>
+    <title><?php echo $this->title ?></title>
     <link rel="stylesheet" href="/frontend/views/mobile/themes/mulisrelevadores.min.css" />
     <link rel="stylesheet" href="/frontend/views/mobile/themes/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
@@ -47,7 +47,7 @@ $baseUrl = $asset->baseUrl;
 
     <div data-role="main" class="ui-content">
         <img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 50%; width: 100%;" alt="logo">
-        <p><?= Yii::t('app', 'Welcome xxxx');?> </p>
+        <p><?= Yii::t('app', 'Welcome back!');?> </p>
         <p><?= Yii::t('app', 'To use our app, select an option from the nav menu.');?></p>
         <br>
     </div>
@@ -137,7 +137,7 @@ $baseUrl = $asset->baseUrl;
     </div>
 
     <div class="ui-field-contain" id="sliderStock">
-       <label for="slider-1">Slider:</label>
+       <label for="slider-1"><?= Yii::t('mobile', 'Slider:');?></label>
        <input name="slider-1" id="slider-1" value="50" min="0" max="100" data-highlight="true" type="range">
     </div>
 
@@ -145,7 +145,7 @@ $baseUrl = $asset->baseUrl;
         <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Submit');?>'>
     </div>
 
-    <p><b>Results:</b> <span id="results"></span></p>
+    <p><b><?= Yii::t('mobile', 'Results:');?></b> <span id="results"></span></p>
 
     <div data-role="footer">
         <h1><?php echo $footer ?></h1>
@@ -174,7 +174,7 @@ $baseUrl = $asset->baseUrl;
                     selCom.html(html);
                 },
                 error : function(){
-                    alert('error')
+                    alert(<?= Yii::t('mobile', 'Error on initialization!!');?>)
                 }
         });
 
@@ -199,7 +199,7 @@ $baseUrl = $asset->baseUrl;
                     $('#stockBoton').show();
                 },
                 error : function(){
-                    alert('error')
+                    alert(<?= Yii::t('mobile', 'Error when loading Store products!!');?>)
                 }
             });
         });
@@ -219,10 +219,9 @@ $baseUrl = $asset->baseUrl;
                         console.log(response);
                         alert('OK');
                     },
-                    error : function(){
-                        alert('error al final')
-                    }
-                });
+                error : function(){
+                    alert(<?= Yii::t('mobile', 'Error while trying to get quantities!!');?>)
+                }
             });
         }
 
@@ -308,7 +307,7 @@ $baseUrl = $asset->baseUrl;
 //            var marker = new google.maps.Marker({
 //                position: latlng,
 //                map: map,
-//                title: "Greetings!"
+//                title: "<?php echo Yii::t('mobile', 'Greetings!!');?>"
 //            });
         }
     });
