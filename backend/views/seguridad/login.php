@@ -39,7 +39,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b><?= Yii::t('app','Mulis') ?></b><?= Yii::t('app','Relevadores') ?></a>
+        <a href="#"><b><?= Yii::t('app','Mulis') ?></b><?= Yii::t('app','Relevators') ?></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">

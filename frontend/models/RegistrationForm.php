@@ -35,7 +35,7 @@ class RegistrationForm extends BaseRegistrationForm
     public function attributeLabels()
     {
         $labels = parent::attributeLabels();
-        $labels['direccion'] = \Yii::t('app', 'Direccion');
+        $labels['direccion'] = \Yii::t('app', 'Adress');
 
         return $labels;
     }

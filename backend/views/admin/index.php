@@ -57,17 +57,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
             ],
             [
-                'header' => Yii::t('app','Es activo?'),
+                'header' => Yii::t('app','Active?'),
                 'format' => 'raw',
                 'value'=> function ($model) {
-                    if ($model->esActivo == 1) return '<span class="label label-success">'.Yii::t('app','Si').'</span>';
+                    if ($model->esActivo == 1) return '<span class="label label-success">'.Yii::t('app','Yes').'</span>';
                     else return '<span class="label label-danger">'.Yii::t('app','No').'</span>';
                 },
             ],
             [
-                'header' => Yii::t('app','Direccion'),
+                'header' => Yii::t('app','Adress'),
                 'value'=> function ($model) {
-                    return $model->direccion==null ?  Yii::t('app','Desconocido') :  $model->direccion;
+                    return $model->direccion==null ?  Yii::t('app','Unknown') :  $model->direccion;
 
                 },
             ],

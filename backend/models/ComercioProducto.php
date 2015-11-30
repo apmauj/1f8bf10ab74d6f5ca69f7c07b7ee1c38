@@ -45,10 +45,10 @@ class ComercioProducto extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'fecha' => Yii::t('app', 'Fecha'),
-            'vendidos' => Yii::t('app', 'Vendidos'),
-            'id_comercio' => Yii::t('app', 'Id Comercio'),
-            'id_producto' => Yii::t('app', 'Id Producto'),
+            'fecha' => Yii::t('app', 'Date'),
+            'vendidos' => Yii::t('app', 'Sold'),
+            'id_comercio' => Yii::t('app', 'Store ID'),
+            'id_producto' => Yii::t('app', 'Product ID'),
         ];
     }
 

@@ -40,16 +40,8 @@ class RutaDiaria extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'fecha' => Yii::t('app', 'Fecha'),
+            'fecha' => Yii::t('app', 'Date'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRutaDiariaComercios()
-    {
-        return $this->hasMany(RutaDiariaComercio::className(), ['id_ruta_diaria' => 'id']);
     }
 
     public function getComerciosOrdenados(){
@@ -63,6 +55,14 @@ class RutaDiaria extends \yii\db\ActiveRecord
             $i++;
         }
         return $comerciosOrdenados;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRutaDiariaComercios()
+    {
+        return $this->hasMany(RutaDiariaComercio::className(), ['id_ruta_diaria' => 'id']);
     }
 
 }

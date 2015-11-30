@@ -19,6 +19,7 @@
 return [
     'Didn\'t receive confirmation message?<br>' => 'No recibió el mensaje de confirmación?<br>',
     'Manage user' => 'Administrar usuario',
+    'New user' => 'Nuevo usuario',
     '(not set)' => '(no establecido)',
     'A confirmation message has been sent to your new email address' => 'Se le ha enviado un mensaje de confirmación a su nuevo correo electrónico',
     'A message has been sent to your email address. It contains a confirmation link that you must click to complete registration.' => 'Se le ha enviado un correo electrónico. Contiene un link de confirmación al que deberá acceder para completar su registro',

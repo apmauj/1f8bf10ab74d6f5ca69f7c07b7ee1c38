@@ -45,7 +45,7 @@ class OrdenRutaForm extends \yii\db\ActiveRecord
     {
         return [
             'username'      => Yii::t('app', 'Username'),
-            'idRuta'        => Yii::t('app', 'Route Id.'),
+            'idRuta'        => Yii::t('app', 'Route Id'),
             'dia'           => Yii::t('app', 'Day'),
         ];
     }

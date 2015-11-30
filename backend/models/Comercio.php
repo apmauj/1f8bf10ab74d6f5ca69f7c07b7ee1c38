@@ -70,13 +70,13 @@ class Comercio extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'nombre' => Yii::t('app', 'Nombre'),
-            'latitud' => Yii::t('app', 'Latitud'),
-            'longitud' => Yii::t('app', 'Longitud'),
-            'dia' => Yii::t('app', 'Dia'),
-            'prioridad' => Yii::t('app', 'Prioridad'),
-            'esActivo' => Yii::t('app', 'Es Activo'),
-            'direccion' => Yii::t('app', 'Direccion'),
+            'nombre' => Yii::t('app', 'Name'),
+            'latitud' => Yii::t('app', 'Latitude'),
+            'longitud' => Yii::t('app', 'Longitude'),
+            'dia' => Yii::t('app', 'Day'),
+            'prioridad' => Yii::t('app', 'Priority'),
+            'esActivo' => Yii::t('app', 'Active?'),
+            'direccion' => Yii::t('app', 'Adress'),
         ];
     }
 
