@@ -175,6 +175,8 @@ $baseUrl = $asset->baseUrl;
                 }
         });
 
+        var idProductos = [];
+
         $('#selComercio').on('change', function () {
             $.ajax({
                 url: '/api/web/v2/stock/' + $('#selComercio').val(),
@@ -185,6 +187,7 @@ $baseUrl = $asset->baseUrl;
                     var sliSto = $('#sliderStock');
                     var html = '';
                     $.each( producto, function(key, producto ){
+                        idProductos.push(producto.id);
                         html += '<label for="sliderProds">'+producto.nombre+'</label>';
                         html += '<input name="sliderProds" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
                         html += '</br>';
@@ -199,24 +202,24 @@ $baseUrl = $asset->baseUrl;
         });
 
         function showValues(){
-            $.ajax({
-                url: '/api/web/v2/stock/' + $('#selComercio').val(),
-                method : 'GET',
-                dataType : 'json',
-                success : function(producto){
-                    console.log('producto', producto);
-                    var cant = $( ":input[name=sliderProds]" ).serializeArray();
-                    var prodCant = [];
-                    $( "#results" ).empty();
-                    $.each( producto, function(key, producto ){
-                        prodCant.push({id:producto.id,cant:cant[key].value});
-                        $( "#results" ).append( producto.id + "-" + cant[key].value + " " );
-                    });
-                    console.log('prodCant',prodCant);
-                },
-                error : function(){
-                    alert('error')
-                }
+            var cant = $( ":input[name=sliderProds]" ).serializeArray();
+            $.each( idProductos, function(key, producto ){
+                $.ajax({
+                    url: '/api/web/v2/stock',
+                    method : 'POST',
+                    data : {
+                        'id_producto' : producto,
+                        'cantidad' : cant[key].value
+                    },
+                    dataType : 'json',
+                    success : function(response){
+                        console.log(response);
+                        alert('OK');
+                    },
+                    error : function(){
+                        alert('error al final')
+                    }
+                });
             });
         }
 

@@ -13,6 +13,7 @@ use backend\models\Producto;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rest\ActiveController;
+use backend\models\Stock;
 
 /**
  * StockController implements the CRUD actions for Stock model.
@@ -52,10 +53,13 @@ class StockController extends ActiveController
     public function actionStock(){
 
         $params = Yii::$app->request->post();
-        print_r("ACA TAMO");
+        $model = new Stock();
+//        $model->id_producto = $params->id_producto;
+//        $model->cantidad = $params->cantidad;
+
+        print_r($model);
 
         return $params;
-
 
     }
 
