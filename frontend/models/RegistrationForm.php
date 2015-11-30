@@ -8,9 +8,9 @@
 
 namespace frontend\models;
 
+use backend\models\User;
 use dektrium\user\models\RegistrationForm as BaseRegistrationForm;
 use Yii;
-use backend\models\User;
 
 class RegistrationForm extends BaseRegistrationForm
 {

@@ -142,6 +142,7 @@ $baseUrl = $asset->baseUrl;
         <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Submit');?>'>
     </div>
 
+    <p><b>Results:</b> <span id="results"></span></p>
 
     <div data-role="footer">
         <h1><?php echo $footer ?></h1>
@@ -184,18 +185,8 @@ $baseUrl = $asset->baseUrl;
                     var sliSto = $('#sliderStock');
                     var html = '';
                     $.each( producto, function(key, producto ){
-//                      html += '<div class="ui-field-contain">';
-//                      html += '<label for="slider-'+ producto.id + '">Slider:</label>';
-//                      html += '<input name="slider-'+ producto.id + '" id="slider-'+ producto.id + '" value="50" min="0" max="100" data-highlight="true" type="range">';
-//                      html += '</div>';
-//                      html += '<label for="slider-'+ producto.id + '" id="slider-'+ producto.id + '-label">' + producto.nombre + '</label>';
-                        //html += '<div class="ui-slider">';
-                        html += '<input name="slider-'+ producto.id +'" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
-//                      html += '<div role="application" class="ui-slider-track ui-shadow-inset ui-bar-inherit ui-corner-all">';
-//                      html += '<div class="ui-slider-bg ui-btn-active" style="width: 50%;">';
-                        //html += '</div>';
-//                      html += '<a href="#" class="ui-slider-handle ui-btn ui-shadow" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50" title="50" aria-labelledby="slider-1-label" style="left: 50%;">';
-//                      html += '</a>';
+                        html += '<label for="sliderProds">'+producto.nombre+'</label>';
+                        html += '<input name="sliderProds" id="slider-'+ producto.id +'" value="50" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> '    + producto.nombre  + ' </h4>';
                         html += '</br>';
                     });
                     sliSto.html(html);
@@ -207,24 +198,30 @@ $baseUrl = $asset->baseUrl;
             });
         });
 
-        $('#stockBoton').on('click', function () {
+        function showValues(){
             $.ajax({
-                url: '/api/web/v2/stock',
-                method : 'POST',
-                data: {
-                    'login-form[login]': $("#name").val(),
-                    'login-form[password]': $("#password").val()
-                },
+                url: '/api/web/v2/stock/' + $('#selComercio').val(),
+                method : 'GET',
                 dataType : 'json',
-                success : function(){
-                    alert('Datos guardados');
-                    //console.log()
+                success : function(producto){
+                    console.log('producto', producto);
+                    var cant = $( ":input[name=sliderProds]" ).serializeArray();
+                    var prodCant = [];
+                    $( "#results" ).empty();
+                    $.each( producto, function(key, producto ){
+                        prodCant.push({id:producto.id,cant:cant[key].value});
+                        $( "#results" ).append( producto.id + "-" + cant[key].value + " " );
+                    });
+                    console.log('prodCant',prodCant);
                 },
                 error : function(){
                     alert('error')
                 }
             });
-        });
+        }
+
+        $( "#stockBoton" ).on('click', showValues );
+
     });
 </script>
 

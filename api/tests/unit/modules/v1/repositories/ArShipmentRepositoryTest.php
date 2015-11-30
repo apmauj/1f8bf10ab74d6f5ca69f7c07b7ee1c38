@@ -5,8 +5,8 @@
 
 namespace api\tests\unit\modules\v1\repositories;
 
-use api\tests\unit\DbTestCase;
 use api\modules\v1\repositories\shipment\ArShipmentRepository;
+use api\tests\unit\DbTestCase;
 
 
 /**
@@ -25,22 +25,22 @@ class ArShipmentRepositoryTest extends DbTestCase
         ];
     }
     
-    protected function _before()
-    {
-        $this->shipmentRepo = new ArShipmentRepository();
-    }
-    
     public function testFindActiveBids()
     {
         // arrange
         $shipmentId = 5;
-        
+
         // act
         $activeBids = $this->shipmentRepo->findActiveBidsByShipment($shipmentId);
-        
+
         // assert
         $this->assertNotEmpty($activeBids);
         $this->assertEquals(count($activeBids), 1);
-        
+
+    }
+    
+    protected function _before()
+    {
+        $this->shipmentRepo = new ArShipmentRepository();
     }
 }

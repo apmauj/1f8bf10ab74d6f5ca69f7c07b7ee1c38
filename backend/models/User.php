@@ -7,9 +7,8 @@
  */
 namespace backend\models;
 
-use Yii;
-
 use dektrium\user\models\User as BaseUser;
+use Yii;
 
 
 class User extends BaseUser{

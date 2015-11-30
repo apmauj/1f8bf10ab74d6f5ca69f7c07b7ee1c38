@@ -8,9 +8,9 @@
 
 namespace api\modules\v1\controllers;
 
-use yii\rest\ActiveController;
 use backend\models\StockSearch;
 use Yii;
+use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
 
 /**

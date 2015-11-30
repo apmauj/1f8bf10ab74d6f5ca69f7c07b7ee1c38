@@ -1,7 +1,7 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m151114_014406_add_column_direccion_to_comercio extends Migration
 {

@@ -4,10 +4,7 @@
 // @codingStandardsIgnoreFile
 
 
-use \Codeception\Maybe;
-use Codeception\Module\PhpBrowser;
-use Codeception\Module\REST;
-use Codeception\Module\ApiHelper;
+use Codeception\Maybe;
 
 /**
  * Inherited methods

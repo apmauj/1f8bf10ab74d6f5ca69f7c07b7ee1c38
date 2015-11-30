@@ -5,9 +5,9 @@
 
 namespace api\tests\unit\modules\v1\repositories;
 
-use api\tests\unit\DbTestCase;
 use api\modules\v1\repositories\user\ArUserRepository;
 use api\tests\fixtures\modules\v1\repositories\UserFixture;
+use api\tests\unit\DbTestCase;
 
 /**
  * Active Record User Repository Test
@@ -25,21 +25,21 @@ class ArUserRepositoryTest extends DbTestCase
         ];
     }
     
-    protected function _before()
-    {
-        $this->userRepo = new ArUserRepository();
-    }
-    
     public function testFindByEmail()
     {
         // arrange
-        $email = 'halimi@gmail.com';        
-        
+        $email = 'halimi@gmail.com';
+
         // act
         $user = $this->userRepo->findByEmail($email);
-        
+
         // assert
         $this->assertEquals($user->usr_email, 'halimi@gmail.com');
         $this->assertEquals($user->usr_username, 'halimi');
+    }
+    
+    protected function _before()
+    {
+        $this->userRepo = new ArUserRepository();
     }
 }

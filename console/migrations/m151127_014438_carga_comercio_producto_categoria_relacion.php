@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m151127_014438_carga_comercio_producto_categoria_relacion extends Migration

@@ -9,8 +9,8 @@
 namespace backend\models;
 
 
-use yii\base\Model;
 use Yii;
+
 class OrdenRutaForm extends \yii\db\ActiveRecord
 {
     public $idUsuario;

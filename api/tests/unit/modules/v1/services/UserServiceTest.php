@@ -5,10 +5,10 @@
 
 namespace api\tests\unit\modules\v1\services;
 
-use \Mockery as m;
-use api\tests\unit\TestCase;
-use api\modules\v1\services\UserService;
 use api\modules\v1\repositories\user\ArUserRepository;
+use api\modules\v1\services\UserService;
+use api\tests\unit\TestCase;
+use Mockery as m;
 
 /**
  * User Service Test

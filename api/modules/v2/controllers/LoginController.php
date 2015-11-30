@@ -2,23 +2,9 @@
 
 namespace api\modules\v2\controllers;
 
+use dektrium\user\controllers\SecurityController;
 use frontend\models\LoginForm;
 use Yii;
-use yii\rest\ActiveController;
-use yii\web\BadRequestHttpException;
-
-use dektrium\user\controllers\SecurityController;
-use dektrium\user\Finder;
-use dektrium\user\models\Account;
-use dektrium\user\models\User;
-use dektrium\user\Module;
-use dektrium\user\traits\AjaxValidationTrait;
-use yii\authclient\AuthAction;
-use yii\authclient\ClientInterface;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\Url;
-use yii\web\Controller;
 use yii\web\Response;
 
 

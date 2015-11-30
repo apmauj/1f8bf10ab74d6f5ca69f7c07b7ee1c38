@@ -10,7 +10,6 @@ namespace frontend\controllers\user;
 
 
 use dektrium\user\controllers\SecurityController;
-use dektrium\user\models\LoginForm;
 use Yii;
 
 

@@ -9,12 +9,9 @@
 namespace api\modules\v2\controllers;
 
 use backend\models\ComercioProductosRelacionados;
-use backend\models\Comercio;
 use backend\models\Producto;
-use yii\helpers\ArrayHelper;
-use backend\models\Stock;
-use backend\models\StockSearch;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\rest\ActiveController;
 
 /**

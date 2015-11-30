@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use dektrium\user\widgets\Connect;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View                   $this

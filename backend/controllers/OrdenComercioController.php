@@ -4,15 +4,15 @@ namespace backend\controllers;
 
 use backend\helpers\sysconfigs;
 use backend\models\Comercio;
-use backend\models\OrdenRutaForm;
-use backend\models\User;
-use backend\models\Ruta;
 use backend\models\OrdenComercio;
 use backend\models\OrdenComercioSearch;
+use backend\models\OrdenRutaForm;
+use backend\models\Ruta;
+use backend\models\User;
 use Yii;
-use yii\db\Query;
-use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
+
 /**
  * OrdenComercioController implements the CRUD actions for OrdenComercio model.
  */
@@ -143,83 +143,12 @@ class OrdenComercioController extends SiteController
 
     }
 
-    public function actionSalvarRuta(){
-
-        $model = new OrdenRutaForm();
-        $model->setScenario('create');
-        //die(var_dump(Yii::$app->request->post()['orden-ruta-form']));
-        $model->load(Yii::$app->request->post());
-        $comerciosOrdenados = explode(',',$model->ordenComercios);
-        $orden = 1;
-        foreach($comerciosOrdenados as $idComercio){
-            $ordenComercio = new OrdenComercio();
-            $ordenComercio->id_comercio = $idComercio;
-            $ordenComercio->id_ruta = $model->idRuta;
-            $ordenComercio->orden = $orden;
-            $ordenComercio->save();
-            $orden++;
-        }
-        return $this->redirect(['ruta/view', 'id' => $model->idRuta]);
+    private function obtenerRuta($dia,$idUsuario){
+        $usuario = User::findOne($idUsuario);
+        $comerciosValidos = $this->obtenerComerciosDisponiblesUsuario($dia,$usuario);
+        return $this->calcularRuta($usuario,$comerciosValidos);
 
     }
-
-    public function relevador(){
-
-    }
-
-    /**
-     * Updates an existing OrdenComercio model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing OrdenComercio model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    public function comerciosPorDiaSinRutasActivas($dia){
-
-        //ruta: las rutas creadas
-        //orden_comercio
-        //comercio
-
-        //Devuelve todas las rutas activas
-        //$query = new Query();
-        $query =Ruta::find()->select('id')->where(['esActivo'=>"1"]);
-
-        //Devuelve los comercios en rutas activas
-        //$query2 = new Query();
-        $query2= OrdenComercio::find()->select('id_comercio')->where(['in','id_ruta',$query]);
-
-        //Devuelve los comercios sin rutas activas
-        //$comercios = [];
-        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>'1'])->all();
-
-        return $comercios;
-    }
-
 
     /**
      * Retorna los comercios que cumplan los siguientes requisitos:
@@ -247,11 +176,25 @@ class OrdenComercioController extends SiteController
         return $comerciosValidos;
     }
 
-    private function obtenerRuta($dia,$idUsuario){
-        $usuario = User::findOne($idUsuario);
-        $comerciosValidos = $this->obtenerComerciosDisponiblesUsuario($dia,$usuario);
-        return $this->calcularRuta($usuario,$comerciosValidos);
+    public function comerciosPorDiaSinRutasActivas($dia){
 
+        //ruta: las rutas creadas
+        //orden_comercio
+        //comercio
+
+        //Devuelve todas las rutas activas
+        //$query = new Query();
+        $query =Ruta::find()->select('id')->where(['esActivo'=>"1"]);
+
+        //Devuelve los comercios en rutas activas
+        //$query2 = new Query();
+        $query2= OrdenComercio::find()->select('id_comercio')->where(['in','id_ruta',$query]);
+
+        //Devuelve los comercios sin rutas activas
+        //$comercios = [];
+        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>'1'])->all();
+
+        return $comercios;
     }
 
     private function calcularRuta($usuario,$comerciosValidos){
@@ -373,7 +316,6 @@ class OrdenComercioController extends SiteController
 
     }
 
-
     /** Obtenemos un array que lleva como clave el id del comercio y como elemento un array con las coordenadas del mismo.
      * @param $comercios
      * @return array
@@ -384,6 +326,62 @@ class OrdenComercioController extends SiteController
             $coordenadasComercios[$comercio->id] = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
         }
         return $coordenadasComercios;
+    }
+
+    public function actionSalvarRuta(){
+
+        $model = new OrdenRutaForm();
+        $model->setScenario('create');
+        //die(var_dump(Yii::$app->request->post()['orden-ruta-form']));
+        $model->load(Yii::$app->request->post());
+        $comerciosOrdenados = explode(',',$model->ordenComercios);
+        $orden = 1;
+        foreach($comerciosOrdenados as $idComercio){
+            $ordenComercio = new OrdenComercio();
+            $ordenComercio->id_comercio = $idComercio;
+            $ordenComercio->id_ruta = $model->idRuta;
+            $ordenComercio->orden = $orden;
+            $ordenComercio->save();
+            $orden++;
+        }
+        return $this->redirect(['ruta/view', 'id' => $model->idRuta]);
+
+    }
+
+    public function relevador(){
+
+    }
+
+    /**
+     * Updates an existing OrdenComercio model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Deletes an existing OrdenComercio model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
     }
 
 }

@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m150627_222222_alter_tables_for_audit_behaviours extends Migration

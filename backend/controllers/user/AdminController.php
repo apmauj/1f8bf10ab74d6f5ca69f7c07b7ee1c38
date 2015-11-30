@@ -2,14 +2,13 @@
 
 namespace backend\controllers\user;
 
-use backend\helpers\sysconfigs;
-use Yii;
 use backend\models\User;
 use backend\models\UserSearch;
 use dektrium\user\controllers\AdminController as BaseAdminController;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use dektrium\user\helpers\Password;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -52,6 +51,22 @@ class AdminController extends BaseAdminController
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Finds the User model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = User::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -121,21 +136,5 @@ class AdminController extends BaseAdminController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

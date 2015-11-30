@@ -5,8 +5,8 @@
 
 namespace api\tests\unit\modules\v1\repositories;
 
-use api\tests\unit\DbTestCase;
 use api\modules\v1\repositories\category\ArCategoryRepository;
+use api\tests\unit\DbTestCase;
 
 
 /**

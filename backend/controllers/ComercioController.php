@@ -2,12 +2,9 @@
 
 namespace backend\controllers;
 
-use backend\helpers\sysconfigs;
 use backend\models\Comercio;
 use backend\models\ComercioSearch;
 use Yii;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**

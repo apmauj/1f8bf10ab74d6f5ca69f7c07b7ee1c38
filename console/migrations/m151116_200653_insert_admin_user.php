@@ -1,8 +1,7 @@
 <?php
 
-use yii\db\Schema;
-use yii\db\Migration;
 use dektrium\user\helpers\Password;
+use yii\db\Migration;
 
 class m151116_200653_insert_admin_user extends Migration
 {

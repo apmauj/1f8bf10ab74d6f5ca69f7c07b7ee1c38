@@ -2,11 +2,10 @@
 
 namespace backend\controllers;
 
-use Yii;
 use backend\models\ComercioProductosRelacionados;
 use backend\models\ComercioProductosRelacionadosSearch;
+use Yii;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ComercioProductosRelacionadosController implements the CRUD actions for ComercioProductosRelacionados model.
@@ -40,6 +39,23 @@ class ComercioProductosRelacionadosController extends SiteController
         return $this->render('view', [
             'model' => $this->findModel($id_comercio, $id_producto),
         ]);
+    }
+
+    /**
+     * Finds the ComercioProductosRelacionados model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id_comercio
+     * @param integer $id_producto
+     * @return ComercioProductosRelacionados the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id_comercio, $id_producto)
+    {
+        if (($model = ComercioProductosRelacionados::findOne(['id_comercio' => $id_comercio, 'id_producto' => $id_producto])) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -106,22 +122,5 @@ class ComercioProductosRelacionadosController extends SiteController
         $this->findModel($id_comercio, $id_producto)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the ComercioProductosRelacionados model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id_comercio
-     * @param integer $id_producto
-     * @return ComercioProductosRelacionados the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id_comercio, $id_producto)
-    {
-        if (($model = ComercioProductosRelacionados::findOne(['id_comercio' => $id_comercio, 'id_producto' => $id_producto])) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

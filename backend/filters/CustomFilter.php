@@ -8,9 +8,6 @@
 namespace backend\filters;
 
 
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
-
 /**
  * HttpBearerAuth is an action filter that supports the authentication method based on HTTP Bearer token.
  *

@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m151116_005135_add_column_comercio_productos_relacionados extends Migration

@@ -1,9 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use backend\helpers\sysconfigs;
-use backend\models\Comercio;
-use yii\widgets\DetailView;
 
 
 /* @var $this yii\web\View */
