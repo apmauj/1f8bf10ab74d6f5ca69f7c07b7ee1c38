@@ -46,11 +46,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'prioridad')->dropDownList(
         [
             'label' => Yii::t('app', 'Priority'),
-            '1' => Yii::t('app', 'Muy Alta'),
-            '2' => Yii::t('app', 'Alta'),
+            '1' => Yii::t('app', 'Very High'),
+            '2' => Yii::t('app', 'High'),
             '3' => Yii::t('app', 'Normal'),
-            '4' => Yii::t('app', 'Baja'),
-            '5' => Yii::t('app', 'Muy Baja'),
+            '4' => Yii::t('app', 'Low'),
+            '5' => Yii::t('app', 'Very Low'),
         ]);
     ?>
 

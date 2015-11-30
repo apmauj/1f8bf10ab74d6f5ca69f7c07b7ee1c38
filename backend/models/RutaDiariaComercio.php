@@ -45,9 +45,9 @@ class RutaDiariaComercio extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'orden' => Yii::t('app', 'Orden'),
-            'id_ruta_diaria' => Yii::t('app', 'Id Ruta Diaria'),
-            'id_comercio' => Yii::t('app', 'Id Comercio'),
+            'orden' => Yii::t('app', 'Order'),
+            'id_ruta_diaria' => Yii::t('app', 'Daily Route ID'),
+            'id_comercio' => Yii::t('app', 'Store ID'),
         ];
     }
 

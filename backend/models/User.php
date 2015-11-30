@@ -30,14 +30,6 @@ class User extends BaseUser{
         return $this->hasMany(Ruta::className(), ['id_usuario' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRutasDiarias()
-    {
-        return $this->hasMany(RutaDiaria::className(), ['id_usuario' => 'id']);
-    }
-
     public function scenarios()
     {
         $scenarios = parent::scenarios();
@@ -72,8 +64,8 @@ class User extends BaseUser{
     public function attributeLabels()
     {
         $labels = parent::attributeLabels();
-        $labels['direccion'] = Yii::t('app', 'Direccion');
-        $labels['esActivo'] = Yii::t('app', 'Es Activo');
+        $labels['direccion'] = Yii::t('app', 'Adress');
+        $labels['esActivo'] = Yii::t('app', 'Active?');
 
         return $labels;
     }
@@ -89,6 +81,14 @@ class User extends BaseUser{
             return $rutaDiaria != null;
         }
         return false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRutasDiarias()
+    {
+        return $this->hasMany(RutaDiaria::className(), ['id_usuario' => 'id']);
     }
 
 }

@@ -43,9 +43,9 @@ class OrdenComercio extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'orden' => Yii::t('app', 'Orden'),
-            'id_ruta' => Yii::t('app', 'Id Ruta'),
-            'id_comercio' => Yii::t('app', 'Id Comercio'),
+            'orden' => Yii::t('app', 'Order'),
+            'id_ruta' => Yii::t('app', 'Route ID'),
+            'id_comercio' => Yii::t('app', 'Store ID'),
         ];
     }
 

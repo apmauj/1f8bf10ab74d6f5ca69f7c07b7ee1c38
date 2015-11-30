@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>Yii::t('app', 'Active'),
+                'label'=>Yii::t('app', 'Active?'),
                 'format'=>'raw',
                 'value'=>function ($data) {
                     if ($data->esActivo == 0)

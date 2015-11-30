@@ -54,12 +54,12 @@ class Producto extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'nombre' => Yii::t('app', 'Nombre'),
-            'imagen' => Yii::t('app', 'Imagen'),
-            'id_categoria' => Yii::t('app', 'Categoria'),
-            'esActivo' => Yii::t('app', 'Activo'),
-            'precio' => Yii::t('app', 'Precio'),
-            'file' => Yii::t('app', 'Imagen'),
+            'nombre' => Yii::t('app', 'Name'),
+            'imagen' => Yii::t('app', 'Image'),
+            'id_categoria' => Yii::t('app', 'Category'),
+            'esActivo' => Yii::t('app', 'Active?'),
+            'precio' => Yii::t('app', 'Price'),
+            'file' => Yii::t('app', 'Image'),
         ];
     }
 

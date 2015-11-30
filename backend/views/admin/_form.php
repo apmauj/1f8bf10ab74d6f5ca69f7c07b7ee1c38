@@ -14,22 +14,44 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($user, 'username')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($user, 'username')->textInput(
+        [
+            'maxlength' => true,
+            'label'=>Yii::t('app', 'Username'),
+        ]) ?>
 
-    <?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($user, 'email')->textInput(
+        [
+            'maxlength' => true,
+            'label'=>Yii::t('app', 'Email'),
+        ]) ?>
 
-    <?= $form->field($user, 'direccion')->textInput(['maxlength' => true,'id'=>'direccion','onchange' => 'javascript:cambioDireccion()']) ?>
+    <?= $form->field($user, 'direccion')->textInput(
+        [
+            'maxlength' => true,
+            'id'=>'direccion',
+            'onchange' => 'javascript:cambioDireccion()',
+            'label'=>Yii::t('app', 'Adress'),
+        ]) ?>
 
-    <?= $form->field($user, 'esActivo')->dropDownList(['1' => Yii::t('app','Yes'), '0' => Yii::t('app','No')]); ?>
+    <?= $form->field($user, 'esActivo')->dropDownList(
+        [
+            '1' => Yii::t('app','Yes'),
+            '0' => Yii::t('app','No'),
+            'label'=>Yii::t('app', 'Active?'),
+        ]);
+    ?>
 
     <?= $form->field($user, 'latitud')->hiddenInput(
         [
             'id'=>'latitud',
+            'label'=>Yii::t('app', 'Latitude'),
         ]
     )->label(false); ?>
     <?= $form->field($user, 'longitud')->hiddenInput(
         [
             'id'=>'longitud',
+            'label'=>Yii::t('app', 'longitude'),
         ]
     )->label(false); ?>
 

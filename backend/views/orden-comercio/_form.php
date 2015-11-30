@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_ruta')->textInput(
         [
-            'label'=>Yii::t('app','Rout Id'),
+            'label'=>Yii::t('app','Route Id'),
         ]
     ) ?>
 

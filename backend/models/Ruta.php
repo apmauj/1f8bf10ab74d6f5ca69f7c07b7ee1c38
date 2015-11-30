@@ -42,9 +42,9 @@ class Ruta extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'dia' => Yii::t('app', 'Dia'),
-            'esActivo' => Yii::t('app', 'Es Activo'),
-            'id_usuario' => Yii::t('app', 'Usuario'),
+            'dia' => Yii::t('app', 'Day'),
+            'esActivo' => Yii::t('app', 'Active?'),
+            'id_usuario' => Yii::t('app', 'User'),
         ];
     }
 

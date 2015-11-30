@@ -40,8 +40,8 @@ class ComercioProductosRelacionados extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_comercio' => Yii::t('app', 'Comercio'),
-            'id_producto' => Yii::t('app', 'Producto'),
+            'id_comercio' => Yii::t('app', 'Store'),
+            'id_producto' => Yii::t('app', 'Product'),
         ];
     }
 
