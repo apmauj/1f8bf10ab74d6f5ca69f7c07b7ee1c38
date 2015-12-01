@@ -42,7 +42,7 @@ if ((Yii::$app->controller->action->id === 'login' || Yii::$app->controller->act
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 180%; width: 130%;" alt="logo"></a>
+                    <a class="navbar-brand" href="#"><img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 100px; width: 130px;" alt="logo"></a>
                 </div>
                 <h2 style="color: white;margin-left: 150px;"><?php echo $this->title; ?></h2>
 

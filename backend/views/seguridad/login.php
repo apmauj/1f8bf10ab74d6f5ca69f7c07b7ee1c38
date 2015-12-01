@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\widgets\Connect;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -56,11 +55,6 @@ $fieldOptions2 = [
         <?= $form->field($model, 'login', $fieldOptions1)->label(false)->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
 
         <?= $form->field($model, 'password', $fieldOptions2)->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-
-        <?= Connect::widget([
-            'baseAuthUrl' => ['/user/security/auth']
-        ]) ?>
-    
 
         <div class="row">
             <!-- /.col -->

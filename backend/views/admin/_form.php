@@ -38,7 +38,6 @@ use yii\widgets\ActiveForm;
         [
             '1' => Yii::t('app','Yes'),
             '0' => Yii::t('app','No'),
-            'label'=>Yii::t('app', 'Active?'),
         ]);
     ?>
 

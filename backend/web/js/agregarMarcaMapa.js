@@ -18,7 +18,7 @@ var ubicacion = new google.maps.LatLng(-34.905647, -56.186787);
 function initMap() {
     geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map-canvas'), {
-        zoom: 16,
+        zoom: 12,
         center: ubicacion
     });
     if($("#latitud").val()!="" && $("#longitud").val()!="" && $("#direccion").val()!=""){
@@ -92,7 +92,7 @@ function addMarker(location, isDestination,map) {
         if (status == google.maps.GeocoderStatus.OK) {
             bounds.extend(results[0].geometry.location);
             map.fitBounds(bounds);
-            map.zoom = 16;
+            map.zoom = 12;
             map.center= results[0].geometry.location;
             var infowindow = new google.maps.InfoWindow({
                 content: location
@@ -145,7 +145,7 @@ function addMarkerLatLong(location, isDestination,map,direccion) {
     }
     bounds.extend(location);
     map.fitBounds(bounds);
-    map.zoom = 16;
+    map.zoom = 12;
     map.center= location;
     var infowindow = new google.maps.InfoWindow({
         content: direccion
