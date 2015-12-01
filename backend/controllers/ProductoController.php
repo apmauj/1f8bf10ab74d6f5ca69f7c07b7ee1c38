@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Categoria;
 use backend\models\Producto;
 use backend\models\ProductoSearch;
 use Yii;
@@ -65,7 +66,8 @@ class ProductoController extends SiteController
     public function actionCreate()
     {
         $model = new Producto();
-
+        $categoria = new Categoria();
+        $categoriasActivas = $categoria->getCategoriasActivas();
         if ($model->load(Yii::$app->request->post())) {
 
             $nombreImagen = $model->nombre;
@@ -80,7 +82,7 @@ class ProductoController extends SiteController
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,'categorias'=> $categoriasActivas
             ]);
         }
     }
@@ -94,6 +96,8 @@ class ProductoController extends SiteController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $categoria = new Categoria();
+        $categoriasActivas = $categoria->getCategoriasActivas();
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -109,7 +113,7 @@ class ProductoController extends SiteController
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'categorias'=> $categoriasActivas
             ]);
         }
     }
@@ -122,8 +126,15 @@ class ProductoController extends SiteController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model= $this->findModel($id);
+        $mensaje = Yii::t('app','Product has been deleted!');
+        $validar=$model->esValidoBorrar();
+        if($validar=="OK") {
+            Yii::$app->getSession()->setFlash('success', $mensaje);
+            $model->delete();
+        }else{
+            Yii::$app->getSession()->setFlash('danger',$validar);
+        }
         return $this->redirect(['index']);
     }
 }

@@ -26,7 +26,8 @@
         "codeception/specify": "*",
         "codeception/verify": "*",
         "yii-dream-team/yii2-upload-behavior": "*",
-        "alexandernst/yii2-device-detect": "0.0.8"
+        "alexandernst/yii2-device-detect": "0.0.8",
+        "filsh/yii2-oauth2-server": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

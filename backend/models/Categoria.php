@@ -33,7 +33,7 @@ class Categoria extends \yii\db\ActiveRecord
             [['nombre', 'esActivo'], 'required'],
             [['esActivo'], 'integer'],
             [['nombre'], 'string', 'max' => 50],
-            [['descripcion'], 'string', 'max' => 255]
+            [['descripcion'], 'string', 'max' => 255],
         ];
     }
 
@@ -57,4 +57,17 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Producto::className(), ['id_categoria' => 'id']);
     }
+
+    public function getCategoriasActivas(){
+        return $this->find()->where(['esActivo'=>1])->all();
+    }
+
+    public function esValidoBorrar(){
+        if($this->getProductos()->count()>0){
+            return Yii::t('app',"There are Products that depends on this Category");
+        }
+
+        return "OK";
+    }
+
 }

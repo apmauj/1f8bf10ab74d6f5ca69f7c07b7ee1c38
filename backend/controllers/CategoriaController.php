@@ -21,7 +21,6 @@ class CategoriaController extends SiteController
     {
         $searchModel = new CategoriaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -101,8 +100,17 @@ class CategoriaController extends SiteController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
+        $model = $this->findModel($id);
+        $mensaje = Yii::t('app','Category has been deleted!');
+        $validar=$model->esValidoBorrar();
+        if($validar=="OK"){
+            Yii::$app->getSession()->setFlash('success',$mensaje);
+
+            $this->findModel($id)->delete();
+        }else{
+            Yii::$app->getSession()->setFlash('danger',$validar);
+        }
         return $this->redirect(['index']);
     }
 }

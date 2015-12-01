@@ -8,10 +8,11 @@
 namespace backend\models;
 
 use dektrium\user\models\User as BaseUser;
+use OAuth2\Storage\UserCredentialsInterface;
 use Yii;
+use yii\db\Expression;
 
-
-class User extends BaseUser{
+class User extends BaseUser implements UserCredentialsInterface{
 
     public function init()
     {
@@ -89,6 +90,69 @@ class User extends BaseUser{
     public function getRutasDiarias()
     {
         return $this->hasMany(RutaDiaria::className(), ['id_usuario' => 'id']);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id, 'blocked_at' => NULL]);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        // Get token
+        $oauthToken = OauthAccessTokens::find()
+            ->andWhere('expires > NOW()')
+            ->andWhere(['access_token' => $token])
+            ->one();
+        if (!$oauthToken) {
+            return null;
+        }
+
+        return User::findOne($oauthToken->user_id);
+    }
+    /**
+     * @inheritdoc
+     */
+    public function checkUserCredentials($username, $password)
+    {
+        $user = User::find()->where(['AND', ['username' => $username], new Expression('blocked_at IS NULL'), new Expression('confirmed_at IS NOT NULL')])->one();
+
+        if ($user)
+            return Yii::$app->getSecurity()->validatePassword($password, $user->password_hash);
+        else
+            return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUserDetails($username)
+    {
+        $user = User::findOne([
+            'username' => $username,
+            'blocked_at' => NULL,
+        ]);
+
+        // Update last login flag
+        //$user->last_login = new Expression('NOW()');
+        //$user->save(true, ["last_login"]);
+
+        $userData = [
+            'id' => $user->id,
+            'user_id' => $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+            'registration_ip' => $user->registration_ip,
+        ];
+        return $userData;
     }
 
 }

@@ -29,8 +29,8 @@ use yii\widgets\ActiveForm;
     ?>
 
     <?php
-        $categoria=array(Categoria::find()->all());
-	    $listData=ArrayHelper::map(Categoria::find()->all(),'id','nombre');
+        //$categoria=array(Categoria::find()->all());
+	    $listData=ArrayHelper::map($categorias,'id','nombre');
 	    echo $form->field($model, 'id_categoria')->dropDownList($listData,
 	                                [
                                         'prompt'=>Yii::t('app','Select one...')

@@ -4,6 +4,8 @@ use backend\helpers\sysconfigs;
 use dektrium\user\models\User;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Ruta */
@@ -21,13 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
     <?php
         $usuario = User::findOne($model->id_usuario)->username;
@@ -66,7 +61,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if(isset($tieneRecorrido)){
         echo Html::hiddenInput('jsonRequest', $requestRuta,['id'=>'jsonRequest']);
-     ?>
+    ?>
+    <h2><?= Html::encode(Yii::t('app','Schedule')) ?></h2>
+    <?php
+        $provider = new ArrayDataProvider([
+            'allModels' => $datosGrillaPasos,
+            'sort' => [
+                'attributes' => ['orden','tipo', 'nombre', 'direccion'],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        echo GridView::widget([
+            'dataProvider' => $provider,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+
+                'orden',
+                'tipo',
+                'nombre',
+                'direccion',
+            ],
+        ]); ?>
+
+
+
+    ?>
 
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&signed_in=true&libraries=geometry"></script>
         <script type="text/javascript" src="<?php echo Yii::$app->request->baseUrl; ?>/js/mapaRutas.js"></script>

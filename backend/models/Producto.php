@@ -103,4 +103,14 @@ class Producto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Stock::className(), ['id_producto' => 'id']);
     }
+
+    public function esValidoBorrar(){
+        if($this->getComercioProductos()->count()>0){
+            return Yii::t('app',"There are Stores that depends on this Product");
+        }
+
+        return "OK";
+    }
+
+
 }

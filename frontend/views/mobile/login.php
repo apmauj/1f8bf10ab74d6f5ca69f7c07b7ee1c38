@@ -57,16 +57,33 @@ $this->title = 'My Yii Application';
                     url: '/api/web/v2/login',
                     method : 'POST',
                     data: {
-                        'login-form[login]': $("#name").val(),
-                        'login-form[password]': $("#password").val()
+                        'username': $("#name").val(),
+                        'password': $("#password").val(),
+                        'grant_type': 'password',
+                        'client_id' : 'testclient',
+                        'client_secret' : 'testpass'
                     },
                     dataType : 'json',
-                    success : function(){
-                        window.location = '/frontend/web/mobile/index';
-                        //console.log()
+                    success : function(response){
+                        console.log(response);
+                        if (typeof response.access_token != "undefined") {
+                            if (typeof window.localStorage != "undefined") {
+                                localStorage.setItem("muli_token", response.access_token);
+                                window.location = '/frontend/web/mobile/index';
+
+                            }else{
+                                alert("Error... su navegador deberia soportar almacenamiento local. Pero no. Tremenda Basura");
+                            }
+                        }else{
+                            $('#mensaje').innerHTML = response.message;
+                        }
                     },
-                    error : function(){
-                        alert('error')
+                    error : function(xhr, ajaxOptions, thrownError){
+                        var err = eval("(" + xhr.responseText + ")");
+                        //alert(err.message);
+
+                        $('#mensaje').html('<p class="error">'+err.message+'</p>') ;
+                        $('#mensaje').show()
                     }
                 });
             });

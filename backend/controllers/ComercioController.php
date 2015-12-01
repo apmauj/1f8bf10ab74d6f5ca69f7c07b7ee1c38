@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Comercio;
+use backend\models\ComercioProductosRelacionados;
 use backend\models\ComercioSearch;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -104,8 +105,19 @@ class ComercioController extends SiteController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $mensaje = Yii::t('app','Store has been deleted!');
+        $validar=$model->esValidoBorrar();
+        if($validar=="OK") {
+            Yii::$app->getSession()->setFlash('success', $mensaje);
+            $relacionesProducto = ComercioProductosRelacionados::find()->where(['id_comercio'=>$model->id])->all();
+            foreach($relacionesProducto as $relacionProducto){
+                $relacionProducto->delete();
+            }
+            $model->delete();
+        }else{
+            Yii::$app->getSession()->setFlash('danger',$validar);
+        }
         return $this->redirect(['index']);
     }
 

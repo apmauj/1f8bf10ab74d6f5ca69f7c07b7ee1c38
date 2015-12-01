@@ -120,4 +120,13 @@ class Comercio extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ComercioProductosRelacionados::className(), ['id_comercio' => 'id']);
     }
+
+    public function esValidoBorrar(){
+        if($this->getRutaDiariaComercios()->count()>0 || $this->getOrdenComercios()->count()>0){
+            return Yii::t('app',"There are Routes that depends on this Store");
+        }
+        return "OK";
+    }
+
+
 }

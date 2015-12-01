@@ -3,12 +3,14 @@
 namespace api\modules\v2\controllers;
 
 use dektrium\user\controllers\SecurityController;
-use frontend\models\LoginForm;
+use dektrium\user\models\User;
+use dektrium\user\models\LoginForm;
 use Yii;
+use yii\rest\ActiveController;
 use yii\web\Response;
 
 
-class LoginController extends SecurityController
+class LoginController extends SecurityController //ActiveController
 {
    // public $modelClass = 'frontend\models\LoginForm';
 
@@ -32,12 +34,17 @@ class LoginController extends SecurityController
         /** @var LoginForm $model */
         $model = Yii::createObject(LoginForm::className());
         $model->rememberMe = 0;
-        $this->performAjaxValidation($model);
-        if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
-            $user = $this->finder->findUserByUsernameOrEmail($model->login);
-            unset($user['password_hash']);
-            unset($user['auth_key']);
-            return $user;
+        //$this->performAjaxValidation($model);
+        $model->login = Yii::$app->getRequest()->post()['login-form']['login'];
+        $model->password = Yii::$app->getRequest()->post()['login-form']['password'];
+        //$model->user = $this->finder->findUserByUsernameOrEmail($model->login);
+        //$model->user = User::find()->where(['username'=>$model->login])->one();
+        if ($model->login()) {
+            //$user = $this->finder->findUserByUsernameOrEmail($model->login);
+            //unset($user['password_hash']);
+            //unset($user['auth_key']);
+            //return $user;
+            return !Yii::$app->user->isGuest;
         }
         return false;
     }
