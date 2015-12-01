@@ -31,11 +31,12 @@ class CustomFrontendFilter  extends \yii\base\ActionFilter
         $modo = Yii::$app->params['devicedetect'];
 
         if ($modo["isMobile"]){
-            if (Yii::$app->controller->action->id === 'login') {
-                return true;
-            }
-            //return true;
-            return \Yii::$app->getResponse()->redirect($this->loginMobile);
+//            if (Yii::$app->controller->action->id === 'login') {
+//                return true;
+//            }
+//            //return true;
+//            return \Yii::$app->getResponse()->redirect($this->loginMobile);
+            return true;
         }else{
             return \Yii::$app->getResponse()->redirect($this->loginUrl);
         }

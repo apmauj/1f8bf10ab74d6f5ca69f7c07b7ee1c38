@@ -50,6 +50,9 @@ $this->title = 'My Yii Application';
 
 
     <script>
+        if (typeof window.localStorage != "undefined") {
+            localStorage.removeItem("muli_token");
+        }
         $('#mensaje').hide();
         $( document ).ready(function() {
             $('#login').on('click', function () {

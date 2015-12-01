@@ -28,7 +28,16 @@ $baseUrl = $asset->baseUrl;
     <style>
         #rutas, #map-canvas { width: 100%; height: 100%; padding: 0; }
     </style>
+    <script>
+        var token;
+        if (typeof window.localStorage != "undefined") {
+            token = localStorage.getItem("muli_token");
+            if(token === null){
+                window.location = '/frontend/web/mobile/login';
+            }
+        }
 
+    </script>
 </head>
 <body>
 
@@ -53,7 +62,7 @@ $baseUrl = $asset->baseUrl;
     </div>
 
     <div id="logout">
-        <input type="button" data-inline="true" value='<?= Yii::t('mobile', 'Logout');?>'>
+        <input type="button" id="boton-logout" data-inline="true" value='<?= Yii::t('mobile', 'Logout');?>'>
     </div>
 
     <div data-role="footer">
@@ -175,6 +184,18 @@ $baseUrl = $asset->baseUrl;
 </body>
 </html>
 
+<script>
+    $( document ).on( "pagecreate", "#home", function() {
+        $("#boton-logout").on('click', function(){
+            alert('me voy');
+            if (typeof window.localStorage != "undefined") {
+                localStorage.removeItem("muli_token");
+                window.location = '/frontend/web/mobile/login';
+            }
+
+        });
+    });
+</script>
 <script>
     $('#pedidoBoton').hide();
     $( document ).on( "pagecreate", "#pedidos", function() {
