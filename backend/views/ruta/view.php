@@ -14,8 +14,6 @@ $this->title = Yii::t('app', 'Route number ') . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('/Alertas', [
-]) ?>
 
 <div class="ruta-view">
 

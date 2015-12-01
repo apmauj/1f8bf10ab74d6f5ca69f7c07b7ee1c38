@@ -408,7 +408,7 @@ $baseUrl = $asset->baseUrl;
         var directionsService = new google.maps.DirectionsService();
 
         $.ajax({
-            url: '/api/web/v2/ruta/' + 22,
+            url: '/api/web/v2/ruta/' + usuarioId,
             method : 'GET',
             dataType : 'json',
             success : function(results){

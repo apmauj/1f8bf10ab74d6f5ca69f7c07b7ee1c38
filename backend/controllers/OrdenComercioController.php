@@ -288,7 +288,7 @@ class OrdenComercioController extends SiteController
             }
         }else{
             //tenemos solo un comercio, por tanto la ruta generada es solo entre el usuario y el comercio.
-            foreach($coordenadasComercios as $coordenadasComercio) {
+            foreach($coordenadasComercios as $idComercio => $coordenadasComercio) {
                 $url3 = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $coordenadasUsuario['latitud'] . "," . $coordenadasUsuario['longitud'] . "&destination=" . $coordenadasComercio['latitud'] . "," . $coordenadasComercio['longitud'] . "&key=".sysconfigs::API_KEY_GMAPS_RUTAS."&mode=walking";
                 $response = file_get_contents($url3);
                 $json3 = json_decode($response, true);
@@ -302,7 +302,9 @@ class OrdenComercioController extends SiteController
                     }
                     if ($distancia <= sysconfigs::DISTANCIA_RELEVADOR) {
                         $request['destination'] = ['lat'=>$coordenadasComercio['latitud'],'lng'=>$coordenadasComercio['longitud']];
-                        return ['jsonRuta'=>$json3,'jsonRequest'=>$request];
+                        $comercio = Comercio::findOne($idComercio);
+                        $comerciosOrdenados[0]=$comercio;
+                        return ['jsonRuta'=>$json3,'jsonRequest'=>$request,'comerciosOrdenados'=>$comerciosOrdenados];
                     } else {
                         //no se puede generar una ruta cumpliendo las reglas, por tanto se retorna false
                         return false;
