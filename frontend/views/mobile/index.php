@@ -36,7 +36,8 @@ $baseUrl = $asset->baseUrl;
                 window.location = '/frontend/web/mobile/login';
             }
         }
-
+        console.log(token);
+        var usuarioId;
     </script>
 </head>
 <body>
@@ -193,6 +194,17 @@ $baseUrl = $asset->baseUrl;
                 window.location = '/frontend/web/mobile/login';
             }
 
+        });
+        $.ajax({
+            url: '/api/web/v2/user/'+token,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                usuarioId = response.id;
+            },
+            error: function () {
+                alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
+            }
         });
     });
 </script>

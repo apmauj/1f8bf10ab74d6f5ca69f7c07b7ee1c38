@@ -11,6 +11,7 @@ use dektrium\user\models\User as BaseUser;
 use OAuth2\Storage\UserCredentialsInterface;
 use Yii;
 use yii\db\Expression;
+use filsh\yii2\oauth2server\models\OauthAccessTokens;
 
 class User extends BaseUser implements UserCredentialsInterface{
 
