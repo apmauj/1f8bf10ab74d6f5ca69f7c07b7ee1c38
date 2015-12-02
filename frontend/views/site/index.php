@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = Yii::t('app', 'Muli Relevators');
+use yii\helpers\Html;
 ?>
 
 <div class="site-index">
@@ -14,7 +15,7 @@ $this->title = Yii::t('app', 'Muli Relevators');
         <div class="features">
             <div class="col-md-4 col-sm-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
                 <div class="feature-wrap">
-                    <i class="fa fa-bullhorn"></i>
+                    <?= Html::a(Yii::t('app', ''), ['ruta-diaria/rutas', 'idRelevador' => Yii::$app->user->identity->getId()], ['class' => 'fa fa-bullhorn']) ?>
                     <h2><?= Yii::t('app', 'Routes.');?></h2>
                     <h3><?= Yii::t('app', 'Here you can check your daily routes.');?></h3>
                 </div>
