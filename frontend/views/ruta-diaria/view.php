@@ -22,7 +22,7 @@ use yii\data\ArrayDataProvider;
     $provider = new ArrayDataProvider([
         'allModels' => $datosGrillaPasos,
         'sort' => [
-            'attributes' => ['orden','tipo', 'nombre', 'direccion'],
+            'attributes' => ['orden','tipo', 'nombre', 'direccion', 'id_ruta_diaria', 'id_comercio'],
         ],
         'pagination' => [
             'pageSize' => 10,
@@ -33,7 +33,20 @@ use yii\data\ArrayDataProvider;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'orden',
+            [
+                'attribute'=>'orden',
+                'label'=>Yii::t('app', 'Order'),
+                'format'=>'raw',
+                'value'=>function ($data) {
+                    if($data->tipo == Yii::t('app', 'Store') ){
+                        return Html::a($data->orden, ['ruta-diaria/stock-pedidos', $comercio=$data->id_comercio, $ruta=$data->id_ruta_diaria]);
+                    }
+                    else{
+                        return $data->orden;
+                    }
+
+                },
+            ],
             'tipo',
             'nombre',
             'direccion',
