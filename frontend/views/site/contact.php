@@ -6,19 +6,26 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\ContactForm */
-
-$this->title = 'Contact';
-$this->params['breadcrumbs'][] = $this->title;
+$asset = frontend\assets\AppAsset::register($this);
+$baseUrl = $asset->baseUrl;
+$this->title = Yii::t('app', 'Contact');
 ?>
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+<style>
+    section {
+        background-image: url("<?=$baseUrl?>/images/mulirelevadores/contact.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+</style>
 
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
-
-    <div class="row">
-        <div class="col-lg-5">
+<div >
+    <br>
+    <h2 style="color: whitesmoke; margin-left: 100px;">
+        <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us.'); ?>
+    </h2>
+    <br>
+    <div >
+        <div style="width:40%;margin-left: 100px; padding-right: auto; color: whitesmoke">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
                 <?= $form->field($model, 'name') ?>
                 <?= $form->field($model, 'email') ?>
@@ -27,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                     'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
                 ]) ?>
-                <div class="form-group">
+                <div >
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
