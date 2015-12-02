@@ -49,11 +49,11 @@ class RutaDiariaController extends SiteController{
         $usuario = User::findOne($model->id_usuario);
         $comercios = [];
         $datosGrillaPasos = [];
-        $datosGrillaPasos[0] = ['orden' => 0, 'tipo' => Yii::t('app', 'User'), 'nombre' => $usuario->username, 'direccion' => $usuario->direccion];
+        $datosGrillaPasos[0] = ['orden' => 0, 'tipo' => Yii::t('app', 'User'), 'nombre' => $usuario->username, 'direccion' => $usuario->direccion, 'id_ruta_diaria' => $model->id, "id_comercio"=>''];
         $i = 0;
         foreach ($comerciosOrdenados as $comercio) {
 
-            $datosGrillaPasos[$i + 1] = ['orden' => $i + 1, 'tipo' => Yii::t('app', 'Store'), 'nombre' => $comercio->nombre, 'direccion' => $comercio->direccion];
+            $datosGrillaPasos[$i + 1] = ['orden' => $i + 1, 'tipo' => Yii::t('app', 'Store'), 'nombre' => $comercio->nombre, 'direccion' => $comercio->direccion, 'id_ruta_diaria' => $model->id, "id_comercio"=>$comercio->id];
             $i++;
         }
         $requestRuta = json_encode(sysconfigs::getRutaRequestParaMostrar($usuario, $comerciosOrdenados));
