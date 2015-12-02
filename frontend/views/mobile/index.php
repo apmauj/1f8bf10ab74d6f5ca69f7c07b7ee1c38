@@ -28,17 +28,6 @@ $baseUrl = $asset->baseUrl;
             if(token === null){
                 window.location = '/frontend/web/mobile/login';
             }
-            $.ajax({
-                url: '/api/web/v2/user/'+token,
-                method: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    localStorage.setItem("id_usuario", response.id);
-                },
-                error: function () {
-                    alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
-                }
-            });
         }
     </script>
 </head>
@@ -182,7 +171,7 @@ $baseUrl = $asset->baseUrl;
             alert("<?= Yii::t('mobile', 'Thank you for use our app!!');?>");
             if (typeof window.localStorage != "undefined") {
                 localStorage.removeItem("muli_token");
-                localStorage.removeItem("id_usuario");
+                //localStorage.removeItem("id_usuario");
                 window.location = '/frontend/web/mobile/login';
             }
         });
@@ -197,7 +186,7 @@ $baseUrl = $asset->baseUrl;
     var arrayComercio = [];
     $( document ).on( "pagecreate", "#pedidos", function() {
         $.ajax({
-            url: '/api/web/v2/comercio/'+ localStorage.getItem('id_usuario'),
+            url: '/api/web/v2/comercio/'+ localStorage.getItem('muli_token'),
             method: 'GET',
             dataType: 'json',
             success: function (results) {
@@ -260,7 +249,7 @@ $baseUrl = $asset->baseUrl;
                 data: {
                     'productos' : arrayPedido,
                     'id_comercio': comercio,
-                    'id_usuario': localStorage.getItem("id_usuario")
+                    'muli_token': localStorage.getItem("muli_token")
                 },
                 dataType: 'json',
                 success: function () {
@@ -293,7 +282,7 @@ $baseUrl = $asset->baseUrl;
     var arrayComercioStock = [];
     $( document ).on( "pagecreate", "#stock", function() {
         $.ajax({
-            url: '/api/web/v2/comercio/'+ localStorage.getItem('id_usuario'),
+            url: '/api/web/v2/comercio/'+ localStorage.getItem('muli_token'),
             method: 'GET',
             dataType: 'json',
             success: function (results) {
@@ -356,8 +345,7 @@ $baseUrl = $asset->baseUrl;
                 data: {
                     'stock' : arrayStock,
                     'id_comercio': comercio,
-                    'id_usuario': localStorage.getItem("id_usuario")
-                },
+                    'muli_token': localStorage.getItem("muli_token")                },
                 dataType: 'json',
                 success: function () {
                     exito = true;
@@ -385,7 +373,7 @@ $baseUrl = $asset->baseUrl;
         var directionsDisplay = new google.maps.DirectionsRenderer();
         var directionsService = new google.maps.DirectionsService();
         $.ajax({
-            url: '/api/web/v2/ruta/' + localStorage.getItem("id_usuario"),
+            url: '/api/web/v2/ruta/' + localStorage.getItem("muli_token"),
             method : 'GET',
             dataType : 'json',
             success : function(results){

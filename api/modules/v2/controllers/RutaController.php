@@ -26,7 +26,7 @@ class RutaController extends ActiveController
 
 
     public static function actionView($id){
-        $user = User::find()->where(['id'=>$id])->one();
+        $user = User::findIdentityByAccessToken($id);//find()->where(['id'=>$id])->one();
         if($user->tieneRutaDiariaActiva()){
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$user->id])->andWhere(['fecha'=>date('Y-m-d')])->one();
             $comercios = $rutaDiaria->getComerciosOrdenados();

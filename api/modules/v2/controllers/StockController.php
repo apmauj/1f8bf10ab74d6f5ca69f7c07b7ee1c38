@@ -11,6 +11,7 @@ namespace api\modules\v2\controllers;
 use backend\models\ComercioProductosRelacionados;
 use backend\models\Producto;
 use backend\models\RutaDiaria;
+use backend\models\User;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rest\ActiveController;
@@ -56,7 +57,7 @@ class StockController extends ActiveController
     public function actionStock(){
 
         $params = Yii::$app->getRequest()->post();
-
+        $user = User::findIdentityByAccessToken($params['muli_token']);
         $valid = false;
         //return $params;
         $arrayStock = $params['stock'];
@@ -64,7 +65,7 @@ class StockController extends ActiveController
             $stock = new Stock();
             $stock->setAttribute('cantidad',$stockEnv['cant']);
             $stock->setAttribute('id_producto',$stockEnv['id_producto']);
-            $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$params['id_usuario']])->andWhere(['fecha'=>date('Y-m-d')])->one();
+            $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$user->id])->andWhere(['fecha'=>date('Y-m-d')])->one();
             $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
             $stock->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
 
