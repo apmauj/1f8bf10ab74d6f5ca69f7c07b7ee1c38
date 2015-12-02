@@ -34,7 +34,7 @@ class CustomFilter extends \yii\base\ActionFilter
      */
     public $usuarios = ['admin'];
 
-    private $loginUrl = 'user/login';
+    private $loginUrl = '/backend/web/user/login';
 
     /**
      * @inheritdoc

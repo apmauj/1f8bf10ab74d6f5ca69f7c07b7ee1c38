@@ -19,6 +19,7 @@ class RutaDiariaSearch extends RutaDiaria
         return [
             [['id'], 'integer'],
             [['fecha'], 'safe'],
+            [['id_usuario'], 'integer']
         ];
     }
 
@@ -57,6 +58,7 @@ class RutaDiariaSearch extends RutaDiaria
         $query->andFilterWhere([
             'id' => $this->id,
             'fecha' => $this->fecha,
+            'id_usuario' => $this->id_usuario,
         ]);
 
         return $dataProvider;

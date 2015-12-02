@@ -20,6 +20,7 @@ use backend\models\RutaDiariaComercio;
 use backend\models\RutaDiariaSearch;
 use frontend\controllers\SiteController;
 use Yii;
+use yii\data\ActiveDataProvider;
 
 class RutaDiariaController extends SiteController{
 
@@ -29,11 +30,13 @@ class RutaDiariaController extends SiteController{
      * Lists all RutaDiaria models.
      * @return mixed
      */
-    public function actionRutas()
+    public function actionRutas($idRelevador)
     {
         $searchModel = new RutaDiariaSearch();
+        $searchModel->id_usuario = $idRelevador;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+//        $usuario = User::find()->where(['id'=>$idRelevador])->one();
+//        $rutasDiariasUsuario = $usuario->getRutasDiarias();
         return $this->render('rutas', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -66,32 +69,41 @@ class RutaDiariaController extends SiteController{
 
     }
 
-    public function stockPedidos($id){
+    public function actionStockPedidos($idComercio,$idRutaDiaria){
 
-        $datosStock = findStockComercio($id);
-        $datosPedidos = $this->findPedidosComercio($id);
-
+        $rutaDiaria = RutaDiaria::find()->where(['id'=>$idRutaDiaria])->one();
+        $usuario = User::find()->where(['id'=>$rutaDiaria->id_usuario])->one();
+        $rutaDiariaComercio = $this->findRutaDiariaComercio($idComercio,$idRutaDiaria);
 
         $datosGrillaStock = [];
         $datosGrillaPedidos = [];
         $i = 0;
-        foreach ($datosStock as $stock){
-            $nombreProducto = nombreProducto($stock->id_producto);
-            $datosGrillaStock[$i] = ['tipo' => Yii::t('app', 'Stock'), 'producto'=> $nombreProducto, 'cantidad' => $stock->cantidad];
-            $i++;
+        if($rutaDiariaComercio->getStocks()->count()>0){
+            $datosStock = $this->findStockComercio($rutaDiariaComercio->id);
+            foreach ($datosStock as $stock){
+                $nombreProducto = nombreProducto($stock->id_producto);
+                $datosGrillaStock[$i] = ['tipo' => Yii::t('app', 'Stock'), 'producto'=> $nombreProducto, 'cantidad' => $stock->cantidad];
+                $i++;
+            }
+
         }
 
         $i = 0;
-        foreach ($datosPedidos as $pedido){
-            $nombrePedido = nombreProducto($pedido->id_producto);
-            $datosGrillaPedidos[$i] = ['tipo' => Yii::t('app', 'Order'), 'producto'=> $nombrePedido, 'cantidad' => $pedido->cantidad];
-            $i++;
+        if($rutaDiariaComercio->getPedidos()->count()>0) {
+            $datosPedidos = $this->findPedidosComercio($rutaDiariaComercio->id);
+            foreach ($datosPedidos as $pedido) {
+                $nombrePedido = nombreProducto($pedido->id_producto);
+                $datosGrillaPedidos[$i] = ['tipo' => Yii::t('app', 'Order'), 'producto' => $nombrePedido, 'cantidad' => $pedido->cantidad];
+                $i++;
+            }
         }
-
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        return $this->render('stockPedidos', [
+            'model' => $rutaDiariaComercio,
             'datosGrillaStock' => $datosGrillaStock,
             'datosGrillaPedidos' => $datosGrillaPedidos,
+            'fecha' => $rutaDiaria->fecha,
+            'usuario' =>$usuario->username,
+            'ruta'=>$rutaDiaria->id
         ]);
 
     }
@@ -106,9 +118,16 @@ class RutaDiariaController extends SiteController{
         }
     }
 
+    //Devuelve las rutas_comercio asociadas a una ruta diaria.
+    public function findRutaDiariaComercio($idComercio,$idRutaDiaria)
+    {
+        return $model = RutaDiariaComercio::find()->where(['id_ruta_diaria' => $idRutaDiaria])->andWhere(['id_comercio'=>$idComercio])->one();
+
+    }
+
     //Devuelve los stocks asociados a una ruta_diaria_comercio
     public function findStockComercio($id){
-        if (($models = Stock::find()->where(['id_ruta_diaria_comercio' => $id])->all() !== null)) {
+        if (($models = Stock::find()->where(['id_ruta_diaria_com' => $id])->all() !== null)) {
             return $models;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

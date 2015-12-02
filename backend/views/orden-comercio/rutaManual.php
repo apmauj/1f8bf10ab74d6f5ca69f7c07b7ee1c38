@@ -11,8 +11,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model backend\models\OrdenComercio */
 
-$this->title = Yii::t('app', 'Automatic Route');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Automatic Route'), 'url' => ['ruta/update']];
+$this->title = Yii::t('app', 'Manual Route');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Manual Route'), 'url' => ['ruta/update']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

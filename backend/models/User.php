@@ -93,6 +93,10 @@ class User extends BaseUser implements UserCredentialsInterface{
         return $this->hasMany(RutaDiaria::className(), ['id_usuario' => 'id']);
     }
 
+    public function obtenerRutasDiarias(){
+       return $this->getRutasDiarias()->all();
+    }
+
 
     /**
      * @inheritdoc

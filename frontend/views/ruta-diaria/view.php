@@ -38,11 +38,11 @@ use yii\data\ArrayDataProvider;
                 'label'=>Yii::t('app', 'Order'),
                 'format'=>'raw',
                 'value'=>function ($data) {
-                    if($data->tipo == Yii::t('app', 'Store') ){
-                        return Html::a($data->orden, ['ruta-diaria/stock-pedidos', $comercio=$data->id_comercio, $ruta=$data->id_ruta_diaria]);
+                    if($data['tipo'] == Yii::t('app', 'Store') ){
+                        return Html::a($data['orden'], ['ruta-diaria/stock-pedidos','idComercio'=> $comercio=$data['id_comercio'],'idRutaDiaria'=> $ruta=$data['id_ruta_diaria']]);
                     }
                     else{
-                        return $data->orden;
+                        return $data['orden'];
                     }
 
                 },
