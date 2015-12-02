@@ -57,18 +57,18 @@ $baseUrl = $asset->baseUrl;
         <h1><?php echo $this->title ?></h1>
         <div data-role="navbar">
             <ul>
-                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
-                <li><a href="#rutas" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
-                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
-                <li><a href="#stock" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="home"><?= Yii::t('mobile', 'Home');?></a></li>
+                <li><a href="#rutas" data-icon="location"><?= Yii::t('mobile', 'Routes');?></a></li>
+                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('mobile', 'Orders');?></a></li>
+                <li><a href="#stock" data-icon="gear"><?= Yii::t('mobile', 'Stock');?></a></li>
             </ul>
         </div>
     </div>
 
     <div data-role="main" class="ui-content">
         <img src="<?=$baseUrl?>/images/mulirelevadores/logo.png" style="height: 50%; width: 100%;" alt="logo">
-        <p><?= Yii::t('app', 'Welcome back!');?> </p>
-        <p><?= Yii::t('app', 'To use our app, select an option from the nav menu.');?></p>
+        <p><?= Yii::t('mobile', 'Welcome back!');?> </p>
+        <p><?= Yii::t('mobile', 'To use our app, select an option from the nav menu.');?></p>
         <br>
     </div>
 
@@ -86,10 +86,10 @@ $baseUrl = $asset->baseUrl;
         <h1><?php echo $this->title ?></h1>
         <div data-role="navbar">
             <ul>
-                <li><a href="#home" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
-                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
-                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
-                <li><a href="#stock" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+                <li><a href="#home" data-icon="home"><?= Yii::t('mobile', 'Home');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="location"><?= Yii::t('mobile', 'Routes');?></a></li>
+                <li><a href="#pedidos" data-icon="edit"><?= Yii::t('mobile', 'Orders');?></a></li>
+                <li><a href="#stock" data-icon="gear"><?= Yii::t('mobile', 'Stock');?></a></li>
             </ul>
         </div>
     </div>
@@ -109,10 +109,10 @@ $baseUrl = $asset->baseUrl;
         <h1><?php echo $this->title ?></h1>
         <div data-role="navbar">
             <ul>
-                <li><a href="#home" data-icon="home"><?= Yii::t('app', 'Home');?></a></li>
-                <li><a href="#rutas" data-icon="location"><?= Yii::t('app', 'Routes');?></a></li>
-                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="edit"><?= Yii::t('app', 'Orders');?></a></li>
-                <li><a href="#stock" data-icon="gear"><?= Yii::t('app', 'Stock');?></a></li>
+                <li><a href="#home" data-icon="home"><?= Yii::t('mobile', 'Home');?></a></li>
+                <li><a href="#rutas" data-icon="location"><?= Yii::t('mobile', 'Routes');?></a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="edit"><?= Yii::t('mobile', 'Orders');?></a></li>
+                <li><a href="#stock" data-icon="gear"><?= Yii::t('mobile', 'Stock');?></a></li>
             </ul>
         </div>
     </div>
@@ -127,6 +127,10 @@ $baseUrl = $asset->baseUrl;
 
     <div class="ui-field-contain" id="sliderPedido">
 
+    </div>
+
+    <div class="ui-field-contain" id="textoTaProto">
+        <h3 style="margin-left: 10px;"><?= Yii::t('mobile', 'You completed all your tasks for today!!');?></h3>
     </div>
 
     <div id="pedidoBoton">
@@ -191,6 +195,7 @@ $baseUrl = $asset->baseUrl;
 
 <script>
     $('#pedidoBoton').hide();
+    $('#textoTaProto').hide();
     var arrayPedido = [];
     var idProductos = [];
     var arrayComercio = [];
@@ -277,14 +282,6 @@ $baseUrl = $asset->baseUrl;
                     alert("<?= Yii::t('mobile', 'Error while trying to save the order!!');?>")
                 }
             });
-            console.log('arrancamo aca',arrayComercio);
-            alert("quiero sacar el comercio " + comercio);
-
-            $("#selComercioPedido option[value='"+comercio+"']").remove();
-
-            for (var i = arrayComercio.length - 1; i >= 0; i--) {
-                if (arrayComercio[i] == comercio) arrayComercio.splice(i, 1);
-            }
 
             if (exito == true){
                 var html = '';
@@ -304,6 +301,12 @@ $baseUrl = $asset->baseUrl;
             }
             $('#sliderPedido').hide();
             $('#pedidoBoton').hide();
+
+            $("#selComercioPedido option[value='"+comercio+"']").remove();
+            if ($("#selComercioPedido option[value!='']").length == 0) {
+                $("#selComercioPedido").remove();
+                $('#textoTaProto').show();
+            }
         }
         $("#pedidoBoton").on('click', showValues);
     });
