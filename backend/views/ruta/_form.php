@@ -50,7 +50,7 @@ use yii\widgets\ActiveForm;
 
     <p>
         <?= Html::a(Yii::t('app', 'Automatic generation'), ['orden-comercio/generar-ruta-auto', 'idRuta'=>$model->id,'idRelevador' => $model->id_usuario,'dia'=>$model->dia], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('app', 'Manual generation'), ['orden-comercio/index', 'idRelevador' => $model->id_usuario], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Manual generation'), ['orden-comercio/generar-ruta-manual', 'idRuta'=>$model->id,'idRelevador' => $model->id_usuario,'dia'=>$model->dia], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php   }   ?>

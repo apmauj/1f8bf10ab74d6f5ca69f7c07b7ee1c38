@@ -35,7 +35,7 @@ class OrdenRutaForm extends \yii\db\ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['create'] = ['idUsuario','ordenComercios','idRuta'];
+        $scenarios['create'] = ['idUsuario','ordenComercios','idRuta','dia'];
         return $scenarios;
     }
 

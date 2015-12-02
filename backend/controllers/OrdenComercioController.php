@@ -119,6 +119,12 @@ class OrdenComercioController extends SiteController
         }
     }
 
+    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
+    //////////////////  Generar ruta Automatica ////////////////////
+    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
+
     public function actionGenerarRutaAuto($idRuta,$idRelevador,$dia){
 
         $resultado = $this->obtenerRuta($dia,$idRelevador);
@@ -149,54 +155,6 @@ class OrdenComercioController extends SiteController
         return $this->calcularRuta($usuario,$comerciosValidos);
 
     }
-
-    /**
-     * Retorna los comercios que cumplan los siguientes requisitos:
-     * -El comercio es activo
-     * -El comercio no pertenece a una ruta activa
-     * -El dia del comercio es el pasado por parametro
-     * -El comercio esta en el radio del usuario con el id pasado por parametro
-     * @param $dia : numero del dia elegido, donde 1 es Lunes y 7 es Domingo
-     * @param $idUsuario
-     */
-    public function obtenerComerciosDisponiblesUsuario($dia, $usuario){
-
-        $comercios = $this->comerciosPorDiaSinRutasActivas($dia);
-        $comerciosValidos = [];
-        $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
-        $i=0;
-        foreach($comercios as $comercio){
-            $i++;
-            $coordenadasComercio = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
-            $distanciaUsuarioComercio = sysconfigs::getDistanciaEntreCoordenadas($coordenadasUsuario,$coordenadasComercio);
-            if($distanciaUsuarioComercio<=sysconfigs::RADIO_RELEVADOR){
-                $comerciosValidos[$comercio->id] = $comercio;
-            }
-        }
-        return $comerciosValidos;
-    }
-
-    public function comerciosPorDiaSinRutasActivas($dia){
-
-        //ruta: las rutas creadas
-        //orden_comercio
-        //comercio
-
-        //Devuelve todas las rutas activas
-        //$query = new Query();
-        $query =Ruta::find()->select('id')->where(['esActivo'=>"1"]);
-
-        //Devuelve los comercios en rutas activas
-        //$query2 = new Query();
-        $query2= OrdenComercio::find()->select('id_comercio')->where(['in','id_ruta',$query]);
-
-        //Devuelve los comercios sin rutas activas
-        //$comercios = [];
-        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>'1'])->all();
-
-        return $comercios;
-    }
-
     private function calcularRuta($usuario,$comerciosValidos){
         //obtenemos las coordenadas del usuario (punto de partida en la ruta) y los comercios.
         $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
@@ -318,16 +276,32 @@ class OrdenComercioController extends SiteController
 
     }
 
-    /** Obtenemos un array que lleva como clave el id del comercio y como elemento un array con las coordenadas del mismo.
-     * @param $comercios
-     * @return array
-     */
-    private function obtenerCoordenadasComercios($comercios){
-        $coordenadasComercios = [];
-        foreach($comercios as $comercio){
-            $coordenadasComercios[$comercio->id] = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
+
+
+    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
+    //////////////////  Generar ruta Automatica ////////////////////
+    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
+
+    public function actionGenerarRutaManual($idRuta,$idRelevador,$dia){
+        $comerciosValidos = $this->comerciosPorDiaSinRutasActivas($dia);
+        if(count($comerciosValidos)!=0){
+            $usuario = User::findOne($idRelevador);
+            $model = new OrdenRutaForm();
+            $model->dia = $dia;
+            $model->idUsuario = $usuario->id;
+            $model->username = $usuario->username;
+            $model->idRuta = $idRuta;
+            $model->jsonRequestRuta = $this->prepararJsonParaMostrarMarcas($comerciosValidos);
+            $ubicacionUsuario = json_encode(['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud,'username'=>$usuario->username]);
+            return $this->render('rutaManual', ['model' => $model,'ubicacionUsuario'=>$ubicacionUsuario]);
+        }else{
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'There aren\'t stores availables for this route'));
+            return $this->redirect(['ruta/update', 'id' => $idRuta]);
         }
-        return $coordenadasComercios;
+
+
     }
 
     public function actionSalvarRuta(){
@@ -350,8 +324,98 @@ class OrdenComercioController extends SiteController
 
     }
 
-    public function relevador(){
+    public function actionSalvarRutaManual(){
 
+        $model = new OrdenRutaForm();
+        $model->setScenario('create');
+        //die(var_dump(Yii::$app->request->post()['orden-ruta-form']));
+        $model->load(Yii::$app->request->post());
+        if($model->ordenComercios!= null && $model->ordenComercios!=''){
+            $comerciosOrdenados = explode(',',$model->ordenComercios);
+            $orden = 1;
+            foreach($comerciosOrdenados as $idComercio){
+                $ordenComercio = new OrdenComercio();
+                $ordenComercio->id_comercio = $idComercio;
+                $ordenComercio->id_ruta = $model->idRuta;
+                $ordenComercio->orden = $orden;
+                $ordenComercio->save();
+                $orden++;
+            }
+            return $this->redirect(['ruta/view', 'id' => $model->idRuta]);
+
+        }else{
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'You must select at least 1 Store'));
+            return $this->redirect(['generar-ruta-manual', 'idRuta' => $model->idRuta,'idRelevador'=>$model->idUsuario,'dia'=>$model->dia]);
+        }
+    }
+
+    /**
+     * Retorna los comercios que cumplan los siguientes requisitos:
+     * -El comercio es activo
+     * -El comercio no pertenece a una ruta activa
+     * -El dia del comercio es el pasado por parametro
+     * -El comercio esta en el radio del usuario con el id pasado por parametro
+     * @param $dia : numero del dia elegido, donde 1 es Lunes y 7 es Domingo
+     * @param $idUsuario
+     */
+    public function obtenerComerciosDisponiblesUsuario($dia, $usuario){
+
+        $comercios = $this->comerciosPorDiaSinRutasActivas($dia);
+        $comerciosValidos = [];
+        $coordenadasUsuario = ['latitud'=>$usuario->latitud,'longitud'=>$usuario->longitud];
+        $i=0;
+        foreach($comercios as $comercio){
+            $i++;
+            $coordenadasComercio = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
+            $distanciaUsuarioComercio = sysconfigs::getDistanciaEntreCoordenadas($coordenadasUsuario,$coordenadasComercio);
+            if($distanciaUsuarioComercio<=sysconfigs::RADIO_RELEVADOR){
+                $comerciosValidos[$comercio->id] = $comercio;
+            }
+        }
+        return $comerciosValidos;
+    }
+
+    public function comerciosPorDiaSinRutasActivas($dia){
+
+        //ruta: las rutas creadas
+        //orden_comercio
+        //comercio
+
+        //Devuelve todas las rutas activas
+        //$query = new Query();
+        $query =Ruta::find()->select('id')->where(['esActivo'=>"1"]);
+
+        //Devuelve los comercios en rutas activas
+        //$query2 = new Query();
+        $query2= OrdenComercio::find()->select('id_comercio')->where(['in','id_ruta',$query]);
+
+        //Devuelve los comercios sin rutas activas
+        //$comercios = [];
+        $comercios = Comercio::find()->where(['not in','id',$query2])->andWhere(['dia'=>$dia])->andWhere(['esActivo'=>'1'])->all();
+
+        return $comercios;
+    }
+
+    /** Obtenemos un array que lleva como clave el id del comercio y como elemento un array con las coordenadas del mismo.
+     * @param $comercios
+     * @return array
+     */
+    private function obtenerCoordenadasComercios($comercios){
+        $coordenadasComercios = [];
+        foreach($comercios as $comercio){
+            $coordenadasComercios[$comercio->id] = ['latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud];
+        }
+        return $coordenadasComercios;
+    }
+
+    public function prepararJsonParaMostrarMarcas($comercios){
+        $arrayJson =[];
+        $i=0;
+        foreach($comercios as $comercio){
+            $arrayJson[$i] = ['idComercio'=>$comercio->id,'nombre'=>$comercio->nombre,'latitud'=>$comercio->latitud,'longitud'=>$comercio->longitud,'direccion'=>$comercio->direccion];
+            $i++;
+        }
+        return json_encode($arrayJson);
     }
 
     /**
