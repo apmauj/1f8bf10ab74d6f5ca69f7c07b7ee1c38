@@ -35,9 +35,19 @@ $baseUrl = $asset->baseUrl;
             if(token === null){
                 window.location = '/frontend/web/mobile/login';
             }
+            $.ajax({
+                url: '/api/web/v2/user/'+token,
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    localStorage.setItem("id_usuario", response.id);
+                },
+                error: function () {
+                    alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
+                }
+            });
         }
         console.log(token);
-        var usuarioId;
     </script>
 </head>
 <body>
@@ -172,18 +182,8 @@ $baseUrl = $asset->baseUrl;
             alert("<?= Yii::t('mobile', 'Thank you for use our app!!');?>");
             if (typeof window.localStorage != "undefined") {
                 localStorage.removeItem("muli_token");
+                localStorage.removeItem("id_usuario");
                 window.location = '/frontend/web/mobile/login';
-            }
-        });
-        $.ajax({
-            url: '/api/web/v2/user/'+token,
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                usuarioId = response.id;
-            },
-            error: function () {
-                alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
             }
         });
     });
@@ -193,20 +193,33 @@ $baseUrl = $asset->baseUrl;
     $('#pedidoBoton').hide();
     var arrayPedido = [];
     var idProductos = [];
+    var arrayComercio = [];
     $( document ).on( "pagecreate", "#pedidos", function() {
         $.ajax({
-            url: '/api/web/v2/comercio',
+            url: '/api/web/v2/comercio/'+ localStorage.getItem('id_usuario'),
             method: 'GET',
             dataType: 'json',
-            success: function (comercio) {
-                console.log('comercio', comercio);
+            success: function (results) {
                 var selComP = $('#selComercioPedido');
                 var html = '';
-                $.each(comercio, function (key, comercio) {
-                    console.log(comercio.nombre);
-                    html += '<option value=' + comercio.id + '>' + comercio.nombre + '</option>';
-                });
-                selComP.html(html);
+                if (results.status === "ok") {
+                    html += '<option value=""></option>';
+                    console.log(results);
+
+                    $.each(results.data, function (key, comercio) {
+                        //arrayComercio.push({id_producto:producto,cant:cant[key].value})
+                        arrayComercio.push({idCom:comercio.id, comNombre:comercio.nombre});
+                        console.log(comercio);
+                    });
+                    console.log(arrayComercio);
+                    $.each(arrayComercio, function(key, comer){
+                        html += '<option value=' + comer.idCom + '>' + comer.comNombre + '</option>';
+                    });
+                    selComP.html(html);
+                }
+                else if (results.status === "error") {
+                    alert("<?= Yii::t('mobile', 'Not able to load stores!!!');?>")
+                }
             },
             error: function () {
                 alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
@@ -231,7 +244,6 @@ $baseUrl = $asset->baseUrl;
                     sliSto.html(html);
                     $('#pedidoBoton').show();
                     console.log(idProductos);
-
                 },
                 error: function () {
                     alert("<?= Yii::t('mobile', 'Error when loading Store products!!');?>")
@@ -240,18 +252,19 @@ $baseUrl = $asset->baseUrl;
         });
 
         function showValues() {
+            var comercio = $('#selComercioPedido').val();
             var cant = $(":input[name=sliderProdsPedido]").serializeArray();
             var exito = false;
             $.each(idProductos, function (key, producto) {
-                arrayPedido.push({id_producto:producto,cant:cant[key].value})
+                arrayPedido.push({id_producto:producto,cant:cant[key].value});
             });
             $.ajax({
                 url: '/api/web/v2/pedido',
                 method: 'POST',
                 data: {
                     'productos' : arrayPedido,
-                    'id_comercio': $('#selComercioPedido').val(),
-                    'id_usuario': usuarioId
+                    'id_comercio': comercio,
+                    'id_usuario': localStorage.getItem("id_usuario")
                 },
                 dataType: 'json',
                 success: function () {
@@ -262,14 +275,25 @@ $baseUrl = $asset->baseUrl;
                     alert("<?= Yii::t('mobile', 'Error while trying to save the order!!');?>")
                 }
             });
+
             if (exito = true){
-                alert(usuarioId); //envia el request como undefined, chequear...
+                var html = '';
+                console.log(arrayComercio);
+                var selComP = $('#selComercioPedido').empty();
+                html += '<option value=""></option>';
+                $.each(arrayComercio, function(key, comer){
+                    html += '<option value=' + comer.idCom + '>' + comer.comNombre + '</option>';
+                });
+                selComP.html(html);
+
                 alert("<?= Yii::t('mobile', 'Nice');?>")
-                //window.location.reload();
+                //  window.location.reload();
             }
             else {
                 alert("<?= Yii::t('mobile', 'Huge error');?>")
             }
+            $('#sliderPedido').hide();
+            $('#pedidoBoton').hide();
         }
         $("#pedidoBoton").on('click', showValues);
     });
@@ -282,16 +306,22 @@ $baseUrl = $asset->baseUrl;
 
     $( document ).on( "pagecreate", "#stock", function() {
         $.ajax({
-            url: '/api/web/v2/comercio',
+            url: '/api/web/v2/comercio/'+ localStorage.getItem('id_usuario'),
             method: 'GET',
             dataType: 'json',
-            success: function (comercio) {
+            success: function (results) {
                 var selCom = $('#selComercio');
                 var html = '';
-                $.each(comercio, function (key, comercio) {
-                    html += '<option value=' + comercio.id + '>' + comercio.nombre + '</option>';
-                });
-                selCom.html(html);
+                if (results.status === "ok") {
+                    html += '<option value=""></option>';
+                    $.each(results.data, function (key, comercio) {
+                        html += '<option value=' + comercio.id + '>' + comercio.nombre + '</option>';
+                    });
+                    selCom.html(html);
+                }
+                else if(results.status === "error"){
+                    alert("<?= Yii::t('mobile', 'Not able to load stores!!!');?>")
+                }
             },
             error: function () {
                 alert("<?= Yii::t('mobile', 'Error on initialization!!');?>")
@@ -328,12 +358,12 @@ $baseUrl = $asset->baseUrl;
                 arrayStock.push({id_producto:producto,cant:cant[key].value})
             });
             $.ajax({
-                url: '/api/web/v2/pedido',
+                url: '/api/web/v2/stock',
                 method: 'POST',
                 data: {
                     'stock' : arrayStock,
                     'id_comercio': $('#selComercio').val(),
-                    'id_usuario': usuarioId
+                    'id_usuario': localStorage.getItem("id_usuario")
                 },
                 dataType: 'json',
                 success: function () {
@@ -345,7 +375,8 @@ $baseUrl = $asset->baseUrl;
                 }
             });
             if (exito = true){
-                window.location.reload();
+                alert('Hasta aca llegue');
+                //window.location.reload();
             }
             else {
                 alert("<?= Yii::t('mobile', 'Huge error');?>")
@@ -361,7 +392,7 @@ $baseUrl = $asset->baseUrl;
         var directionsDisplay = new google.maps.DirectionsRenderer();
         var directionsService = new google.maps.DirectionsService();
         $.ajax({
-            url: '/api/web/v2/ruta/' + usuarioId,
+            url: '/api/web/v2/ruta/' + localStorage.getItem("id_usuario"),
             method : 'GET',
             dataType : 'json',
             success : function(results){

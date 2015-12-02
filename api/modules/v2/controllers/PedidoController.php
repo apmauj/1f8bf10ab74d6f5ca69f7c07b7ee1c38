@@ -55,16 +55,13 @@ class PedidoController extends ActiveController
         $params = Yii::$app->getRequest()->post();
 
         $arrayProductos = $params['productos'];
-        return $params;
-        $pedido = new Pedido();
-//        $pedido->setAttribute('id_producto',$params['id_producto']);
-//        $pedido->setAttribute('cantidad',$params['cantidad']);
         $valid = false;
         foreach ($arrayProductos as $productos){
+            $pedido = new Pedido();
             $pedido->setAttribute('cantidad',$productos['cant']);
             $pedido->setAttribute('id_producto',$productos['id_producto']);
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$params['id_usuario']])->andWhere(['fecha'=>date('Y-m-d')])->one();
-            $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>'id_comercio'])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
+            $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
             $pedido->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
             if ($pedido->validate() && $pedido->save()){
                 $valid = true;
@@ -74,16 +71,5 @@ class PedidoController extends ActiveController
             }
         }
         return $valid;
-
-//        $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$params['id_usuario']])->andWhere(['fecha'=>date('Y-m-d')])->one();
-//        $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>'id_comercio'])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
-//        $pedido->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
-//
-//        if ($pedido->save()){
-//            return true;
-//        }
-//        else{
-//            throw new BadRequestHttpException(Yii::t('mobile','Failed to save orders data...'));
-//        }
     }
 }

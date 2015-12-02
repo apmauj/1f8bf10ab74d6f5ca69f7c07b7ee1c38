@@ -58,19 +58,18 @@ class StockController extends ActiveController
         $params = Yii::$app->getRequest()->post();
 
         $valid = false;
-
+        //return $params;
         $arrayStock = $params['stock'];
-        $stock = new Stock();
         foreach ($arrayStock as $stockEnv){
-
+            $stock = new Stock();
             $stock->setAttribute('cantidad',$stockEnv['cant']);
             $stock->setAttribute('id_producto',$stockEnv['id_producto']);
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$params['id_usuario']])->andWhere(['fecha'=>date('Y-m-d')])->one();
-            $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>'id_comercio'])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
+            $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
             $stock->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
 
             if ($stock->validate() && $stock->save()){
-                return true;
+                $valid = true;
             }
             else{
                 throw new BadRequestHttpException(Yii::t('mobile','Failed to save orders data...'));
