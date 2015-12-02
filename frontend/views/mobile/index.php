@@ -236,6 +236,8 @@ $baseUrl = $asset->baseUrl;
                     console.log('producto', producto);
                     var sliSto = $('#sliderPedido');
                     var html = '';
+                    idProductos = [];
+                    $('#sliderPedido').show();
                     $.each(producto, function (key, producto) {
                         idProductos.push(producto.id);
                         html += '<input name="sliderProdsPedido" id="slider-' + producto.id + '" value="0" min="0" max="100" data-highlight="true" type="number"  class="ui-shadow-inset ui-body-inherit ui-corner-all ui-slider-input" style="margin:15px"> <h4> ' + producto.nombre + ' </h4>';
@@ -275,8 +277,16 @@ $baseUrl = $asset->baseUrl;
                     alert("<?= Yii::t('mobile', 'Error while trying to save the order!!');?>")
                 }
             });
+            console.log('arrancamo aca',arrayComercio);
+            alert("quiero sacar el comercio " + comercio);
 
-            if (exito = true){
+            $("#selComercioPedido option[value='"+comercio+"']").remove();
+
+            for (var i = arrayComercio.length - 1; i >= 0; i--) {
+                if (arrayComercio[i] == comercio) arrayComercio.splice(i, 1);
+            }
+
+            if (exito == true){
                 var html = '';
                 console.log(arrayComercio);
                 var selComP = $('#selComercioPedido').empty();

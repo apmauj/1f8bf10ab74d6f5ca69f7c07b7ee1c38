@@ -1,6 +1,5 @@
 <?php
 use dmstr\widgets\Alert;
-use yii\widgets\Breadcrumbs;
 
 $modo = Yii::$app->params['devicedetect'];
 ?>
@@ -15,16 +14,6 @@ $modo = Yii::$app->params['devicedetect'];
                 echo ($this->context->module->id !== \Yii::$app->id) ? '<small>Module</small>' : '';
             } ?>
         </h1>
-        <?php if (Yii::$app->user->isGuest == false || $modo["isMobile"]) { ?>
-
-            <?=
-            Breadcrumbs::widget(
-                [
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]
-            );
-            ?>
-        <?php } ?>
     </section>
 
     <section class="content">

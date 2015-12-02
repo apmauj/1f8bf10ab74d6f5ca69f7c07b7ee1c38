@@ -1,15 +1,14 @@
 <?php
-use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-about">
-    <h1><?= Html::encode("Route History") ?></h1>
+<div class="site-about" style="margin-left: 5%;width: 90%">
+    <h1 style="color: black"><?= Yii::t('app', "Route History") ?></h1>
 
-    <h2><?=Html::encode("Routes along service") ?></h2>
+    <h2 style="color: black"><?= Yii::t('app', "Routes along service") ?></h2>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
