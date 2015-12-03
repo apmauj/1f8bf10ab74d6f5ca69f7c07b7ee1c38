@@ -71,31 +71,26 @@ class RutaDiariaController extends SiteController
         $ordenComercios = OrdenComercio::find()->where(['id_ruta'=>$idRuta])->all();
         $model->id_usuario = $ruta->id_usuario;
         $model->fecha = date("Y-m-d");
+        if(!$this->existeRutaDiariaPorUsuarioYFecha($model->id_usuario,$model->fecha)){
+            $idRutaDiaria =$model->save();
+            if($idRutaDiaria!== false){
+                $orden= 1;
+                foreach($ordenComercios as $ordenComercio){
+                    $rutaDiariaComercio = new RutaDiariaComercio();
+                    $rutaDiariaComercio->id_comercio = $ordenComercio->id_comercio;
+                    $rutaDiariaComercio->link("idRutaDiaria",$model);
+                    $rutaDiariaComercio->orden = $orden;
+                    $rutaDiariaComercio->save();
 
-        $idRutaDiaria =$model->save();
-        if($idRutaDiaria!== false){
-            $orden= 1;
-            foreach($ordenComercios as $ordenComercio){
-                $rutaDiariaComercio = new RutaDiariaComercio();
-                $rutaDiariaComercio->id_comercio = $ordenComercio->id_comercio;
-                $rutaDiariaComercio->link("idRutaDiaria",$model);
-                $rutaDiariaComercio->orden = $orden;
-                $rutaDiariaComercio->save();
-
-                $orden++;
+                    $orden++;
+                }
             }
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Daily Route has been created'));
+        }else{
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'There is already an instance of this route for today'));
         }
-        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Daily Route has been created'));
 
         return $this->redirect(['ruta/view', 'id' => $idRuta]);
-
-/*        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }*/
     }
 
     /**
@@ -129,4 +124,12 @@ class RutaDiariaController extends SiteController
 
         return $this->redirect(['index']);
     }
+
+    private function existeRutaDiariaPorUsuarioYFecha($idUsuario,$dia){
+        return RutaDiaria::find()->where(['id_usuario'=>$idUsuario])->andWhere(['fecha'=>$dia])->count()>0;
+
+
+    }
+
+
 }

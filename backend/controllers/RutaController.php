@@ -92,8 +92,15 @@ class RutaController extends SiteController
     {
         $model = new Ruta();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $validar = $model->validar();
+            if($validar=='OK' && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else{
+                Yii::$app->getSession()->setFlash('danger',$validar);
+                return $this->render('create', ['model' => $model]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -113,8 +120,14 @@ class RutaController extends SiteController
 
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $validar = $model->validar();
+            if($validar=='OK' && $model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->getSession()->setFlash('danger',$validar);
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
         } else {
             if($model->getOrdenComercios()->count()!=0){
 

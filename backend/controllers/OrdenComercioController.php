@@ -127,26 +127,33 @@ class OrdenComercioController extends SiteController
 
     public function actionGenerarRutaAuto($idRuta,$idRelevador,$dia){
 
-        $resultado = $this->obtenerRuta($dia,$idRelevador);
         $usuario = User::findOne($idRelevador);
-        $model = new OrdenRutaForm();
-        $model->dia = $dia;
-        $model->idUsuario = $usuario->id;
-        $model->username = $usuario->username;
-        $model->idRuta = $idRuta;
-        $model->jsonRuta = json_encode($resultado['jsonRuta']);
-        $model->jsonRequestRuta = json_encode($resultado['jsonRequest']);
-        $comerciosOrdenados = "";
-        if(isset($resultado['comerciosOrdenados'])){
-            foreach($resultado['comerciosOrdenados'] as $key=>$comerciosOrdenado){
-                if($key!=0) $comerciosOrdenados = $comerciosOrdenados.',';
-                $comerciosOrdenados = $comerciosOrdenados.$comerciosOrdenado->id;
+        $comerciosValidos = $this->obtenerComerciosDisponiblesUsuario($dia,$usuario);
+        if(count($comerciosValidos)>0){
+            $resultado = $this->calcularRuta($usuario,$comerciosValidos);
+            $usuario = User::findOne($idRelevador);
+            $model = new OrdenRutaForm();
+            $model->dia = $dia;
+            $model->idUsuario = $usuario->id;
+            $model->username = $usuario->username;
+            $model->idRuta = $idRuta;
+            $model->jsonRuta = json_encode($resultado['jsonRuta']);
+            $model->jsonRequestRuta = json_encode($resultado['jsonRequest']);
+            $comerciosOrdenados = "";
+            if(isset($resultado['comerciosOrdenados'])){
+                foreach($resultado['comerciosOrdenados'] as $key=>$comerciosOrdenado){
+                    if($key!=0) $comerciosOrdenados = $comerciosOrdenados.',';
+                    $comerciosOrdenados = $comerciosOrdenados.$comerciosOrdenado->id;
+                }
             }
+            $model->ordenComercios = $comerciosOrdenados;
+            //die("jsonRequest:".$model->jsonRequestRuta);
+            return $this->render('rutaAuto', ['model' => $model]);
         }
-        $model->ordenComercios = $comerciosOrdenados;
-        //die("jsonRequest:".$model->jsonRequestRuta);
-        return $this->render('rutaAuto', ['model' => $model]);
-
+        else{
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'There aren\'t stores availables for this route'));
+            return $this->redirect(['ruta/update', 'id' => $idRuta]);
+        }
     }
 
     private function obtenerRuta($dia,$idUsuario){
@@ -280,7 +287,7 @@ class OrdenComercioController extends SiteController
 
     ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////
-    //////////////////  Generar ruta Automatica ////////////////////
+    //////////////////  Generar ruta Manual ////////////////////
     ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////
 
