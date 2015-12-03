@@ -27,12 +27,14 @@
         "codeception/verify": "*",
         "yii-dream-team/yii2-upload-behavior": "*",
         "alexandernst/yii2-device-detect": "0.0.8",
-        "filsh/yii2-oauth2-server": "*"
+        "filsh/yii2-oauth2-server": "*",
+        "scotthuangzl/yii2-google-chart": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"
+
     },
     "config": {
         "process-timeout": 1800

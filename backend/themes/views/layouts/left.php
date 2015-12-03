@@ -47,6 +47,7 @@ if (isset(Yii::$app->user->identity)) :
                     ['label' => '<i class="fa fa-users"></i><span>'. Yii::t('app','Products').'</span>', 'url' => ['/producto']],
                     ['label' => '<i class="fa fa-users"></i><span>'. Yii::t('app','Routes').'</span>', 'url' => ['/ruta']],
                     ['label' => '<i class="fa fa-users"></i><span>'. Yii::t('app','Manage Users').'</span>', 'url' => ['/user/admin']],
+                    ['label' => '<i class="fa fa-users"></i><span>'. Yii::t('app','Graphics').'</span>', 'url' => ['/graficas']],
                     ['label' => '<i class="fa fa-file-code-o"></i><span>Gii</span>', 'url' => ['/gii']],
                     ['label' => '<i class="fa fa-dashboard"></i><span>Debug</span>', 'url' => ['/debug']],
                 ],
