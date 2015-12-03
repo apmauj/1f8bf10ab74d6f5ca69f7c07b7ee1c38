@@ -75,7 +75,7 @@ $baseUrl = $asset->baseUrl;
         </div>
     </div>
 
-    <div data-role="message" class="ui-content" id="mensaje-rutas" ><p>something<p></div>
+    <div data-role="message" class="ui-content" id="mensaje-rutas"><p><p></div>
     <div data-role="main" class="ui-content" id="map-canvas">
 
     </div>
@@ -369,6 +369,7 @@ $baseUrl = $asset->baseUrl;
 
 <script>
     $( document ).on( "pagecreate", "#rutas", function() {
+        $('#mensaje-rutas').hide();
         var ubicacion = new google.maps.LatLng(-34.905647, -56.186787);
         var directionsDisplay = new google.maps.DirectionsRenderer();
         var directionsService = new google.maps.DirectionsService();
@@ -385,6 +386,7 @@ $baseUrl = $asset->baseUrl;
                     renderDirections(directionsService,directionsDisplay,map,normalizedRequest);
                 }else if(results.status === "error"){
                     document.getElementById("mensaje-rutas").innerHTML = "<p>"+results.mensaje+"<p>";
+                    $('#mensaje-rutas').show();
                     var map = drawMap(ubicacion);
                 }
             },

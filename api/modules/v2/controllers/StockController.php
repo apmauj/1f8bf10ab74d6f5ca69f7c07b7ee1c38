@@ -68,12 +68,21 @@ class StockController extends ActiveController
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$user->id])->andWhere(['fecha'=>date('Y-m-d')])->one();
             $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
             $stock->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
-
-            if ($stock->validate() && $stock->save()){
-                $valid = true;
+            if($stock->cantidad != 0){
+                if ($stock->validate() && $stock->save()){
+                    $valid = true;
+                }
+                else{
+                    throw new BadRequestHttpException(Yii::t('mobile','Failed to save orders data...'));
+                }
             }
-            else{
-                throw new BadRequestHttpException(Yii::t('mobile','Failed to save orders data...'));
+            else {
+                if ($stock->validate()){
+                    $valid = true;
+                }
+                else{
+                    throw new BadRequestHttpException(Yii::t('mobile','Failed to save orders data...'));
+                }
             }
         }
         return $valid;

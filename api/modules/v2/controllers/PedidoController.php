@@ -64,11 +64,21 @@ class PedidoController extends ActiveController
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$usuario->id])->andWhere(['fecha'=>date('Y-m-d')])->one();
             $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
             $pedido->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
-            if ($pedido->validate() && $pedido->save()){
-                $valid = true;
+            if ($pedido->cantidad != 0){
+                if ($pedido->validate() && $pedido->save()){
+                    $valid = true;
+                }
+                else{
+                    throw new BadRequestHttpException(Yii::t('mobile','Failed to save route with id: '.$rutaDiariaComercio->id.''));
+                }
             }
             else{
-                throw new BadRequestHttpException(Yii::t('mobile','Failed to save route with id: '.$rutaDiariaComercio->id.''));
+                if ($pedido->validate()){
+                    $valid = true;
+                }
+                else{
+                    throw new BadRequestHttpException(Yii::t('mobile','Failed to save route with id: '.$rutaDiariaComercio->id.''));
+                }
             }
         }
         return $valid;
