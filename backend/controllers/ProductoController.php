@@ -73,13 +73,21 @@ class ProductoController extends SiteController
             $nombreImagen = $model->nombre;
 
             $model->file = UploadedFile::getInstance($model,'file');
-            $model->file->saveAs( 'img/'.$model->nombre.'.'.$model->file->extension );
 
             $model->imagen = 'img/'.$nombreImagen.'.'.$model->file->extension;
 
-            $model->save();
+            if($model->validate()){
+                $model->save();
+                $model->file->saveAs( 'img/'.$model->nombre.'.'.$model->file->extension );
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                return $this->render('create', [
+                    'model' => $model,'categorias'=> $categoriasActivas
+                ]);
+            }
 
-            return $this->redirect(['view', 'id' => $model->id]);
+
+
         } else {
             return $this->render('create', [
                 'model' => $model,'categorias'=> $categoriasActivas
@@ -100,17 +108,26 @@ class ProductoController extends SiteController
         $categoriasActivas = $categoria->getCategoriasActivas();
 
         if ($model->load(Yii::$app->request->post())) {
-
+            $subioArchivo = false;
             if ($model->file = UploadedFile::getInstance($model,'file'))
             {
+                $subioArchivo = true;
                 $nombreImagen = $model->nombre;
-                $model->file->saveAs( 'img/'.$model->nombre.'.'.$model->file->extension );
                 $model->imagen = 'img/'.$nombreImagen.'.'.$model->file->extension;
             }
+            if($model->validate()) {
 
-            $model->save();
+                $model->save();
+                if($subioArchivo){
+                    $model->file->saveAs( 'img/'.$model->nombre.'.'.$model->file->extension );
+                }
 
-            return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                return $this->render('update', [
+                    'model' => $model,'categorias'=> $categoriasActivas
+                ]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,'categorias'=> $categoriasActivas

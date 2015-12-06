@@ -32,6 +32,7 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             [['nombre', 'esActivo'], 'required'],
             [['esActivo'], 'integer'],
+            [['nombre'],'unique'],
             [['nombre'], 'string', 'max' => 50],
             [['descripcion'], 'string', 'max' => 255],
         ];

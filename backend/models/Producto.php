@@ -40,8 +40,9 @@ class Producto extends \yii\db\ActiveRecord
         return [
             [['nombre', 'imagen', 'id_categoria', 'esActivo'], 'required'],
             [['id_categoria', 'esActivo'], 'integer'],
+            [['nombre'],'unique'],
             [['precio'], 'number'],
-            [['file'],'file'],
+            [['file'],'file','extensions'=>'jpg , png'],
             [['nombre'], 'string', 'max' => 50],
             [['imagen'], 'string', 'max' => 255]
         ];
