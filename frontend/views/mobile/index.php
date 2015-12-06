@@ -270,7 +270,16 @@ $baseUrl = $asset->baseUrl;
                 $('#textoTaProto').show();
             }
         }
-        $("#pedidoBoton").on('click', showValues);
+
+        function preguntar(){
+            confirmar=confirm("<?= Yii::t('mobile', 'Are you sure???');?>");
+            if (confirmar){
+                showValues();
+            }
+            else
+                alert("<?= Yii::t('mobile', 'You have undone your selection!!!');?>")
+        }
+        $("#pedidoBoton").on('click', preguntar);
     });
 </script>
 
@@ -363,7 +372,16 @@ $baseUrl = $asset->baseUrl;
                 $('#textoTaProtoStock').show();
             }
         }
-        $("#stockBoton").on('click', showValues);
+
+        function preguntar(){
+            confirmar=confirm("<?= Yii::t('mobile', 'Are you sure???');?>");
+                if (confirmar){
+                    showValues();
+                }
+                else
+                    alert("<?= Yii::t('mobile', 'You have undone your selection!!!');?>")
+            }
+        $("#stockBoton").on('click', preguntar);
     });
 </script>
 
