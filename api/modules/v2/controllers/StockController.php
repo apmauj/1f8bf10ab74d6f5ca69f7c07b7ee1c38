@@ -8,7 +8,9 @@
 
 namespace api\modules\v2\controllers;
 
+use backend\models\ComercioProducto;
 use backend\models\ComercioProductosRelacionados;
+use backend\models\Pedido;
 use backend\models\Producto;
 use backend\models\RutaDiaria;
 use backend\models\User;
@@ -78,8 +80,44 @@ class StockController extends ActiveController
             }
 
             if($stock->cantidad != 0){
-                if ($stock->validate() && $stock->save()){
-                    $valid = true;
+                if ($stock->validate()){
+                    if ($stockIdProd != null){
+
+                    }
+                    else {
+                        $rutaDiariaComercioFecha = RutaDiariaComercio::find()->where('ruta_diaria_comercio.id !='.$rutaDiariaComercio->id)->joinWith([
+                            'idRutaDiaria' => function ($query) {
+                                //$query->where('MAX(ruta_diaria.fecha)');
+                                $query->groupBy('ruta_diaria.id')->having('MAX(ruta_diaria.fecha)')->orderBy('fecha DESC');
+                            }
+                        ])->one();
+                        $stockAnterior = Stock::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
+                        $pedidoAnterior = Pedido::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
+
+                        if ($stockAnterior != null){
+                            $vendidos = $stockAnterior->cantidad - $stock->cantidad;
+                            if($pedidoAnterior != null){
+                                $vendidos = $vendidos + $pedidoAnterior->cantidad;
+                            }
+                            $compraProducto = new ComercioProducto();
+                            $compraProducto->setAttribute('vendidos',$vendidos);
+                            $compraProducto->setAttribute('id_comercio',$params['id_comercio']);
+                            $compraProducto->setAttribute('id_producto',$stock->id_producto);
+                            $compraProducto->setAttribute('fecha',date('Y-m-d'));
+                            $compraProducto->save();
+                        }
+                        else{
+
+                        }
+
+                    }
+
+                    if ($stock->save()){
+                        $valid = true;
+                    }
+                    else{
+                        $valid = false;
+                    }
                 }
                 else{
                     throw new BadRequestHttpException(Yii::t('mobile','Failed to save orders data...'));
