@@ -62,12 +62,21 @@ class StockController extends ActiveController
         //return $params;
         $arrayStock = $params['stock'];
         foreach ($arrayStock as $stockEnv){
-            $stock = new Stock();
-            $stock->setAttribute('cantidad',$stockEnv['cant']);
-            $stock->setAttribute('id_producto',$stockEnv['id_producto']);
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$user->id])->andWhere(['fecha'=>date('Y-m-d')])->one();
             $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
-            $stock->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
+            $stockIdProd = Stock::find()->where(['id_producto'=>$stockEnv['id_producto']])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercio->id])->one();
+
+            if ($stockIdProd != null){
+                $stock = $stockIdProd;
+                $stock->setAttribute('cantidad',$stockEnv['cant']);
+            }
+            else{
+                $stock = new Stock();
+                $stock->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
+                $stock->setAttribute('id_producto',$stockEnv['id_producto']);
+                $stock->setAttribute('cantidad',$stockEnv['cant']);
+            }
+
             if($stock->cantidad != 0){
                 if ($stock->validate() && $stock->save()){
                     $valid = true;

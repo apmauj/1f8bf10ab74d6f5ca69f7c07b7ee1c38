@@ -58,12 +58,21 @@ class PedidoController extends ActiveController
         $arrayProductos = $params['productos'];
         $valid = false;
         foreach ($arrayProductos as $productos){
-            $pedido = new Pedido();
-            $pedido->setAttribute('cantidad',$productos['cant']);
-            $pedido->setAttribute('id_producto',$productos['id_producto']);
             $rutaDiaria = RutaDiaria::find()->where(['id_usuario'=>$usuario->id])->andWhere(['fecha'=>date('Y-m-d')])->one();
             $rutaDiariaComercio = RutaDiariaComercio::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_ruta_diaria'=>$rutaDiaria->id])->one();
-            $pedido->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
+            $pedidoIdProd = Pedido::find()->where(['id_producto'=>$productos['id_producto']])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercio->id])->one();
+
+            if ($pedidoIdProd != null){
+                $pedido = $pedidoIdProd;
+                $pedido->setAttribute('cantidad',$productos['cant']);
+            }
+            else{
+                $pedido = new Pedido();
+                $pedido->setAttribute('id_producto',$productos['id_producto']);
+                $pedido->setAttribute('id_ruta_diaria_com',$rutaDiariaComercio->id);
+                $pedido->setAttribute('cantidad',$productos['cant']);
+            }
+
             if ($pedido->cantidad != 0){
                 if ($pedido->validate() && $pedido->save()){
                     $valid = true;
