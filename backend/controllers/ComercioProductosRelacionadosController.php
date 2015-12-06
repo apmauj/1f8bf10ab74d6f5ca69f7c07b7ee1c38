@@ -78,6 +78,11 @@ class ComercioProductosRelacionadosController extends SiteController
 
                 if ($newModel->validate()) {
                     $newModel->save();
+                }else{
+                    foreach($newModel->errors as $error){
+                        Yii::$app->getSession()->setFlash('danger', $error);
+                        return $this->redirect(['view', 'id_comercio' => $model->id_comercio, 'id_producto' => $model->id_producto[0]]);
+                    }
                 }
 
             }
@@ -97,7 +102,7 @@ class ComercioProductosRelacionadosController extends SiteController
      * @param integer $id_producto
      * @return mixed
      */
-    public function actionUpdate($id_comercio, $id_producto)
+/*    public function actionUpdate($id_comercio, $id_producto)
     {
         $model = $this->findModel($id_comercio, $id_producto);
 
@@ -108,7 +113,7 @@ class ComercioProductosRelacionadosController extends SiteController
                 'model' => $model,
             ]);
         }
-    }
+    }*/
 
     /**
      * Deletes an existing ComercioProductosRelacionados model.

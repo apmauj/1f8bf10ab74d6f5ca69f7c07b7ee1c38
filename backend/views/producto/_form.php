@@ -48,7 +48,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'precio')->textInput(
         [
             'label' => Yii::t('app', 'Price'),
-        ])
+        ])->hint(Yii::t('app','*price accept at top 7 integers and 2 decimals'));
     ?>
 
     <div class="form-group">

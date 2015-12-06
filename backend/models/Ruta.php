@@ -82,12 +82,12 @@ class Ruta extends \yii\db\ActiveRecord
     public function validar(){
         if($this->esActivo){
             if($this->id != null){
-                if($this->find()->where('id!='.$this->id)->andWhere(['id_usuario'=>$this->id_usuario])->andWhere(['esActivo'=>'1'])->count()>0){
-                    return Yii::t('app',"Exists another active Route for this User");
+                if($this->find()->where('id!='.$this->id)->andWhere(['id_usuario'=>$this->id_usuario])->andWhere(['dia'=>$this->dia])->andWhere(['esActivo'=>'1'])->count()>0){
+                    return Yii::t('app',"Exists another active Route for this User for this Day");
                 }
             }else{
-                if($this->find()->where(['id_usuario'=>$this->id_usuario])->andWhere(['esActivo'=>'1'])->count()>0){
-                    return Yii::t('app',"There is another active Route for this User");
+                if($this->find()->where(['id_usuario'=>$this->id_usuario])->andWhere(['dia'=>$this->dia])->andWhere(['esActivo'=>'1'])->count()>0){
+                    return Yii::t('app',"There is another active Route for this User for this Day");
                 }
 
             }

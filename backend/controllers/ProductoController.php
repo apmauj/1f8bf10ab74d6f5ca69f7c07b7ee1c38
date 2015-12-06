@@ -79,6 +79,7 @@ class ProductoController extends SiteController
             if($model->validate()){
                 $model->save();
                 $model->file->saveAs( 'img/'.$model->nombre.'.'.$model->file->extension );
+                Yii::$app->getSession()->setFlash('success', Yii::t('app','Product has been succesfully created'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }else{
                 return $this->render('create', [
@@ -121,7 +122,7 @@ class ProductoController extends SiteController
                 if($subioArchivo){
                     $model->file->saveAs( 'img/'.$model->nombre.'.'.$model->file->extension );
                 }
-
+                Yii::$app->getSession()->setFlash('success', Yii::t('app','Product has been succesfully updated'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }else{
                 return $this->render('update', [

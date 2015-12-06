@@ -41,7 +41,7 @@ class Producto extends \yii\db\ActiveRecord
             [['nombre', 'imagen', 'id_categoria', 'esActivo'], 'required'],
             [['id_categoria', 'esActivo'], 'integer'],
             [['nombre'],'unique'],
-            [['precio'], 'number'],
+            [['precio'], 'number','numberPattern'=>'/^\s*[-+]?[0-9]{1,7}\.?[0-9]{1,2}?\s*$/','message'=>Yii::t('app','price is incorrect, see the instructions')],
             [['file'],'file','extensions'=>'jpg , png'],
             [['nombre'], 'string', 'max' => 50],
             [['imagen'], 'string', 'max' => 255]
@@ -70,6 +70,10 @@ class Producto extends \yii\db\ActiveRecord
     public function getComercioProductos()
     {
         return $this->hasMany(ComercioProducto::className(), ['id_producto' => 'id']);
+    }
+
+    public function getComercioProductoRelacionados(){
+        return $this->hasMany(ComercioProductosRelacionados::className(), ['id_producto' => 'id']);
     }
 
     /**
@@ -106,7 +110,7 @@ class Producto extends \yii\db\ActiveRecord
     }
 
     public function esValidoBorrar(){
-        if($this->getComercioProductos()->count()>0){
+        if($this->getComercioProductos()->count()>0 || $this->getComercioProductoRelacionados()->count()>0){
             return Yii::t('app',"There are Stores that depends on this Product");
         }
 

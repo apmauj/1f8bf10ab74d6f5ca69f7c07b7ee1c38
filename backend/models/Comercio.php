@@ -47,6 +47,7 @@ class Comercio extends \yii\db\ActiveRecord
     {
         return [
             [['nombre', 'latitud', 'longitud', 'dia', 'prioridad', 'esActivo', 'direccion'], 'required'],
+            [['nombre'],'unique'],
             [['latitud', 'longitud'], 'number'],
             [['direccion'],'string','max'=>255],
             [['dia', 'prioridad', 'esActivo'], 'integer'],
