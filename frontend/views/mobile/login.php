@@ -2,13 +2,13 @@
 $asset = frontend\assets\AppAsset::register($this);
 $baseUrl = $asset->baseUrl;
 /* @var $this yii\web\View */
-$this->title = Yii::t('mobile', 'Muli Relevadores');
+$this->title = Yii::t('mobile', 'Muli Relevators');
 ?>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= Yii::t('mobile', 'Muli Relevadores Mobile');?></title>
+    <title><?= Yii::t('mobile', 'Muli Relevators Mobile');?></title>
     <link rel="stylesheet" href="/frontend/views/mobile/themes/mulisrelevadores.min.css" />
     <link rel="stylesheet" href="/frontend/views/mobile/themes/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
