@@ -20,7 +20,11 @@ class CustomFrontendFilter  extends \yii\base\ActionFilter
      */
     public function beforeAction($action)
     {
-        if (\Yii::$app->user->isGuest) {
+        $modo = Yii::$app->params['devicedetect'];
+        if ($modo["isMobile"]) {
+            return true;
+        }
+        else if (\Yii::$app->user->isGuest) {
             return $this->login();
         }else{
             return true;
@@ -28,19 +32,10 @@ class CustomFrontendFilter  extends \yii\base\ActionFilter
     }
 
     private function login(){
-        $modo = Yii::$app->params['devicedetect'];
 
-        if ($modo["isMobile"]){
-//            if (Yii::$app->controller->action->id === 'login') {
-//                return true;
-//            }
-//            //return true;
-//            return \Yii::$app->getResponse()->redirect($this->loginMobile);
-            return true;
-        }else{
-            return \Yii::$app->getResponse()->redirect($this->loginUrl);
-        }
+        return \Yii::$app->getResponse()->redirect($this->loginUrl);
     }
+
 
 
 }
