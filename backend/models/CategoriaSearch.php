@@ -17,7 +17,8 @@ class CategoriaSearch extends Categoria
     public function rules()
     {
         return [
-            [['id', 'esActivo'], 'integer'],
+            [['id'], 'integer'],
+            [['esActivo'], 'string'],
             [['nombre', 'descripcion'], 'safe'],
         ];
     }
@@ -56,8 +57,17 @@ class CategoriaSearch extends Categoria
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'esActivo' => $this->esActivo,
         ]);
+        if($this->esActivo=='Yes' || $this->esActivo=='yes' || $this->esActivo=='YES' || $this->esActivo=='Si' || $this->esActivo=='si' || $this->esActivo=='SI'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 0
+            ]);
+        }
+        else if($this->esActivo=='no' || $this->esActivo=='No' || $this->esActivo=='NO'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 1
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'descripcion', $this->descripcion]);

@@ -17,8 +17,9 @@ class ComercioSearch extends Comercio
     public function rules()
     {
         return [
-            [['id', 'dia', 'prioridad', 'esActivo'], 'integer'],
+            [['id', 'dia', 'prioridad'], 'integer'],
             [['nombre', 'direccion'], 'safe'],
+            [['esActivo'], 'string'],
             [['latitud', 'longitud'], 'number'],
         ];
     }
@@ -61,9 +62,20 @@ class ComercioSearch extends Comercio
             'longitud' => $this->longitud,
             'dia' => $this->dia,
             'prioridad' => $this->prioridad,
-            'esActivo' => $this->esActivo,
+            //'esActivo' => $this->esActivo,
             'direccion' => $this->direccion,
         ]);
+        if($this->esActivo=='Yes' || $this->esActivo=='yes' || $this->esActivo=='YES' || $this->esActivo=='Si' || $this->esActivo=='si' || $this->esActivo=='SI'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 0
+            ]);
+        }
+        else if($this->esActivo=='no' || $this->esActivo=='No' || $this->esActivo=='NO'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 1
+            ]);
+        }
+
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 

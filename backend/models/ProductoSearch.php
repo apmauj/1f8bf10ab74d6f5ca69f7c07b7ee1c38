@@ -17,9 +17,10 @@ class ProductoSearch extends Producto
     public function rules()
     {
         return [
-            [['id', 'id_categoria', 'esActivo'], 'integer'],
+            [['id', 'id_categoria'], 'integer'],
             [['nombre', 'imagen'], 'safe'],
             [['precio'], 'number'],
+            [['esActivo'], 'string'],
         ];
     }
 
@@ -58,9 +59,19 @@ class ProductoSearch extends Producto
         $query->andFilterWhere([
             'id' => $this->id,
             'id_categoria' => $this->id_categoria,
-            'esActivo' => $this->esActivo,
+            //'esActivo' => $this->esActivo,
             'precio' => $this->precio,
         ]);
+        if($this->esActivo=='Yes' || $this->esActivo=='yes' || $this->esActivo=='YES' || $this->esActivo=='Si' || $this->esActivo=='si' || $this->esActivo=='SI'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 0
+            ]);
+        }
+        else if($this->esActivo=='no' || $this->esActivo=='No' || $this->esActivo=='NO'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 1
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'imagen', $this->imagen]);
