@@ -1,6 +1,6 @@
 <?php
 return [
-    'language' => 'es',//'en',//
+    'language' => 'en',//es
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'cache' => [

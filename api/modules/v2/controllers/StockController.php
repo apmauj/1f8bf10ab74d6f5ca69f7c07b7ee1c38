@@ -82,15 +82,34 @@ class StockController extends ActiveController
             if($stock->cantidad != 0){
                 if ($stock->validate()){
                     if ($stockIdProd != null){
-
-                    }
-                    else {
-                        $rutaDiariaComercioFecha = RutaDiariaComercio::find()->where('ruta_diaria_comercio.id !='.$rutaDiariaComercio->id)->joinWith([
+                        //es un update del Stock, podemos haber realizado ya el calculo de la venta.
+                        $rutaDiariaComercioFecha = RutaDiariaComercio::find()->where('ruta_diaria_comercio.id !='.$rutaDiariaComercio->id)->andWhere('ruta_diaria_comercio.id_ruta_diaria!='.$rutaDiariaComercio->id_ruta_diaria)->andWhere(['ruta_diaria_comercio.id_comercio'=>$rutaDiariaComercio->id_comercio])->joinWith([
                             'idRutaDiaria' => function ($query) {
                                 //$query->where('MAX(ruta_diaria.fecha)');
                                 $query->groupBy('ruta_diaria.id')->having('MAX(ruta_diaria.fecha)')->orderBy('fecha DESC');
                             }
                         ])->one();
+                        $stockAnterior = Stock::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
+                        $pedidoAnterior = Pedido::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
+
+                        if ($stockAnterior != null) {
+                            $vendidos = $stockAnterior->cantidad - $stock->cantidad;
+                            if($pedidoAnterior != null){
+                                $vendidos = $vendidos + $pedidoAnterior->cantidad;
+                            }
+                            $compraProducto = ComercioProducto::find()->where(['id_comercio'=>$params['id_comercio']])->andWhere(['id_producto'=>$stock->id_producto])->andWhere(['fecha'=>date('Y-m-d')])->one();
+                            $compraProducto->setAttribute('vendidos',$vendidos);
+                            $compraProducto->save();
+                        }
+                    }
+                    else {
+                        $rutaDiariaComercioFecha = RutaDiariaComercio::find()->where('ruta_diaria_comercio.id !='.$rutaDiariaComercio->id)->andWhere('ruta_diaria_comercio.id_ruta_diaria!='.$rutaDiariaComercio->id_ruta_diaria)->andWhere(['ruta_diaria_comercio.id_comercio'=>$rutaDiariaComercio->id_comercio])->joinWith([
+                            'idRutaDiaria' => function ($query) {
+                                //$query->where('MAX(ruta_diaria.fecha)');
+                                $query->groupBy('ruta_diaria.id')->having('MAX(ruta_diaria.fecha)')->orderBy('fecha DESC');
+                            }
+                        ])->one();
+
                         $stockAnterior = Stock::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
                         $pedidoAnterior = Pedido::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
 
