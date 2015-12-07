@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'prompt'=>Yii::t('core','Select one...')
             ]);
         ?>
-        <input name="boton2" type="image" src="..\img\buttons\PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
+        <input name="boton2" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
     <?php ActiveForm::end(); ?>
     <br>
 
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'prompt'=>Yii::t('core', 'Select one...')
         ]);
     ?>
-        <input name="boton2" type="image" src="..\img\buttons\PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
+        <input name="boton2" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
     <?php ActiveForm::end(); ?>
     <br>
 
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </p>
 
-    <input name="boton2" type="image" src="..\img\buttons\PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
+    <input name="boton2" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
 
     <?php ActiveForm::end(); ?>
 

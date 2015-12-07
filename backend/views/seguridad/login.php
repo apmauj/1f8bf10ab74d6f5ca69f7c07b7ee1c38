@@ -14,6 +14,9 @@
  * @var dektrium\user\models\LoginForm $model
  * @var dektrium\user\Module           $module
  */
+use dektrium\user\widgets\Connect;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 $this->title = Yii::t('user', 'Sign in');
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,7 +38,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b><?= Yii::t('core''Mulis') ?></b><?= Yii::t('core''Relevators') ?></a>
+        <a href="#"><b><?= Yii::t('core','Mulis') ?></b><?= Yii::t('core','Relevators') ?></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
