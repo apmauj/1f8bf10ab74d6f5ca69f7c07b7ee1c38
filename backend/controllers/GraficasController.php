@@ -13,6 +13,7 @@ use backend\models\ComercioProductosRelacionados;
 use backend\models\GraficasForm;
 use backend\models\Pedido;
 use backend\models\Producto;
+use backend\models\RutaDiaria;
 use backend\models\RutaDiariaComercio;
 use Yii;
 
@@ -135,7 +136,7 @@ class GraficasController extends SiteController{
         $nombreTienda = "Tienda1";
 
         $nombreComercio = Comercio::Find()->select('nombre')->where(['id'=>$model->opcionComercio2])->one()->nombre;
-        $carga = $this->cargarArrayPedidos($model->opcionComercio2,null,null);
+        $carga = $this->cargarArrayPedidos($model->opcionComercio2,$model->fechaDesde,$model->fechaHasta);
         $cargaAdaptadaParaChart= [];
         $cargaAdaptadaParaChart[0]= [Yii::t('core', 'Order'),Yii::t('core', 'Units Ordered')];
         $i=1;
@@ -155,9 +156,10 @@ class GraficasController extends SiteController{
 
     private function cargarArrayPedidos($idComercio,$fechaDesde,$fechaHasta){
         $respuesta = [];
-
-        if(RutaDiariaComercio::find()->where(['id_comercio'=>$idComercio])->count()>0){
-            $rutaDiariaComercios = RutaDiariaComercio::find()->where(['id_comercio'=>$idComercio])->all();
+        $queryRutaDiaria = RutaDiaria::find()->select('id')->where(['between', 'fecha', $fechaDesde, $fechaHasta]);
+        $queryRutaDiariaCom = RutaDiariaComercio::find()->where(['ruta_diaria_comercio.id_comercio'=>$idComercio])->andWhere(['in','id_ruta_diaria',$queryRutaDiaria]);
+        if($queryRutaDiariaCom->count()>0){
+            $rutaDiariaComercios = $queryRutaDiariaCom->all();
             $pedidos = [];
             $i=0;
             foreach($rutaDiariaComercios as $rutaDiariaComercio){
