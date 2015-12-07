@@ -18,8 +18,10 @@
  */
 return [
     '' => '',
-    'Mulis' => 'Muli',
-    'Relevators' => 'Relevators',
+    'Accomplishment percentage' => 'Porcentaje de completitud',
+    'Relevator' => 'Relevador',
+    'There are no routes for this relevator' => 'No hay rutas para este relevador',
+    'These are the completitude of theroutes for this relevator' => 'Porcentaje de completitud de rutas del relevador',
     '(&copy; MuliSoft ) date("Y")' => '(&copy; MuliSoft ) date("Y")',
     '*price accept at top 7 integers and 2 decimals' => '*precio puede constar de hasta 7 dígitos y 2 decimales',
     'About' => 'Acerca de',
@@ -100,6 +102,7 @@ return [
     'Most wanted products' => 'Productos más buscados',
     'Muli Relevators' => 'Muli Relevadores',
     'MuliSoft' => 'MuliSoft',
+    'Mulis' => 'Muli',
     'Name' => 'Nombre',
     'Name: ' => 'Nombre: ',
     'New password was saved.' => 'La nueva contraseña fue guardada',
@@ -123,6 +126,7 @@ return [
     'Quantity' => 'Cantidad',
     'Relevator Charts' => 'Gráficas de Relevadores',
     'Relevator: ' => 'Relevador: ',
+    'Relevators' => 'Relevators',
     'Requested Orders' => 'Pedidos solicitados',
     'Reset' => 'Reset',
     'Route' => 'Ruta',
