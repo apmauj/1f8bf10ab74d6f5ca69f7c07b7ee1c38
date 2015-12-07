@@ -44,10 +44,10 @@ class RutaDiariaComercio extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'orden' => Yii::t('app', 'Order'),
-            'id_ruta_diaria' => Yii::t('app', 'Daily Route ID'),
-            'id_comercio' => Yii::t('app', 'Store ID'),
+            'id' => Yii::t('core', 'ID'),
+            'orden' => Yii::t('core', 'Order'),
+            'id_ruta_diaria' => Yii::t('core', 'Daily Route ID'),
+            'id_comercio' => Yii::t('core', 'Store ID'),
         ];
     }
 

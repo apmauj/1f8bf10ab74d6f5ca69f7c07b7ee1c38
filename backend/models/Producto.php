@@ -41,7 +41,7 @@ class Producto extends \yii\db\ActiveRecord
             [['nombre', 'imagen', 'id_categoria', 'esActivo'], 'required'],
             [['id_categoria', 'esActivo'], 'integer'],
             [['nombre'],'unique'],
-            [['precio'], 'number','numberPattern'=>'/^\s*[-+]?[0-9]{1,7}\.?[0-9]{1,2}?\s*$/','message'=>Yii::t('app','price is incorrect, see the instructions')],
+            [['precio'], 'number','numberPattern'=>'/^\s*[-+]?[0-9]{1,7}\.?[0-9]{1,2}?\s*$/','message'=>Yii::t('core','price is incorrect, see the instructions')],
             [['file'],'file','extensions'=>'jpg , png'],
             [['nombre'], 'string', 'max' => 50],
             [['imagen'], 'string', 'max' => 255]
@@ -54,26 +54,14 @@ class Producto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'nombre' => Yii::t('app', 'Name'),
-            'imagen' => Yii::t('app', 'Image'),
-            'id_categoria' => Yii::t('app', 'Category'),
-            'esActivo' => Yii::t('app', 'Active?'),
-            'precio' => Yii::t('app', 'Price'),
-            'file' => Yii::t('app', 'Image'),
+            'id' => Yii::t('core', 'ID'),
+            'nombre' => Yii::t('core', 'Name'),
+            'imagen' => Yii::t('core', 'Image'),
+            'id_categoria' => Yii::t('core', 'Category'),
+            'esActivo' => Yii::t('core', 'Active?'),
+            'precio' => Yii::t('core', 'Price'),
+            'file' => Yii::t('core', 'Image'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getComercioProductos()
-    {
-        return $this->hasMany(ComercioProducto::className(), ['id_producto' => 'id']);
-    }
-
-    public function getComercioProductoRelacionados(){
-        return $this->hasMany(ComercioProductosRelacionados::className(), ['id_producto' => 'id']);
     }
 
     /**
@@ -111,10 +99,22 @@ class Producto extends \yii\db\ActiveRecord
 
     public function esValidoBorrar(){
         if($this->getComercioProductos()->count()>0 || $this->getComercioProductoRelacionados()->count()>0){
-            return Yii::t('app',"There are Stores that depends on this Product");
+            return Yii::t('core',"There are Stores that depends on this Product");
         }
 
         return "OK";
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComercioProductos()
+    {
+        return $this->hasMany(ComercioProducto::className(), ['id_producto' => 'id']);
+    }
+
+    public function getComercioProductoRelacionados(){
+        return $this->hasMany(ComercioProductosRelacionados::className(), ['id_producto' => 'id']);
     }
 
 

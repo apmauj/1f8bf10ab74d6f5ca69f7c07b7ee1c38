@@ -1,6 +1,5 @@
 <?php
 
-use backend\models\Categoria;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -16,14 +15,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre')->textInput(
         [
-            'label'=>Yii::t('app','Name'),
+            'label'=>Yii::t('core', 'Name'),
             'maxlength' => true
         ])
     ?>
 
     <?= $form->field($model, 'file')->fileInput(
         [
-            'label'=>Yii::t('app','File...'),
+            'label'=>Yii::t('core', 'File...'),
             'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'
         ])
     ?>
@@ -33,26 +32,26 @@ use yii\widgets\ActiveForm;
 	    $listData=ArrayHelper::map($categorias,'id','nombre');
 	    echo $form->field($model, 'id_categoria')->dropDownList($listData,
 	                                [
-                                        'prompt'=>Yii::t('app','Select one...')
+                                        'prompt'=>Yii::t('core', 'Select one...')
                                     ]);
     ?>
 
     <?php echo $form->field($model, 'esActivo')->dropDownList(
         [
-            'label' => Yii::t('app', 'Active?'),
-            '1' => Yii::t('app', 'Yes'),
-            '0' => Yii::t('app', 'No'),
+            'label' => Yii::t('core', 'Active?'),
+            '1' => Yii::t('core', 'Yes'),
+            '0' => Yii::t('core', 'No'),
         ]);
     ?>
 
     <?= $form->field($model, 'precio')->textInput(
         [
-            'label' => Yii::t('app', 'Price'),
-        ])->hint(Yii::t('app','*price accept at top 7 integers and 2 decimals'));
+            'label' => Yii::t('core', 'Price'),
+        ])->hint(Yii::t('core', '*price accept at top 7 integers and 2 decimals'));
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('core', 'Create') : Yii::t('core', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

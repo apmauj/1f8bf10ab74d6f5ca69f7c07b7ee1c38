@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
         //$categoria=array(Comercio::find()->all());
         $listData=ArrayHelper::map(Comercio::find()->all(),'id','nombre');
         echo $form->field($model, 'id_comercio')->dropDownList($listData,
-            ['prompt'=>Yii::t('app', 'Select...')]);
+            ['prompt'=>Yii::t('core', 'Select...')]);
     ?>
 
     <?php
@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('core', 'Create') : Yii::t('core', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

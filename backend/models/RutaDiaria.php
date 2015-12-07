@@ -39,8 +39,8 @@ class RutaDiaria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'fecha' => Yii::t('app', 'Date'),
+            'id' => Yii::t('core', 'ID'),
+            'fecha' => Yii::t('core', 'Date'),
         ];
     }
 

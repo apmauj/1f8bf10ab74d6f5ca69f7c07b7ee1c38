@@ -6,17 +6,17 @@
  * Time: 00:47
  */
 
-use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
+use yii\helpers\Html;
 
 ?>
 
 <div class="site-about">
-    <h1><?= Html::encode(Yii::t("app","Orders and Stocks Information")) ?></h1>
-    <h2><?=Html::encode(Yii::t("app","Date").": ").$fecha ?></h2>
-    <h2><?=Html::encode(Yii::t("app","Route").": ").$ruta ?></h2>
-    <h2><?=Html::encode(Yii::t("app","User").": ").$usuario ?></h2>
+    <h1><?= Html::encode(Yii::t('core', 'Orders and Stocks Information')) ?></h1>
+    <h2><?=Html::encode(Yii::t('core', 'Date').": ").$fecha ?></h2>
+    <h2><?=Html::encode(Yii::t('core', 'Route').": ").$ruta ?></h2>
+    <h2><?=Html::encode(Yii::t('core', 'User').": ").$usuario ?></h2>
 
     <h3><?=Html::encode("Stock") ?></h3>
     <?php

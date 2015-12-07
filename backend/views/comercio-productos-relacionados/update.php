@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\ComercioProductosRelacionados */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('core', 'Update {modelClass}: ', [
     'modelClass' => 'Comercio Productos Relacionados',
 ]) . ' ' . $model->id_comercio;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Store Related Products'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Store Related Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_comercio, 'url' => ['view', 'id_comercio' => $model->id_comercio, 'id_producto' => $model->id_producto]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('core', 'Update');
 ?>
 <div class="comercio-productos-relacionados-update">
 

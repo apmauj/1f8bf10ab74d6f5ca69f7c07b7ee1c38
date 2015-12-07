@@ -7,14 +7,13 @@
  */
 namespace backend\controllers;
 
+use backend\models\Comercio;
 use backend\models\ComercioProducto;
 use backend\models\ComercioProductosRelacionados;
 use backend\models\GraficasForm;
-use backend\models\Comercio;
 use backend\models\Pedido;
 use backend\models\Producto;
 use backend\models\RutaDiariaComercio;
-use backend\models\User;
 use Yii;
 
 class GraficasController extends SiteController{
@@ -64,7 +63,7 @@ class GraficasController extends SiteController{
             $nombreComercio = Comercio::Find()->select('nombre')->where(['id'=>$model->opcionComercio])->one()->nombre;
             $carga = $this->cargarArrayVentas($model->opcionComercio);
             $cargaAdaptadaParaChart= [];
-            $cargaAdaptadaParaChart[0]= [Yii::t('app','Product'),Yii::t('app','Units sold')];
+            $cargaAdaptadaParaChart[0]= [Yii::t('core','Product'),Yii::t('core', 'Units sold')];
             $i=1;
             foreach($carga as $venta){
                 $nombreProducto = Producto::Find()->select('nombre')->where(['id'=>$venta['id_producto']])->one()->nombre;
@@ -73,7 +72,7 @@ class GraficasController extends SiteController{
             }
             return $this->render('comercioVenta', ['model'=>$model, 'nombreTienda'=>$nombreComercio, 'arrayVentas'=>$cargaAdaptadaParaChart]);
         }else{
-            Yii::$app->getSession()->setFlash('danger',Yii::t('app','You must select a store to see his most selled products...!'));
+            Yii::$app->getSession()->setFlash('danger',Yii::t('core', 'You must select a store to see it\'s best seller products...!'));
             $this->redirect(['index']);
         }
     }
@@ -138,7 +137,7 @@ class GraficasController extends SiteController{
         $nombreComercio = Comercio::Find()->select('nombre')->where(['id'=>$model->opcionComercio2])->one()->nombre;
         $carga = $this->cargarArrayPedidos($model->opcionComercio2,null,null);
         $cargaAdaptadaParaChart= [];
-        $cargaAdaptadaParaChart[0]= [Yii::t('app','Order'),Yii::t('app','Units Ordered')];
+        $cargaAdaptadaParaChart[0]= [Yii::t('core', 'Order'),Yii::t('core', 'Units Ordered')];
         $i=1;
         foreach($carga as $comercioPedido){
             //$nombreProducto = Producto::Find()->select('nombre')->where(['id'=>$venta['id_producto']])->one()->nombre;
@@ -148,7 +147,7 @@ class GraficasController extends SiteController{
         if(count($cargaAdaptadaParaChart)>1){
             return $this->render('comercioPedidos', ['nombreTienda'=>$nombreComercio, 'arrayPedidos'=>$cargaAdaptadaParaChart]);
         }else{
-            Yii::$app->getSession()->setFlash('danger',Yii::t('app','There are no orders for selected store'));
+            Yii::$app->getSession()->setFlash('danger',Yii::t('core', 'There are no orders for selected store'));
             $this->redirect(['index']);
 
         }

@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\ProductoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Products');
+$this->title = Yii::t('core', 'Products');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="producto-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Product'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('core', 'Create Product'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -29,12 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute' => 'nombre',
-                'label' => Yii::t('app', 'Name'),
+                'label' => Yii::t('core', 'Name'),
             ],
             [
                 'attribute' => 'imagen',
                 'format' => 'html',
-                'label' => Yii::t('app', 'Image'),
+                'label' => Yii::t('core', 'Image'),
                 'value' => function ($data) {
                     $webroot='../../backend/web/';
                     return Html::img( $webroot . $data['imagen'],
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'id_categoria',
-                'label'=>Yii::t('app', 'Category'),
+                'label'=>Yii::t('core', 'Category'),
                 'format'=>'text',
                 'content'=>function($data){
                     return $data->getCategoriaNombre();
@@ -51,17 +51,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'precio',
-                'label'=>Yii::t('app', 'Price'),
+                'label'=>Yii::t('core', 'Price'),
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>Yii::t('app', 'Active?'),
+                'label'=>Yii::t('core', 'Active?'),
                 'format'=>'raw',
                 'value'=>function ($data) {
                     if ($data->esActivo == 0)
-                        return '<span class="label label-danger">'.Yii::t('app', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
+                        return '<span class="label label-danger">'.Yii::t('core', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
                     else
-                        return '<span class="label label-success">'.Yii::t('app', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
+                        return '<span class="label label-success">'.Yii::t('core', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
                 },
             ],
 

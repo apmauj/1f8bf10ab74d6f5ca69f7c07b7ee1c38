@@ -16,14 +16,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre')->textInput(
         [
-            'label' => Yii::t('app', 'Name'),
+            'label' => Yii::t('core', 'Name'),
             'maxlength' => true
         ])
     ?>
 
     <?= $form->field($model, 'direccion')->textInput(
         [
-            'label' => Yii::t('app', 'Adress'),
+            'label' => Yii::t('core', 'Adress'),
             'maxlength' => true,
             'id' => 'direccion',
             'onchange' => 'javascript:cambioDireccion()',
@@ -33,32 +33,32 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'dia')->dropDownList(
         [
-            '1' => Yii::t('app', 'Monday'),
-            '2' => Yii::t('app', 'Tuesday'),
-            '3' => Yii::t('app', 'Wednesday'),
-            '4' => Yii::t('app', 'Thursday'),
-            '5' => Yii::t('app', 'Friday'),
-            '6' => Yii::t('app', 'Saturday'),
-            '7' => Yii::t('app', 'Sunday'),
+            '1' => Yii::t('core', 'Monday'),
+            '2' => Yii::t('core', 'Tuesday'),
+            '3' => Yii::t('core', 'Wednesday'),
+            '4' => Yii::t('core', 'Thursday'),
+            '5' => Yii::t('core', 'Friday'),
+            '6' => Yii::t('core', 'Saturday'),
+            '7' => Yii::t('core', 'Sunday'),
         ]);
     ?>
 
     <?= $form->field($model, 'prioridad')->dropDownList(
         [
-            'label' => Yii::t('app', 'Priority'),
-            '1' => Yii::t('app', 'Very High'),
-            '2' => Yii::t('app', 'High'),
-            '3' => Yii::t('app', 'Normal'),
-            '4' => Yii::t('app', 'Low'),
-            '5' => Yii::t('app', 'Very Low'),
+            'label' => Yii::t('core', 'Priority'),
+            '1' => Yii::t('core', 'Very High'),
+            '2' => Yii::t('core', 'High'),
+            '3' => Yii::t('core', 'Normal'),
+            '4' => Yii::t('core', 'Low'),
+            '5' => Yii::t('core', 'Very Low'),
         ]);
     ?>
 
     <?= $form->field($model, 'esActivo')->dropDownList(
         [
-            'label' => Yii::t('app', 'Active?'),
-            '1' => Yii::t('app', 'Yes'),
-            '0' => Yii::t('app', 'No'),
+            'label' => Yii::t('core', 'Active?'),
+            '1' => Yii::t('core', 'Yes'),
+            '0' => Yii::t('core', 'No'),
         ]);
     ?>
 
@@ -77,7 +77,7 @@ use yii\widgets\ActiveForm;
     <div id="map-canvas" style="height: 600px; width: 80%;border: 1px solid black"></div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('core', 'Create') : Yii::t('core', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

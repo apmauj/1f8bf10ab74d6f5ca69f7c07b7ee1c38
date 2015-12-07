@@ -17,13 +17,13 @@ use yii\widgets\ActiveForm;
     <?= $form->field($user, 'username')->textInput(
         [
             'maxlength' => true,
-            'label'=>Yii::t('app', 'Username'),
+            'label'=>Yii::t('core', 'Username'),
         ]) ?>
 
     <?= $form->field($user, 'email')->textInput(
         [
             'maxlength' => true,
-            'label'=>Yii::t('app', 'Email'),
+            'label'=>Yii::t('core', 'Email'),
         ]) ?>
 
     <?= $form->field($user, 'direccion')->textInput(
@@ -31,33 +31,33 @@ use yii\widgets\ActiveForm;
             'maxlength' => true,
             'id'=>'direccion',
             'onchange' => 'javascript:cambioDireccion()',
-            'label'=>Yii::t('app', 'Adress'),
+            'label'=>Yii::t('core', 'Adress'),
         ]) ?>
 
     <?= $form->field($user, 'esActivo')->dropDownList(
         [
-            '1' => Yii::t('app','Yes'),
-            '0' => Yii::t('app','No'),
+            '1' => Yii::t('core','Yes'),
+            '0' => Yii::t('core','No'),
         ]);
     ?>
 
     <?= $form->field($user, 'latitud')->hiddenInput(
         [
             'id'=>'latitud',
-            'label'=>Yii::t('app', 'Latitude'),
+            'label'=>Yii::t('core', 'Latitude'),
         ]
     )->label(false); ?>
     <?= $form->field($user, 'longitud')->hiddenInput(
         [
             'id'=>'longitud',
-            'label'=>Yii::t('app', 'longitude'),
+            'label'=>Yii::t('core', 'longitude'),
         ]
     )->label(false); ?>
 
     <div id="map-canvas" style="height: 600px; width: 80%;border: 1px solid black"></div>
 
     <div class="form-group">
-        <?= Html::submitButton($user->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($user->isNewRecord ? Yii::t('core', 'Create') : Yii::t('core', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

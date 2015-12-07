@@ -8,12 +8,37 @@
 namespace backend\models;
 
 use dektrium\user\models\User as BaseUser;
+use filsh\yii2\oauth2server\models\OauthAccessTokens;
 use OAuth2\Storage\UserCredentialsInterface;
 use Yii;
 use yii\db\Expression;
-use filsh\yii2\oauth2server\models\OauthAccessTokens;
 
 class User extends BaseUser implements UserCredentialsInterface{
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id, 'blocked_at' => NULL]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        // Get token
+        $oauthToken = OauthAccessTokens::find()
+            ->andWhere('expires > NOW()')
+            ->andWhere(['access_token' => $token])
+            ->one();
+        if (!$oauthToken) {
+            return null;
+        }
+
+        return User::findOne($oauthToken->user_id);
+    }
 
     public function init()
     {
@@ -21,8 +46,6 @@ class User extends BaseUser implements UserCredentialsInterface{
         $this->mailer = Yii::$container->get(CustomMailer::className());
 
     }
-
-
 
     /**
      * @return \yii\db\ActiveQuery
@@ -66,8 +89,8 @@ class User extends BaseUser implements UserCredentialsInterface{
     public function attributeLabels()
     {
         $labels = parent::attributeLabels();
-        $labels['direccion'] = Yii::t('app', 'Adress');
-        $labels['esActivo'] = Yii::t('app', 'Active?');
+        $labels['direccion'] = Yii::t('core', 'Adress');
+        $labels['esActivo'] = Yii::t('core', 'Active?');
 
         return $labels;
     }
@@ -97,32 +120,6 @@ class User extends BaseUser implements UserCredentialsInterface{
        return $this->getRutasDiarias()->all();
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id, 'blocked_at' => NULL]);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        // Get token
-        $oauthToken = OauthAccessTokens::find()
-            ->andWhere('expires > NOW()')
-            ->andWhere(['access_token' => $token])
-            ->one();
-        if (!$oauthToken) {
-            return null;
-        }
-
-        return User::findOne($oauthToken->user_id);
-    }
     /**
      * @inheritdoc
      */

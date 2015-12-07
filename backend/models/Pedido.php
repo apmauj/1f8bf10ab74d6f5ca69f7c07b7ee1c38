@@ -42,10 +42,10 @@ class Pedido extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'cantidad' => Yii::t('app', 'Quantity'),
-            'id_producto' => Yii::t('app', 'Product ID'),
-            'id_ruta_diaria_com' => Yii::t('app', 'Daily Store Route ID'),
+            'id' => Yii::t('core', 'ID'),
+            'cantidad' => Yii::t('core', 'Quantity'),
+            'id_producto' => Yii::t('core', 'Product ID'),
+            'id_ruta_diaria_com' => Yii::t('core', 'Daily Store Route ID'),
         ];
     }
 

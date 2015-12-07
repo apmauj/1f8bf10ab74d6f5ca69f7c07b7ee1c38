@@ -44,9 +44,9 @@ class OrdenRutaForm extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'username'      => Yii::t('app', 'Username'),
-            'idRuta'        => Yii::t('app', 'Route Id'),
-            'dia'           => Yii::t('app', 'Day'),
+            'username'      => Yii::t('core', 'Username'),
+            'idRuta'        => Yii::t('core', 'Route Id'),
+            'dia'           => Yii::t('core', 'Day'),
         ];
     }
 

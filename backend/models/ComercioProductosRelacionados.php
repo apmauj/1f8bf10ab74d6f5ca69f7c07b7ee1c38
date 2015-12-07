@@ -33,7 +33,7 @@ class ComercioProductosRelacionados extends \yii\db\ActiveRecord
             [['id_comercio', 'id_producto'], 'integer'],
             'repetidoValidator'=>['id_comercio',function ($attribute) {
                 if(ComercioProductosRelacionados::find()->where(['id_comercio'=>$this->id_comercio])->andWhere(['id_producto'=>$this->id_producto])->count()>0){
-                    $this->addError($attribute, \Yii::t('app', 'Some of the products added are already related with this store '));
+                    $this->addError($attribute, \Yii::t('core', 'Some of the products added are already related with this store '));
                 }
             }]
         ];
@@ -45,8 +45,8 @@ class ComercioProductosRelacionados extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_comercio' => Yii::t('app', 'Store'),
-            'id_producto' => Yii::t('app', 'Product'),
+            'id_comercio' => Yii::t('core', 'Store'),
+            'id_producto' => Yii::t('core', 'Product'),
         ];
     }
 

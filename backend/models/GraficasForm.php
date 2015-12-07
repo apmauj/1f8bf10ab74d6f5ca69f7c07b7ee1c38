@@ -39,11 +39,11 @@ class GraficasForm extends \yii\db\ActiveRecord{
     public function attributeLabels()
     {
         return [
-            'opcionComercio'        => Yii::t('app', 'Store: '),
-            'opcionRelevador'       => Yii::t('app', 'Relevator: '),
-            'opcionComercio2'       => Yii::t('app', 'Store: '),
-            'fechaDesde'            => Yii::t('app', 'Desde: '),
-            'fechaHasta'            => Yii::t('app', 'Hasta: '),
+            'opcionComercio'        => Yii::t('core', 'Store: '),
+            'opcionRelevador'       => Yii::t('core', 'Relevator: '),
+            'opcionComercio2'       => Yii::t('core', 'Store: '),
+            'fechaDesde'            => Yii::t('core', 'From: '),
+            'fechaHasta'            => Yii::t('core', 'To: '),
         ];
     }
 

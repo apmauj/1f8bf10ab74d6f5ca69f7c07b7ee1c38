@@ -9,18 +9,13 @@
 namespace frontend\controllers;
 
 
-use backend\models\Producto;
-use backend\models\RutaDiaria;
-use backend\models\Stock;
-use backend\models\Pedido;
-use backend\models\User;
-use backend\models\Comercio;
 use backend\helpers\sysconfigs;
+use backend\models\RutaDiaria;
 use backend\models\RutaDiariaComercio;
 use backend\models\RutaDiariaSearch;
-use frontend\controllers\SiteController;
+use backend\models\Stock;
+use backend\models\User;
 use Yii;
-use yii\data\ActiveDataProvider;
 
 class RutaDiariaController extends SiteController{
 
@@ -52,11 +47,11 @@ class RutaDiariaController extends SiteController{
         $usuario = User::findOne($model->id_usuario);
         $comercios = [];
         $datosGrillaPasos = [];
-        $datosGrillaPasos[0] = ['orden' => 0, 'tipo' => Yii::t('app', 'User'), 'nombre' => $usuario->username, 'direccion' => $usuario->direccion, 'id_ruta_diaria' => $model->id, "id_comercio"=>''];
+        $datosGrillaPasos[0] = ['orden' => 0, 'tipo' => Yii::t('core', 'User'), 'nombre' => $usuario->username, 'direccion' => $usuario->direccion, 'id_ruta_diaria' => $model->id, "id_comercio"=>''];
         $i = 0;
         foreach ($comerciosOrdenados as $comercio) {
 
-            $datosGrillaPasos[$i + 1] = ['orden' => $i + 1, 'tipo' => Yii::t('app', 'Store'), 'nombre' => $comercio->nombre, 'direccion' => $comercio->direccion, 'id_ruta_diaria' => $model->id, "id_comercio"=>$comercio->id];
+            $datosGrillaPasos[$i + 1] = ['orden' => $i + 1, 'tipo' => Yii::t('core', 'Store'), 'nombre' => $comercio->nombre, 'direccion' => $comercio->direccion, 'id_ruta_diaria' => $model->id, "id_comercio"=>$comercio->id];
             $i++;
         }
         $requestRuta = json_encode(sysconfigs::getRutaRequestParaMostrar($usuario, $comerciosOrdenados));
@@ -68,6 +63,17 @@ class RutaDiariaController extends SiteController{
         ]);
 
     }
+
+    protected function findModel($id)
+    {
+        if (($model = RutaDiaria::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    //Devuelve las rutas_comercio asociadas a una ruta diaria.
 
     public function actionStockPedidos($idComercio,$idRutaDiaria){
 
@@ -82,7 +88,7 @@ class RutaDiariaController extends SiteController{
             $datosStock = $this->findStockComercio($rutaDiariaComercio->id);
             foreach ($datosStock as $stock){
                 $nombreProducto = nombreProducto($stock->id_producto);
-                $datosGrillaStock[$i] = ['tipo' => Yii::t('app', 'Stock'), 'producto'=> $nombreProducto, 'cantidad' => $stock->cantidad];
+                $datosGrillaStock[$i] = ['tipo' => Yii::t('core', 'Stock'), 'producto'=> $nombreProducto, 'cantidad' => $stock->cantidad];
                 $i++;
             }
 
@@ -93,7 +99,7 @@ class RutaDiariaController extends SiteController{
             $datosPedidos = $this->findPedidosComercio($rutaDiariaComercio->id);
             foreach ($datosPedidos as $pedido) {
                 $nombrePedido = nombreProducto($pedido->id_producto);
-                $datosGrillaPedidos[$i] = ['tipo' => Yii::t('app', 'Order'), 'producto' => $nombrePedido, 'cantidad' => $pedido->cantidad];
+                $datosGrillaPedidos[$i] = ['tipo' => Yii::t('core', 'Order'), 'producto' => $nombrePedido, 'cantidad' => $pedido->cantidad];
                 $i++;
             }
         }
@@ -109,16 +115,7 @@ class RutaDiariaController extends SiteController{
     }
 
     //Devuelve las rutas_comercio asociadas a una ruta diaria.
-    public function findRutasComercio($id)
-    {
-        if (($models = RutaDiariaComercio::find()->where(['id_ruta_diaria' => $id])->all() !== null)) {
-            return $models;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 
-    //Devuelve las rutas_comercio asociadas a una ruta diaria.
     public function findRutaDiariaComercio($idComercio,$idRutaDiaria)
     {
         return $model = RutaDiariaComercio::find()->where(['id_ruta_diaria' => $idRutaDiaria])->andWhere(['id_comercio'=>$idComercio])->one();
@@ -144,20 +141,20 @@ class RutaDiariaController extends SiteController{
         }
     }
 
-    public function nombreProducto($id){
-
-        if (($resp = Pedidos::find()->where(['id' => $id])->one() !== null)) {
-            $nombre = $resp->nombre;
-            return $nombre;
+    public function findRutasComercio($id)
+    {
+        if (($models = RutaDiariaComercio::find()->where(['id_ruta_diaria' => $id])->all() !== null)) {
+            return $models;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    protected function findModel($id)
-    {
-        if (($model = RutaDiaria::findOne($id)) !== null) {
-            return $model;
+    public function nombreProducto($id){
+
+        if (($resp = Pedidos::find()->where(['id' => $id])->one() !== null)) {
+            $nombre = $resp->nombre;
+            return $nombre;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

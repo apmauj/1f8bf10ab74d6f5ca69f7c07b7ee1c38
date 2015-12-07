@@ -7,8 +7,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model backend\models\OrdenComercio */
 
-$this->title = Yii::t('app', 'Automatic Route');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Automatic Route'), 'url' => ['ruta/update']];
+$this->title = Yii::t('core', 'Automatic Route');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Automatic Route'), 'url' => ['ruta/update']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ])->label(false);
             ?>
 
-            <?= Html::submitButton(Yii::t('app', 'Confirm'), ['class' => 'btn btn-success' ]) ?>
+            <?= Html::submitButton(Yii::t('core', 'Confirm'), ['class' => 'btn btn-success' ]) ?>
 
         <?php ActiveForm::end(); ?>
 

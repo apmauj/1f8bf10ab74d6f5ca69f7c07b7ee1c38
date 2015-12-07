@@ -13,28 +13,28 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'nombre')->textInput([
-        'label' => Yii::t('app', 'Name'),
+        'label' => Yii::t('core', 'Name'),
         'maxlength' => true
     ])
     ?>
 
     <?= $form->field($model, 'descripcion')->textInput(
         [
-            'label' => Yii::t('app', 'Description'),
+            'label' => Yii::t('core', 'Description'),
             'maxlength' => true
         ])
     ?>
 
     <?php echo $form->field($model, 'esActivo')->dropDownList(
         [
-            'label' => Yii::t('app', 'Active?'),
-            '1' => Yii::t('app', 'Yes'),
-            '0' => Yii::t('app', 'No'),
+            'label' => Yii::t('core', 'Active?'),
+            '1' => Yii::t('core', 'Yes'),
+            '0' => Yii::t('core', 'No'),
         ]);
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('core', 'Create') : Yii::t('core', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

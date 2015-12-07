@@ -44,19 +44,11 @@ class Categoria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'nombre' => Yii::t('app', 'Name'),
-            'descripcion' => Yii::t('app', 'Description'),
-            'esActivo' => Yii::t('app', 'Active?'),
+            'id' => Yii::t('core', 'ID'),
+            'nombre' => Yii::t('core', 'Name'),
+            'descripcion' => Yii::t('core', 'Description'),
+            'esActivo' => Yii::t('core', 'Active?'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProductos()
-    {
-        return $this->hasMany(Producto::className(), ['id_categoria' => 'id']);
     }
 
     public function getCategoriasActivas(){
@@ -65,10 +57,18 @@ class Categoria extends \yii\db\ActiveRecord
 
     public function esValidoBorrar(){
         if($this->getProductos()->count()>0){
-            return Yii::t('app',"There are Products that depends on this Category");
+            return Yii::t('core',"There are Products that depends on this Category");
         }
 
         return "OK";
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductos()
+    {
+        return $this->hasMany(Producto::className(), ['id_categoria' => 'id']);
     }
 
 }

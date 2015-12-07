@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Producto */
 
 $this->title = $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Products'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $webroot='../../web/';
 ?>
@@ -16,11 +16,11 @@ $webroot='../../web/';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('core', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('core', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('core', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
@@ -31,22 +31,22 @@ $webroot='../../web/';
         'attributes' => [
             [
                 'attribute'=>'nombre',
-                'label'=>Yii::t('app','Name'),
+                'label'=>Yii::t('core', 'Name'),
             ],
             [
                 'attribute'=>'imagen',
-                'label'=>Yii::t('app','Image'),
+                'label'=>Yii::t('core', 'Image'),
                 'value'=>$webroot.$model->imagen,
                 'format' => ['image',['width'=>'100','height'=>'100']],
             ],
             [
                 'attribute'=>'id_categoria',
-                'label'=>Yii::t('app','Category'),
+                'label'=>Yii::t('core', 'Category'),
                 'value'=>($model->idCategoria->getAttribute('nombre'))
             ],
             [
                 'attribute'=>'precio',
-                'label'=>Yii::t('app','Price'),
+                'label'=>Yii::t('core', 'Price'),
             ],
         ],
     ]) ?>

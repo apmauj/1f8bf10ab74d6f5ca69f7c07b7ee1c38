@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\RutaDiariaComercio */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('core', 'Update {modelClass}: ', [
     'modelClass' => 'Ruta Diaria Comercio',
 ]) . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Daily Store Route'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Daily Store Route'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('core', 'Update');
 ?>
 <div class="ruta-diaria-comercio-update">
 

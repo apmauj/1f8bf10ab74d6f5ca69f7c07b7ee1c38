@@ -44,11 +44,11 @@ class ComercioProducto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'fecha' => Yii::t('app', 'Date'),
-            'vendidos' => Yii::t('app', 'Sold'),
-            'id_comercio' => Yii::t('app', 'Store ID'),
-            'id_producto' => Yii::t('app', 'Product ID'),
+            'id' => Yii::t('core', 'ID'),
+            'fecha' => Yii::t('core', 'Date'),
+            'vendidos' => Yii::t('core', 'Sold'),
+            'id_comercio' => Yii::t('core', 'Store ID'),
+            'id_producto' => Yii::t('core', 'Product ID'),
         ];
     }
 

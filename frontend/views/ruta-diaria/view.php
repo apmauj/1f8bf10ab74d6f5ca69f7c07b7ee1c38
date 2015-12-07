@@ -5,9 +5,9 @@
  * Date: 30/11/2015
  * Time: 03:04
  */
-use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
+use yii\helpers\Html;
 
 ?>
 <div class="site-about">
@@ -35,10 +35,10 @@ use yii\data\ArrayDataProvider;
 
             [
                 'attribute'=>'orden',
-                'label'=>Yii::t('app', 'Order'),
+                'label'=>Yii::t('core', 'Order'),
                 'format'=>'raw',
                 'value'=>function ($data) {
-                    if($data['tipo'] == Yii::t('app', 'Store') ){
+                    if($data['tipo'] == Yii::t('core', 'Store') ){
                         return Html::a($data['orden'], ['ruta-diaria/stock-pedidos','idComercio'=> $comercio=$data['id_comercio'],'idRutaDiaria'=> $ruta=$data['id_ruta_diaria']]);
                     }
                     else{

@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $model \frontend\models\ContactForm */
 $asset = frontend\assets\AppAsset::register($this);
 $baseUrl = $asset->baseUrl;
-$this->title = Yii::t('app', 'Contact');
+$this->title = Yii::t('core', 'Contact');
 ?>
 <style>
     section {
@@ -21,7 +21,7 @@ $this->title = Yii::t('app', 'Contact');
 <div >
     <br>
     <h2 style="color: whitesmoke; margin-left: 100px;">
-        <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us.'); ?>
+        <?= Yii::t('core', 'If you have business inquiries or other questions, please fill out the following form to contact us.'); ?>
     </h2>
     <br>
     <div >

@@ -2,16 +2,16 @@
 
 use backend\helpers\sysconfigs;
 use dektrium\user\models\User;
+use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\grid\GridView;
-use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Ruta */
 
-$this->title = Yii::t('app', 'Route number ') . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Routes'), 'url' => ['index']];
+$this->title = Yii::t('core', 'Route number ') . $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('core', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
     <?php
         $usuario = User::findOne($model->id_usuario)->username;
@@ -31,17 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             [
                 'attribute'=>'dia',
-                'label'=>Yii::t('app','Open on'),
+                'label'=>Yii::t('core', 'Open on'),
                 'format'=>'raw',
-                'value'=> Yii::t('app',sysconfigs::getNombreDia($model->dia)), // $diaVisita,
+                'value'=> Yii::t('core', sysconfigs::getNombreDia($model->dia)), // $diaVisita,
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>Yii::t('app','Active?'),
+                'label'=>Yii::t('core', 'Active?'),
                 'format'=>'raw',
                 'value'=>$model->esActivo ?
-                    '<span class="label label-success">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>' :
-                    '<span class="label label-danger">'.Yii::t('app',sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>',
+                    '<span class="label label-success">'.Yii::t('core', sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>' :
+                    '<span class="label label-danger">'.Yii::t('core', sysconfigs::getNombreEsActivo($model->esActivo)) .'</span>',
                 'widgetOptions'=>[
                     'pluginOptions'=>[
                         'onText'=>'Yes',
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'id_usuario',
-                'label'=>Yii::t('app', 'User'),
+                'label'=>Yii::t('core', 'User'),
                 'format'=>'raw',
                 'value'=> $usuario,
             ],        ],
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
     if(isset($tieneRecorrido)){
         echo Html::hiddenInput('jsonRequest', $requestRuta,['id'=>'jsonRequest']);
     ?>
-    <h2><?= Html::encode(Yii::t('app','Schedule')) ?></h2>
+    <h2><?= Html::encode(Yii::t('core', 'Schedule')) ?></h2>
     <?php
         $provider = new ArrayDataProvider([
             'allModels' => $datosGrillaPasos,
@@ -75,7 +75,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $provider,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-
                 'orden',
                 'tipo',
                 'nombre',

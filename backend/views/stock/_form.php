@@ -14,24 +14,24 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cantidad')->textInput(
         [
-            'label'=>Yii::t('app', 'Quantity'),
+            'label'=>Yii::t('core', 'Quantity'),
         ]
     ) ?>
 
     <?= $form->field($model, 'id_producto')->textInput(
         [
-            'label'=>Yii::t('app', 'Product Id'),
+            'label'=>Yii::t('core', 'Product Id'),
         ]
     ) ?>
 
     <?= $form->field($model, 'id_ruta_diaria_com')->textInput(
         [
-            'label'=>Yii::t('app', 'Daily Store Route Id'),
+            'label'=>Yii::t('core', 'Daily Store Route Id'),
         ]
     ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('core', 'Create') : Yii::t('core', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

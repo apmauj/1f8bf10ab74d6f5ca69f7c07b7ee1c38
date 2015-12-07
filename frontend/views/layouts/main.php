@@ -10,7 +10,7 @@ if ((Yii::$app->controller->action->id === 'login' || Yii::$app->controller->act
 } else {
     $asset = frontend\assets\AppAsset::register($this);
     $baseUrl = $asset->baseUrl;
-    $this->title = Yii::t('app', 'Muli Relevators');
+    $this->title = Yii::t('core', 'Muli Relevators');
     $modo = Yii::$app->params['devicedetect'];
 
 
@@ -56,23 +56,23 @@ if ((Yii::$app->controller->action->id === 'login' || Yii::$app->controller->act
                             ],
                             'items' => [
                                 [
-                                    'label' => Yii::t('app', 'Home'),
+                                    'label' => Yii::t('core', 'Home'),
                                     'url' => ['site/index'],
                                 ],
                                 [
-                                    'label' => Yii::t('app', 'Routes'),
+                                    'label' => Yii::t('core', 'Routes'),
                                     'url' => ['ruta-diaria/rutas', 'idRelevador' => Yii::$app->user->identity->getId() ],
                                 ],
                                 [
-                                    'label' => Yii::t('app', 'Contact'),
+                                    'label' => Yii::t('core', 'Contact'),
                                     'url' => ['site/contact'],
                                 ],
                                 [
-                                    'label' => Yii::t('app', 'Profile'),
+                                    'label' => Yii::t('core', 'Profile'),
                                     'url' => ['site/profile'],
                                 ],
                                 [
-                                    'label' => Yii::t('app', 'Logout'),
+                                    'label' => Yii::t('core', 'Logout'),
                                     'url' => ['site/logout'],
                                 ],
                             ],
@@ -100,7 +100,7 @@ if ((Yii::$app->controller->action->id === 'login' || Yii::$app->controller->act
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    &copy; 2015 <a target="_blank" href="http://mulirelevadores.com/" title="Home"><?= Yii::t('app', 'Muli Relevators')?></a>. <?= Yii::t('app', 'All Rights Reserved.')?>
+                    &copy; 2015 <a target="_blank" href="http://mulirelevadores.com/" title="Home"><?= Yii::t('core', 'Muli Relevators')?></a>. <?= Yii::t('core', 'All Rights Reserved.')?>
                 </div>
 
                 <div class="col-sm-6">
@@ -114,11 +114,11 @@ if ((Yii::$app->controller->action->id === 'login' || Yii::$app->controller->act
                              ],
                              'items' => [
                                  [
-                                     'label' => Yii::t('app', 'Home'),
+                                     'label' => Yii::t('core', 'Home'),
                                      'url' => ['site/index'],
                                  ],
                                  [
-                                     'label' => Yii::t('app', 'Contact'),
+                                     'label' => Yii::t('core', 'Contact'),
                                      'url' => ['site/contact'],
                                  ],
                              ],

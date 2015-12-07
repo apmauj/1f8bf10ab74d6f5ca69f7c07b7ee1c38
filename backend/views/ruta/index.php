@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\RutaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Routes');
+$this->title = Yii::t('core', 'Routes');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Route'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('core', 'Create Route'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -30,26 +30,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute'=>'dia',
-                'label'=>Yii::t("app", "Open on"),
+                'label'=>Yii::t('core', "Open on"),
                 'format'=>'raw',
                 'value' => function ($data) {
-                    return Yii::t('app', sysconfigs::getNombreDia($data->dia));
+                    return Yii::t('core', sysconfigs::getNombreDia($data->dia));
                 }
             ],
             [
                 'attribute'=>'esActivo',
-                'label'=>Yii::t('app', 'Active?'),
+                'label'=>Yii::t('core', 'Active?'),
                 'format'=>'raw',
                 'value'=>function ($data) {
                     if ($data->esActivo == 0)
-                        return '<span class="label label-danger">'.Yii::t('app', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
+                        return '<span class="label label-danger">'.Yii::t('core', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
                     else
-                        return '<span class="label label-success">'.Yii::t('app', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
+                        return '<span class="label label-success">'.Yii::t('core', sysconfigs::getNombreEsActivo($data->esActivo)).'</span>';
                 },
             ],
             [
                 'attribute'=>'id_usuario',
-                'label'=>Yii::t('app', 'User'),
+                'label'=>Yii::t('core', 'User'),
                 'format'=>'raw',
                 'value'=>function ($data) {
                     return $usuario = User::findOne($data->id_usuario)->username;

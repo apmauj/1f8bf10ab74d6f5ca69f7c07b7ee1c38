@@ -33,13 +33,13 @@ $this->title = $name;
             <img class="img404" src="<?=$baseUrl?>/images/mulirelevadores/404.png" alt="ERROR 404">
             <h2 style="margin-left: 100px;width: 60%">
                 <br>
-                <p><?= Yii::t('app', 'This is Boggy the mysterious unbrained armadillo on the server...'); ?></p>
+                <p><?= Yii::t('core', 'This is Boggy the mysterious unbrained armadillo on the server...'); ?></p>
                 <br>
-                <p><?= Yii::t('app', 'Looks like he messed something while the Web server was processing your request.'); ?></p>
+                <p><?= Yii::t('core', 'Looks like he messed something while the Web server was processing your request.'); ?></p>
                 <br>
-                <p><?= Yii::t('app', 'Please contact us if you think this is a server error.'); ?></p>
+                <p><?= Yii::t('core', 'Please contact us if you think this is a server error.'); ?></p>
                 <br>
-                <p><?= Yii::t('app', 'Thank you.'); ?></p>
+                <p><?= Yii::t('core', 'Thank you.'); ?></p>
             </h2>
         </div>
     </div>

@@ -26,23 +26,23 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => Yii::t('app', 'MuliSoft'),
+                'brandLabel' => Yii::t('core', 'MuliSoft'),
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
             $menuItems = [
-                ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
-                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-                ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
+                ['label' => Yii::t('core', 'Home'), 'url' => ['/site/index']],
+                ['label' => Yii::t('core', 'About'), 'url' => ['/site/about']],
+                ['label' => Yii::t('core', 'Contact'), 'url' => ['/site/contact']],
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
+                $menuItems[] = ['label' => Yii::t('core', 'Signup'), 'url' => ['/site/signup']];
+                $menuItems[] = ['label' => Yii::t('core', 'Login'), 'url' => ['/site/login']];
             } else {
                 $menuItems[] = [
-                    'label' => Yii::t('app', 'Logout (' . Yii::$app->user->identity->username . ')'),
+                    'label' => Yii::t('core', 'Logout (' . Yii::$app->user->identity->username . ')'),
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ];
@@ -65,7 +65,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left"><?= Yii::t('app', '(&copy; MuliSoft ) date("Y")') ?></p>
+        <p class="pull-left"><?= Yii::t('core', '(&copy; MuliSoft ) date("Y")') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>

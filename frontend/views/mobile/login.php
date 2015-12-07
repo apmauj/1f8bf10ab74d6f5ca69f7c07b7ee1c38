@@ -46,7 +46,7 @@ $this->title = Yii::t('mobile', 'Muli Relevators');
 
         <footer id="footer" class="midnight-blue">
             <div class="col-sm-6" style="text-align: right; width: 90%;">
-                <b><?= Yii::t('app', 'All Rights Reserved. &copy; 2015.')?></b>
+                <b><?= Yii::t('core', 'All Rights Reserved. &copy; 2015.')?></b>
             </div>
         </footer><!--/#footer-->
 

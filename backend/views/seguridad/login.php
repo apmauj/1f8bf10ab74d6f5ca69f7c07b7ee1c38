@@ -9,9 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
-
 /**
  * @var yii\web\View                   $this
  * @var dektrium\user\models\LoginForm $model
@@ -38,7 +35,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b><?= Yii::t('app','Mulis') ?></b><?= Yii::t('app','Relevators') ?></a>
+        <a href="#"><b><?= Yii::t('core''Mulis') ?></b><?= Yii::t('core''Relevators') ?></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">

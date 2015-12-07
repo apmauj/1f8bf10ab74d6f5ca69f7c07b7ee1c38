@@ -18,7 +18,7 @@ class LoginForm extends \dektrium\user\models\LoginForm
                 function ($attribute) {
                     if ($this->user !== null) {
                         if (!$this->user->esActivo) {
-                            $this->addError($attribute, \Yii::t('app', 'Admin must activate your account '));
+                            $this->addError($attribute, \Yii::t('core', 'An admin must activate your account '));
                         }
                     }
                 }

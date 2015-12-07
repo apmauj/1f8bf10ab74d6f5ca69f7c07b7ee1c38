@@ -102,7 +102,7 @@ class CategoriaController extends SiteController
     {
 
         $model = $this->findModel($id);
-        $mensaje = Yii::t('app','Category has been deleted!');
+        $mensaje = Yii::t('core','Category has been deleted!');
         $validar=$model->esValidoBorrar();
         if($validar=="OK"){
             Yii::$app->getSession()->setFlash('success',$mensaje);

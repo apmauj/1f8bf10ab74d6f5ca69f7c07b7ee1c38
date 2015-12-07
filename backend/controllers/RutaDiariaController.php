@@ -85,12 +85,18 @@ class RutaDiariaController extends SiteController
                     $orden++;
                 }
             }
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Daily Route has been created'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('core', 'Daily Route has been created'));
         }else{
-            Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'There is already an instance of this route for today'));
+            Yii::$app->getSession()->setFlash('danger', Yii::t('core', 'There is already an instance of this route for today'));
         }
 
         return $this->redirect(['ruta/view', 'id' => $idRuta]);
+    }
+
+    private function existeRutaDiariaPorUsuarioYFecha($idUsuario,$dia){
+        return RutaDiaria::find()->where(['id_usuario'=>$idUsuario])->andWhere(['fecha'=>$dia])->count()>0;
+
+
     }
 
     /**
@@ -123,12 +129,6 @@ class RutaDiariaController extends SiteController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    private function existeRutaDiariaPorUsuarioYFecha($idUsuario,$dia){
-        return RutaDiaria::find()->where(['id_usuario'=>$idUsuario])->andWhere(['fecha'=>$dia])->count()>0;
-
-
     }
 
 

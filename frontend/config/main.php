@@ -32,11 +32,11 @@ return [
                     'class' => 'frontend\controllers\user\RegistroController'
                 ]
             ],'mailer' => [
-                'sender'                => Yii::t('app', 'taller.2015.tecnologo@gmail.com'), // or ['no-reply@myhost.com' => 'Sender name']
-                'welcomeSubject'        => Yii::t('app', 'Welcome'),
-                'confirmationSubject'   => Yii::t('app', 'Confirmation'),
-                'reconfirmationSubject' => Yii::t('app', 'Email Change'),
-                'recoverySubject'       => Yii::t('app', 'Account Recovery'),
+                'sender'                => Yii::t('core', 'taller.2015.tecnologo@gmail.com'), // or ['no-reply@myhost.com' => 'Sender name']
+                'welcomeSubject'        => Yii::t('core', 'Welcome'),
+                'confirmationSubject'   => Yii::t('core', 'Confirmation'),
+                'reconfirmationSubject' => Yii::t('core', 'Email Change'),
+                'recoverySubject'       => Yii::t('core', 'Account Recovery'),
             ],
         ],
     ],

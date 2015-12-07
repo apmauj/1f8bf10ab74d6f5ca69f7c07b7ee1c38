@@ -44,11 +44,11 @@ class RutaController extends SiteController
             $usuario = User::findOne($model->id_usuario);
             $comercios = [];
             $datosGrillaPasos = [];
-            $datosGrillaPasos[0] = ['orden'=>0,'tipo'=>Yii::t('app','User'),'nombre'=>$usuario->username,'direccion'=>$usuario->direccion];
+            $datosGrillaPasos[0] = ['orden'=>0,'tipo'=>Yii::t('core','User'),'nombre'=>$usuario->username,'direccion'=>$usuario->direccion];
             $i=0;
             foreach($ordenComercios as $ordenComercio){
                 $comercios[$i] = Comercio::find()->where(['id'=>$ordenComercio->id_comercio])->one();
-                $datosGrillaPasos[$i+1] = ['orden'=>$i+1,'tipo'=>Yii::t('app','Store'),'nombre'=>$comercios[$i]->nombre,'direccion'=>$comercios[$i]->direccion];
+                $datosGrillaPasos[$i+1] = ['orden'=>$i+1,'tipo'=>Yii::t('core','Store'),'nombre'=>$comercios[$i]->nombre,'direccion'=>$comercios[$i]->direccion];
                 $i++;
             }
             $requestRuta = json_encode(sysconfigs::getRutaRequestParaMostrar($usuario,$comercios));

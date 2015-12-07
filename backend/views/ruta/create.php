@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Ruta */
 
-$this->title = Yii::t('app', 'Create Route');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Routes'), 'url' => ['index']];
+$this->title = Yii::t('core', 'Create Route');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Routes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruta-create">

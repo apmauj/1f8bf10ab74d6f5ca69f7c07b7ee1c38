@@ -55,7 +55,7 @@ class Comercio extends \yii\db\ActiveRecord
             [['direccion'],function ($attribute,$params) {
                 if ($this->direccion !== null) {
                      if (!sysconfigs::getCoordinates($this->direccion)) {
-                            $this->addError($attribute, \Yii::t('app', 'Address doesnt exist'));
+                            $this->addError($attribute, \Yii::t('core', 'Address doesnt exist'));
                         }
                     }
                 }
@@ -70,14 +70,14 @@ class Comercio extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'nombre' => Yii::t('app', 'Name'),
-            'latitud' => Yii::t('app', 'Latitude'),
-            'longitud' => Yii::t('app', 'Longitude'),
-            'dia' => Yii::t('app', 'Day'),
-            'prioridad' => Yii::t('app', 'Priority'),
-            'esActivo' => Yii::t('app', 'Active?'),
-            'direccion' => Yii::t('app', 'Adress'),
+            'id' => Yii::t('core', 'ID'),
+            'nombre' => Yii::t('core', 'Name'),
+            'latitud' => Yii::t('core', 'Latitude'),
+            'longitud' => Yii::t('core', 'Longitude'),
+            'dia' => Yii::t('core', 'Day'),
+            'prioridad' => Yii::t('core', 'Priority'),
+            'esActivo' => Yii::t('core', 'Active?'),
+            'direccion' => Yii::t('core', 'Adress'),
         ];
     }
 
@@ -101,12 +101,16 @@ class Comercio extends \yii\db\ActiveRecord
         return $this->hasMany(ComercioProducto::className(), ['id_comercio' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOrdenComercios()
+    public function getComercioProductosRelacionados()
     {
-        return $this->hasMany(OrdenComercio::className(), ['id_comercio' => 'id']);
+        return $this->hasMany(ComercioProductosRelacionados::className(), ['id_comercio' => 'id']);
+    }
+
+    public function esValidoBorrar(){
+        if($this->getRutaDiariaComercios()->count()>0 || $this->getOrdenComercios()->count()>0){
+            return Yii::t('core',"There are Routes that depends on this Store");
+        }
+        return "OK";
     }
 
     /**
@@ -117,16 +121,12 @@ class Comercio extends \yii\db\ActiveRecord
         return $this->hasMany(RutaDiariaComercio::className(), ['id_comercio' => 'id']);
     }
 
-    public function getComercioProductosRelacionados()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrdenComercios()
     {
-        return $this->hasMany(ComercioProductosRelacionados::className(), ['id_comercio' => 'id']);
-    }
-
-    public function esValidoBorrar(){
-        if($this->getRutaDiariaComercios()->count()>0 || $this->getOrdenComercios()->count()>0){
-            return Yii::t('app',"There are Routes that depends on this Store");
-        }
-        return "OK";
+        return $this->hasMany(OrdenComercio::className(), ['id_comercio' => 'id']);
     }
 
 

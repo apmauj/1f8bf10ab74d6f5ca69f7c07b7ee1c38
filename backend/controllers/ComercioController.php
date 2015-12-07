@@ -106,7 +106,7 @@ class ComercioController extends SiteController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $mensaje = Yii::t('app','Store has been deleted!');
+        $mensaje = Yii::t('core','Store has been deleted!');
         $validar=$model->esValidoBorrar();
         if($validar=="OK") {
             Yii::$app->getSession()->setFlash('success', $mensaje);

@@ -41,10 +41,10 @@ class Ruta extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'dia' => Yii::t('app', 'Day'),
-            'esActivo' => Yii::t('app', 'Active?'),
-            'id_usuario' => Yii::t('app', 'User'),
+            'id' => Yii::t('core', 'ID'),
+            'dia' => Yii::t('core', 'Day'),
+            'esActivo' => Yii::t('core', 'Active?'),
+            'id_usuario' => Yii::t('core', 'User'),
         ];
     }
 
@@ -83,11 +83,11 @@ class Ruta extends \yii\db\ActiveRecord
         if($this->esActivo){
             if($this->id != null){
                 if($this->find()->where('id!='.$this->id)->andWhere(['id_usuario'=>$this->id_usuario])->andWhere(['dia'=>$this->dia])->andWhere(['esActivo'=>'1'])->count()>0){
-                    return Yii::t('app',"Exists another active Route for this User for this Day");
+                    return Yii::t('core',"Exists another active Route for this User for this Day");
                 }
             }else{
                 if($this->find()->where(['id_usuario'=>$this->id_usuario])->andWhere(['dia'=>$this->dia])->andWhere(['esActivo'=>'1'])->count()>0){
-                    return Yii::t('app',"There is another active Route for this User for this Day");
+                    return Yii::t('core',"There is another active Route for this User for this Day");
                 }
 
             }

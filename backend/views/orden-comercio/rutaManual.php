@@ -11,8 +11,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model backend\models\OrdenComercio */
 
-$this->title = Yii::t('app', 'Manual Route');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Manual Route'), 'url' => ['ruta/update']];
+$this->title = Yii::t('core', 'Manual Route');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Manual Route'), 'url' => ['ruta/update']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <div class="form-group">
             <?= Html::textarea('comerciosElegidos','',['id'=> 'comerciosElegidos','rows'=>'8','width'=>'50%','height'=>'200px',"disabled"=>"true"]) ?>
-            <span style="margin-left: 10px;vertical-align:top "><?= Html::Button(Yii::t('app', 'Erase Selection'), ['class' => 'btn btn-danger','id'=>'eraseSelection' ]) ?> </span>
+            <span style="margin-left: 10px;vertical-align:top "><?= Html::Button(Yii::t('core', 'Erase Selection'), ['class' => 'btn btn-danger','id'=>'eraseSelection' ]) ?> </span>
         </div>
 
 
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ])->label(false);
         ?>
         <?= Html::hiddenInput('coordenadasUsuario',$ubicacionUsuario,['id'=>'coordenadasUsuario']); ?>
-        <?= Html::submitButton(Yii::t('app', 'Confirm'), ['class' => 'btn btn-success' ]) ?>
+        <?= Html::submitButton(Yii::t('core', 'Confirm'), ['class' => 'btn btn-success' ]) ?>
 
         <?php ActiveForm::end(); ?>
 

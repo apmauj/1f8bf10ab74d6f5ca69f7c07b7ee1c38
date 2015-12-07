@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\OrdenComercio */
 
-$this->title = Yii::t('app', 'Create Store Order');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Store Order'), 'url' => ['index']];
+$this->title = Yii::t('core', 'Create Store Order');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('core', 'Store Order'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     var geocoder;
     var originIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=O|FFFF00|000000';
     var ubicacion = new google.maps.LatLng("<?php echo $inicio->latitud; ?>", "<?php echo $inicio->longitud; ?>");
-    var titulo = "<?php echo Yii::t('app', 'Name: ').$inicio->username;?> ?>";
+    var titulo = "<?php echo Yii::t('core', 'Name: ').$inicio->username;?> ?>";
 
     var origins = [ubicacion];
     var destinations = [];
