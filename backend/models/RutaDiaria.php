@@ -65,4 +65,20 @@ class RutaDiaria extends \yii\db\ActiveRecord
         return $this->hasMany(RutaDiariaComercio::className(), ['id_ruta_diaria' => 'id']);
     }
 
+    /**
+        Devuelve un numero de 0 a 100 que refleja la actividad del Relevador en esta ruta.
+     **/
+    public function getCompletitudRecorrido(){
+        if($this->getRutaDiariaComercios()->count()>0){
+            $cantidadComercios = $this->getRutaDiariaComercios()->count();
+            $rdComercios = $this->getRutaDiariaComercios()->all();
+            $comerciosRecorridos = 0;
+            foreach($rdComercios as $rdComercio){
+                if(Stock::find()->where(['id_ruta_diaria_com'=>$rdComercio->id])->count()>0) $comerciosRecorridos++;
+            }
+            return $comerciosRecorridos*100/$cantidadComercios;
+        }
+        else return 0;
+    }
+
 }
