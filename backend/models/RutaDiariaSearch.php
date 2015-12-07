@@ -55,7 +55,7 @@ class RutaDiariaSearch extends RutaDiaria
             return $dataProvider;
         }
 
-        $user = User::findOne(['username'=> $this->id_usuario]);
+        $user = User::findOne(['id'=> $this->id_usuario]);
         $query->andFilterWhere([
             'id' => $this->id,
             'fecha' => $this->fecha,

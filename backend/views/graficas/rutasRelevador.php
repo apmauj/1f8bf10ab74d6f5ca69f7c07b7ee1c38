@@ -12,7 +12,7 @@ use scotthuangzl\googlechart\GoogleChart;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-$this->title = Yii::t('app', 'Store-Sales Charts');
+$this->title = Yii::t('app', 'Relevator Charts');
 
 $this->params['breadcrumbs'][] = $this->title;
 
