@@ -62,12 +62,11 @@ class ProductoSearch extends Producto
             //'esActivo' => $this->esActivo,
             'precio' => $this->precio,
         ]);
-        if($this->esActivo=='Yes' || $this->esActivo=='yes' || $this->esActivo=='YES' || $this->esActivo=='Si' || $this->esActivo=='si' || $this->esActivo=='SI'){
+        if(strtolower($this->esActivo)==strtolower(Yii::t('core', 'Yes'))){
             $query->andFilterWhere([
                 'esActivo' => $this->esActivo == 0
             ]);
-        }
-        else if($this->esActivo=='no' || $this->esActivo=='No' || $this->esActivo=='NO'){
+        }else if(strtolower($this->esActivo)==strtolower(Yii::t('core', 'No'))){
             $query->andFilterWhere([
                 'esActivo' => $this->esActivo == 1
             ]);

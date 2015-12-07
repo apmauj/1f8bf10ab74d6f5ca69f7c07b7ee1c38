@@ -17,9 +17,9 @@ class ComercioSearch extends Comercio
     public function rules()
     {
         return [
-            [['id', 'dia', 'prioridad'], 'integer'],
+            [['id'], 'integer'],
             [['nombre', 'direccion'], 'safe'],
-            [['esActivo'], 'string'],
+            [['esActivo', 'dia', 'prioridad'], 'string'],
             [['latitud', 'longitud'], 'number'],
         ];
     }
@@ -60,19 +60,70 @@ class ComercioSearch extends Comercio
             'id' => $this->id,
             'latitud' => $this->latitud,
             'longitud' => $this->longitud,
-            'dia' => $this->dia,
-            'prioridad' => $this->prioridad,
+            //'dia' => $this->dia,
+            //'prioridad' => $this->prioridad,
             //'esActivo' => $this->esActivo,
             'direccion' => $this->direccion,
         ]);
-        if($this->esActivo=='Yes' || $this->esActivo=='yes' || $this->esActivo=='YES' || $this->esActivo=='Si' || $this->esActivo=='si' || $this->esActivo=='SI'){
+        if(strtolower($this->esActivo)==strtolower(Yii::t('core', 'Yes'))){
             $query->andFilterWhere([
                 'esActivo' => $this->esActivo == 0
             ]);
-        }
-        else if($this->esActivo=='no' || $this->esActivo=='No' || $this->esActivo=='NO'){
+        }else if(strtolower($this->esActivo)==strtolower(Yii::t('core', 'No'))){
             $query->andFilterWhere([
                 'esActivo' => $this->esActivo == 1
+            ]);
+        }
+
+        if(strtolower($this->dia)==strtolower(Yii::t('core', 'Monday'))){
+            $query->andFilterWhere([
+                'dia' => 1
+            ]);
+        }else if(strtolower($this->dia)==strtolower(Yii::t('core', 'Tuesday'))) {
+            $query->andFilterWhere([
+                'dia' => 2
+            ]);
+        }else if(strtolower($this->dia)==strtolower(Yii::t('core', 'Wednesday'))){
+            $query->andFilterWhere([
+                'dia' => 3
+            ]);
+        }else if(strtolower($this->dia)==strtolower(Yii::t('core', 'Thursday'))){
+            $query->andFilterWhere([
+                'dia' => 4
+            ]);
+        }else if(strtolower($this->dia)==strtolower(Yii::t('core', 'Friday'))){
+            $query->andFilterWhere([
+                'dia' => 5
+            ]);
+        }else if(strtolower($this->dia)==strtolower(Yii::t('core', 'Saturday'))){
+            $query->andFilterWhere([
+                'dia' => 6
+            ]);
+        }else if(strtolower($this->dia)==strtolower(Yii::t('core', 'Sunday'))){
+            $query->andFilterWhere([
+                'dia' => 7
+            ]);
+        }
+
+        if(strtolower($this->prioridad)==strtolower(Yii::t('core', 'Very High'))){
+            $query->andFilterWhere([
+                'prioridad' => 1
+            ]);
+        }else if(strtolower($this->prioridad)==strtolower(Yii::t('core', 'High'))){
+            $query->andFilterWhere([
+                'prioridad' => 2
+            ]);
+        }else if(strtolower($this->prioridad)==strtolower(Yii::t('core', 'Normal'))){
+            $query->andFilterWhere([
+                'prioridad' => 3
+            ]);
+        }else if(strtolower($this->prioridad)==strtolower(Yii::t('core', 'Low'))){
+            $query->andFilterWhere([
+                'prioridad' => 4
+            ]);
+        }else if(strtolower($this->prioridad)==strtolower(Yii::t('core', 'Very Low'))){
+            $query->andFilterWhere([
+                'prioridad' => 5
             ]);
         }
 

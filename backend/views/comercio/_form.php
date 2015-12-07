@@ -33,6 +33,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'dia')->dropDownList(
         [
+            'label' => Yii::t('core', 'Day'),
             '1' => Yii::t('core', 'Monday'),
             '2' => Yii::t('core', 'Tuesday'),
             '3' => Yii::t('core', 'Wednesday'),

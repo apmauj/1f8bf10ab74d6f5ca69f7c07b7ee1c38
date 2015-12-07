@@ -64,8 +64,18 @@ class UserSearch extends User
             'flags' => $this->flags,
             'latitud' => $this->latitud,
             'longitud' => $this->longitud,
-            'esActivo' => $this->esActivo,
+            //'esActivo' => $this->esActivo,
         ]);
+
+        if(strtolower($this->esActivo)==strtolower(Yii::t('core', 'Yes'))){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 0
+            ]);
+        }else if(strtolower($this->esActivo)==strtolower(Yii::t('core', 'No'))){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 1
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'email', $this->email])

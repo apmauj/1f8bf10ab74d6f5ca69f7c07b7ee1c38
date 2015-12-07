@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>Yii::t('core', 'Priority'),
                 'format'=>'raw',
                 'value'=> function ($data) {
-                    return Yii::t('core', sysconfigs::getNombreDia($data->prioridad));
+                    return Yii::t('core', sysconfigs::getNombrePrioridad($data->prioridad));
                 },
             ],
             [

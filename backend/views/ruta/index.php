@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute'=>'dia',
-                'label'=>Yii::t('core', "Open on"),
+                'label'=>Yii::t('core', "Day"),
                 'format'=>'raw',
                 'value' => function ($data) {
                     return Yii::t('core', sysconfigs::getNombreDia($data->dia));

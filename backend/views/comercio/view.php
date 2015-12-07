@@ -74,10 +74,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'dia',
                 'label'=>Yii::t('core','Open on'),
                 'format'=>'raw',
-                'value'=> Yii::t('core',sysconfigs::getNombreDia($model->dia)), // $diaVisita,
+                'value'=> Yii::t('core',sysconfigs::getNombreDia($model->dia)),
             ],
             [
-                'attribute'=>'$prioridadVisita',
+                'attribute'=>'prioridad',
                 'label'=>Yii::t('core','Priority'),
                 'format'=>'raw',
                 'value'=> Yii::t('core',sysconfigs::getNombrePrioridad($model->prioridad)),
