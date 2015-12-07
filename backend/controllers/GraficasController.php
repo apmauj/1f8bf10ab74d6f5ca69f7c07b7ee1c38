@@ -15,6 +15,7 @@ use backend\models\Pedido;
 use backend\models\Producto;
 use backend\models\RutaDiaria;
 use backend\models\RutaDiariaComercio;
+use backend\models\User;
 use Yii;
 
 class GraficasController extends SiteController{
@@ -25,9 +26,11 @@ class GraficasController extends SiteController{
         $model1->setScenario('storeSells');
         $model2= new GraficasForm();
         $model2->setScenario('storeOrders');
+        $model3= new GraficasForm();
+        $model3->setScenario('relevatorSuccess');
         $comercios = $this->chargeStoreArray();
         $relevadores = $this->chargeRelevatorsArray();
-        return $this->render('index', ['model1'=>$model1,'model2'=>$model2, 'comercios'=>$comercios, 'relevadores'=>$relevadores]);
+        return $this->render('index', ['model1'=>$model1,'model2'=>$model2, 'model3'=>$model3, 'comercios'=>$comercios, 'relevadores'=>$relevadores]);
     }
 
     public function chargeStoreArray(){
@@ -40,8 +43,8 @@ class GraficasController extends SiteController{
     public function chargeRelevatorsArray(){
 
 
-        $relevadores = Comercio::find()->where(['not in','username','admin']);
-
+        $relevadores = User::find()->where(['not in','username','admin'])->all();
+        //die("lalaal ".count($relevadores));
         return $relevadores;
 
     }
@@ -187,7 +190,33 @@ class GraficasController extends SiteController{
 
     }
 
+    public function actionRutasRelevadores(){
 
+        $model = new GraficasForm();
+        $model->setScenario('relevatorSuccess');
+
+        $model->load(Yii::$app->request->post());
+        $idRelevador = $model->opcionRelevador;
+        $relevador = User::Find()->where(['id'=>$model->opcionRelevador])->one();
+        $cargaAdaptadaParaChart= [];
+        $cargaAdaptadaParaChart[0]= [Yii::t('core','Date'),Yii::t('core','Accomplishment percentage')];
+        //die(''. $idRelevador);
+        $rutas = RutaDiaria::find()->where(['id_usuario'=>$idRelevador])->all();
+        //die('Hay rutas: '.count($rutas));
+        $i = 1;
+        foreach($rutas as $ruta){
+            $cargaAdaptadaParaChart[$i]= [$ruta->fecha,$ruta->getCompletitudRecorrido()];
+            $i++;
+        }
+
+        if(count($cargaAdaptadaParaChart)>1){
+            return $this->render('rutasRelevador', ['nombreRelevador'=>$relevador->username, 'arrayCompletitud'=>$cargaAdaptadaParaChart]);
+        }else{
+            Yii::$app->getSession()->setFlash('danger',Yii::t('core','There are no routes for this relevator'));
+            $this->redirect(['index']);
+        }
+
+    }
 
 
 }

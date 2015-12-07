@@ -25,15 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'prompt'=>Yii::t('core','Select one...')
             ]);
         ?>
-        <input name="boton2" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
+        <input name="boton1" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
     <?php ActiveForm::end(); ?>
     <br>
 
     <h2><?= Yii::t('core', 'Relevator Charts') ?></h2>
-    <?php $form = ActiveForm::begin([ 'action' => ['graficas/comercio-venta'],'method' => 'post']); ?>
+    <?php $form = ActiveForm::begin([ 'action' => ['graficas/rutas-relevadores'],'method' => 'post']); ?>
     <?php
         $listData=ArrayHelper::map($relevadores,'id','username');
-        echo $form->field($model1, 'opcionRelevador')->dropDownList($listData,[
+        echo $form->field($model3, 'opcionRelevador')->dropDownList($listData,[
             'prompt'=>Yii::t('core', 'Select one...')
         ]);
     ?>
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <br>
 
     <h2><?= Yii::t('core', 'Store Orders Charts') ?></h2>
-    <?php $form = ActiveForm::begin([ 'action' => ['graficas/pedidos-comercio'],'method' => 'post']); ?>
+    <?php $form = ActiveForm::begin([ 'action' => ['graficas/comercio-pedidos'],'method' => 'post']); ?>
     <?php
         $listData=ArrayHelper::map($comercios,'id','nombre');
         echo $form->field($model2, 'opcionComercio2')->dropDownList($listData,
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </p>
 
-    <input name="boton2" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
+    <input name="boton3" type="image" src="img/buttons/PieChart_clean.png" width="160px" height="120px" align="center" alt="Submit Form">
 
     <?php ActiveForm::end(); ?>
 
