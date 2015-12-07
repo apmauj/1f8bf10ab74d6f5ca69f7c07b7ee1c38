@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <br>
 
     <h2><?= Yii::t('core', 'Store Orders Charts') ?></h2>
-    <?php $form = ActiveForm::begin([ 'action' => ['graficas/comercio-pedidos'],'method' => 'post']); ?>
+    <?php $form = ActiveForm::begin([ 'action' => ['graficas/pedidos-comercio'],'method' => 'post']); ?>
     <?php
         $listData=ArrayHelper::map($comercios,'id','nombre');
         echo $form->field($model2, 'opcionComercio2')->dropDownList($listData,
