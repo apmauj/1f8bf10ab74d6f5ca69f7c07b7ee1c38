@@ -109,26 +109,24 @@ class StockController extends ActiveController
                                 $query->groupBy('ruta_diaria.id')->having('MAX(ruta_diaria.fecha)')->orderBy('fecha DESC');
                             }
                         ])->one();
+                        if($rutaDiariaComercioFecha!=null) {
+                            //return "existe?:".$stock->id_producto;
+                            $stockAnterior = Stock::find()->where(['id_producto' => $stock->id_producto])->andWhere(['id_ruta_diaria_com' => $rutaDiariaComercioFecha->id])->one();
+                            $pedidoAnterior = Pedido::find()->where(['id_producto' => $stock->id_producto])->andWhere(['id_ruta_diaria_com' => $rutaDiariaComercioFecha->id])->one();
 
-                        $stockAnterior = Stock::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
-                        $pedidoAnterior = Pedido::find()->where(['id_producto'=>$stock->id_producto])->andWhere(['id_ruta_diaria_com'=>$rutaDiariaComercioFecha->id])->one();
-
-                        if ($stockAnterior != null){
-                            $vendidos = $stockAnterior->cantidad - $stock->cantidad;
-                            if($pedidoAnterior != null){
-                                $vendidos = $vendidos + $pedidoAnterior->cantidad;
+                            if ($stockAnterior != null) {
+                                $vendidos = $stockAnterior->cantidad - $stock->cantidad;
+                                if ($pedidoAnterior != null) {
+                                    $vendidos = $vendidos + $pedidoAnterior->cantidad;
+                                }
+                                $compraProducto = new ComercioProducto();
+                                $compraProducto->setAttribute('vendidos', $vendidos);
+                                $compraProducto->setAttribute('id_comercio', $params['id_comercio']);
+                                $compraProducto->setAttribute('id_producto', $stock->id_producto);
+                                $compraProducto->setAttribute('fecha', date('Y-m-d'));
+                                $compraProducto->save();
                             }
-                            $compraProducto = new ComercioProducto();
-                            $compraProducto->setAttribute('vendidos',$vendidos);
-                            $compraProducto->setAttribute('id_comercio',$params['id_comercio']);
-                            $compraProducto->setAttribute('id_producto',$stock->id_producto);
-                            $compraProducto->setAttribute('fecha',date('Y-m-d'));
-                            $compraProducto->save();
                         }
-                        else{
-
-                        }
-
                     }
 
                     if ($stock->save()){

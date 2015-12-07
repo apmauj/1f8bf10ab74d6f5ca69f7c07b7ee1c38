@@ -14,24 +14,30 @@ use yii\helpers\ArrayHelper;
 
 $this->title = Yii::t('app', 'Store-Sales Charts');
 
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
+
 <div class="col-sm-5">
-    <h2> Store: <?= $nombreTienda ?></h2>
-    <h4> <?= Yii::t('app', 'This are the 5 more selled products of this store') ?></h4>
+    <h2> <?= Yii::t('app','Store').': '.$nombreTienda ?></h2>
+    <h4> <?= Yii::t('app', 'These are the 5 more sold products of this store') ?></h4>
     <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
 
     <?php
+
+
     echo GoogleChart::widget(array('visualization' => 'BarChart',
-        'data' => array(
-            array('Task', 'Hours per Day'),
-            array('Work', 5),
-            array('Eat', 5),
-            array('Commute', 5),
-            array('Watch TV', 2),
-            array('Sleep', 7)
-        ),
-        'options' => array('title' => 'My Daily Activity')));
+        'data' => $arrayVentas,
+//        'data' => array(
+//            array('Task', 'Hours per Day'),
+//            array('Work', 5),
+//            array('Eat', 5),
+//            array('Commute', 5),
+//            array('Watch TV', 2),
+//            array('Sleep', 7)
+//        ),
+        'options' => array('title' => Yii::t('app','Most wanted products'))));
 
     ?>
     <?php ActiveForm::end(); ?>

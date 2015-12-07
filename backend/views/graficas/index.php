@@ -14,6 +14,8 @@ use yii\helpers\ArrayHelper;
 
 $this->title = Yii::t('app', 'Charts');
 
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="col-sm-5">

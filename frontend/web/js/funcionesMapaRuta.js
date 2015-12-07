@@ -23,7 +23,7 @@ function asLatLng(latLngObject){
 }
 
 function asDirectionsWaypoint(latLong){
-    var waypoint ={location:latLong,stopover:false};
+    var waypoint ={location:latLong,stopover:true};
     //waypoint.setStopover(true);
     //waypoint.setLocation(latLong);
     return waypoint;
