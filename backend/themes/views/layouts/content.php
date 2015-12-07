@@ -22,7 +22,7 @@ use yii\widgets\Breadcrumbs;
         ) ?>
     </section>
 
-    <section class="content">
+    <section class="content" style="overflow: auto">
         <?= Alert::widget() ?>
         <?= $content ?>
     </section>

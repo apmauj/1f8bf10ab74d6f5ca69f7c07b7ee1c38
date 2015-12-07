@@ -30,6 +30,8 @@ class GraficasForm extends \yii\db\ActiveRecord{
     {
         $scenarios = parent::scenarios();
         $scenarios['storeSells'] = ['opcionComercio',];
+        $scenarios['storeOrders'] = ['opcionComercio2','fechaDesde','fechaHasta'];
+
         return $scenarios;
     }
 
@@ -50,5 +52,19 @@ class GraficasForm extends \yii\db\ActiveRecord{
     {
         return 'graficas-form';
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['opcionComercio'], 'required','on' => ['storeSells']],
+            [['opcionComercio2','fechaDesde','fechaHasta'], 'required','on' => ['storeOrders']],
+            [['fechaDesde','fechaHasta'], 'safe'],
+            ['fechaDesde', 'date', 'format' => 'Y-m-d'],
+        ];
+    }
+
 
 }
