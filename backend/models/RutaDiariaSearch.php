@@ -19,7 +19,7 @@ class RutaDiariaSearch extends RutaDiaria
         return [
             [['id'], 'integer'],
             [['fecha'], 'safe'],
-            [['id_usuario'], 'integer']
+            [['id_usuario'], 'string']
         ];
     }
 
@@ -55,11 +55,17 @@ class RutaDiariaSearch extends RutaDiaria
             return $dataProvider;
         }
 
+        $user = User::findOne(['username'=> $this->id_usuario]);
         $query->andFilterWhere([
             'id' => $this->id,
             'fecha' => $this->fecha,
-            'id_usuario' => $this->id_usuario,
+            //'id_usuario' => $this->id_usuario,
         ]);
+        if($this->id_usuario!=null){
+            $query->andFilterWhere([
+                'id_usuario' => $user!=null?$user->id : 0
+            ]);
+        }
 
         return $dataProvider;
     }

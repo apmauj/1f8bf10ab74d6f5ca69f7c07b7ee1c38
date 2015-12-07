@@ -59,14 +59,23 @@ class RutaSearch extends Ruta
         $query->andFilterWhere([
             'id' => $this->id,
             'dia' => $this->dia,
-            'esActivo' => $this->esActivo
+            //'esActivo' => $this->esActivo
         ]);
         if($this->id_usuario!=null){
             $query->andFilterWhere([
                 'id_usuario' => $user!=null?$user->id : 0
             ]);
         }
-
+        if($this->esActivo=='Yes' || $this->esActivo=='yes' || $this->esActivo=='YES' || $this->esActivo=='Si' || $this->esActivo=='si' || $this->esActivo=='SI'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 0
+            ]);
+        }
+        else if($this->esActivo=='no' || $this->esActivo=='No' || $this->esActivo=='NO'){
+            $query->andFilterWhere([
+                'esActivo' => $this->esActivo == 1
+            ]);
+        }
         return $dataProvider;
     }
 }
