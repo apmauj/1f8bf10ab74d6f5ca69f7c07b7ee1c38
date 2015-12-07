@@ -87,7 +87,6 @@ function addMarker(location, isDestination,map) {
     } else {
         icon = originIcon;
     }
-    alert("location:"+location);
     geocoder.geocode({'address': location}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             bounds.extend(results[0].geometry.location);
